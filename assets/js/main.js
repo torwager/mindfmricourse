@@ -21,7 +21,7 @@
   // Reveal on scroll
   const rv = document.querySelectorAll('.rv');
   if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px 0px 0px', threshold: 0 });
     rv.forEach(el => io.observe(el));
   } else rv.forEach(el => el.classList.add('in'));
   // Subtle parallax drift of the pinned media as the body scrolls over it
