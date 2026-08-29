@@ -461,20 +461,5 @@
   "width": 1195,
   "height": 768,
   "origin": "papers"
- },
- {
-  "file": "calhoun2017_t1_epi.jpg",
-  "role": "panel",
-  "concepts": [
-   "preprocessing/registration",
-   "group analysis"
-  ],
-  "caption": "Inter-subject variability after T1 versus EPI normalization",
-  "citation": "Calhoun et al. (2017), Human Brain Mapping",
-  "doi_or_url": "https://doi.org/10.1002/hbm.23737",
-  "open_access": "likely",
-  "width": 1600,
-  "height": 616,
-  "origin": "papers"
  }
 ]

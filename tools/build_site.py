@@ -558,7 +558,7 @@ def instructors_page():
         </div>
       </div>
     </section>
-    {band_named('calhoun2017_t1_epi.jpg')}
+    {band_named('panel_day2_b.jpg')}
     <section class="section">
       <div class="wrap">
         {person('calhoun.jpg', 'Vince Calhoun, Ph.D.', 'Georgia State University · Georgia Institute of Technology · Emory University',

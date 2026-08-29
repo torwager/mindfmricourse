@@ -640,16 +640,6 @@
   "origin": "slides"
  },
  {
-  "file": "lec2-9_d.jpg",
-  "lecture": "2.9",
-  "role": "figure",
-  "caption": "Trial-averaged BOLD time course with stimulus onset and offset",
-  "source": "Lecture 2.9 slides (Wager)",
-  "width": 527,
-  "height": 522,
-  "origin": "slides"
- },
- {
   "file": "lec2-10_a.jpg",
   "lecture": "2.10",
   "role": "figure",

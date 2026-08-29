@@ -456,3 +456,11 @@ h1 em, h2 em { font-style: normal; }
 .tile-media { margin: -2rem -2rem 1.2rem; height: 150px; background: var(--bg-3) center / cover; border-bottom: 1px solid var(--line); }
 .materials-note { padding: 1.1rem 1.4rem; border-left: 3px solid var(--amber); background: var(--white); border-radius: 0 12px 12px 0; margin-bottom: 1.5rem; }
 .pdf-links { display: inline-flex; gap: .4rem; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Photo heroes on lecture pages: keep the title legible over the image */
+.curtain-media.photo::after { background: linear-gradient(90deg, rgba(250,248,244,.96) 0%, rgba(250,248,244,.9) 40%, rgba(250,248,244,.55) 70%, rgba(250,248,244,.25) 100%); }
+.curtain-media.photo { background-position: right center; }
+@media (max-width: 800px) { .curtain-media.photo::after { background: rgba(250,248,244,.9); } }
+/* Cap figure height so tall crops don't dominate */
+.figure img { max-height: 480px; object-fit: contain; background: #fff; }
+.qv-body .figure img { max-height: 360px; }
