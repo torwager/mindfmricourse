@@ -1,0 +1,557 @@
+[
+ {
+  "file": "kragel2018_brainmaps.jpg",
+  "role": "figure",
+  "concepts": [
+   "multivariate pattern",
+   "brain signatures",
+   "group analysis"
+  ],
+  "caption": "Encoding/decoding models and brain maps for faces, reward and pressure",
+  "citation": "Kragel et al. (2018), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2018.06.009",
+  "open_access": "likely",
+  "width": 782,
+  "height": 730,
+  "origin": "papers"
+ },
+ {
+  "file": "kragel2018_signatures.jpg",
+  "role": "figure",
+  "concepts": [
+   "multivariate pattern",
+   "brain signatures",
+   "resting-state networks"
+  ],
+  "caption": "Neurologic Pain Signature vs vicarious pain signature across networks and thalamus",
+  "citation": "Kragel et al. (2018), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2018.06.009",
+  "open_access": "likely",
+  "width": 783,
+  "height": 649,
+  "origin": "papers"
+ },
+ {
+  "file": "woo2017_biomarker_levels.jpg",
+  "role": "figure",
+  "concepts": [
+   "brain signatures",
+   "reproducibility"
+  ],
+  "caption": "Levels of evidence for developing and validating brain biomarkers",
+  "citation": "Woo et al. (2017), Nature Neuroscience",
+  "doi_or_url": "https://doi.org/10.1038/nn.4478",
+  "open_access": "likely",
+  "width": 903,
+  "height": 473,
+  "origin": "papers"
+ },
+ {
+  "file": "wager2013_nps.jpg",
+  "role": "figure",
+  "concepts": [
+   "multivariate pattern",
+   "brain signatures"
+  ],
+  "caption": "Neurologic Pain Signature predictive weight map",
+  "citation": "Wager et al. (2013), New England Journal of Medicine",
+  "doi_or_url": "https://doi.org/10.1056/NEJMoa1204471",
+  "open_access": "likely",
+  "width": 1172,
+  "height": 470,
+  "origin": "papers"
+ },
+ {
+  "file": "chang2015_pines_maps.jpg",
+  "role": "panel",
+  "concepts": [
+   "multivariate pattern",
+   "brain signatures"
+  ],
+  "caption": "PINES negative-affect signature rendered on cortical surfaces",
+  "citation": "Chang et al. (2015), PLoS Biology",
+  "doi_or_url": "https://doi.org/10.1371/journal.pbio.1002180",
+  "open_access": "yes",
+  "width": 1407,
+  "height": 858,
+  "origin": "papers"
+ },
+ {
+  "file": "chang2015_design_glm.jpg",
+  "role": "figure",
+  "concepts": [
+   "HRF & GLM",
+   "experimental design",
+   "multivariate pattern"
+  ],
+  "caption": "Trial design, first-level GLM and cross-validated signature training",
+  "citation": "Chang et al. (2015), PLoS Biology",
+  "doi_or_url": "https://doi.org/10.1371/journal.pbio.1002180",
+  "open_access": "yes",
+  "width": 1182,
+  "height": 1158,
+  "origin": "papers"
+ },
+ {
+  "file": "ceko2022_brainmaps.jpg",
+  "role": "figure",
+  "concepts": [
+   "multivariate pattern",
+   "brain signatures"
+  ],
+  "caption": "Common and stimulus-specific negative affect representations across the brain",
+  "citation": "\u010ceko et al. (2022), Nature Neuroscience",
+  "doi_or_url": "https://doi.org/10.1038/s41593-022-01082-w",
+  "open_access": "likely",
+  "width": 1600,
+  "height": 748,
+  "origin": "papers"
+ },
+ {
+  "file": "ceko2022_network.jpg",
+  "role": "figure",
+  "concepts": [
+   "connectivity",
+   "mediation/path models"
+  ],
+  "caption": "Hierarchical network of core regions linking sensory and multimodal systems",
+  "citation": "\u010ceko et al. (2022), Nature Neuroscience",
+  "doi_or_url": "https://doi.org/10.1038/s41593-022-01082-w",
+  "open_access": "likely",
+  "width": 1219,
+  "height": 813,
+  "origin": "papers"
+ },
+ {
+  "file": "zunhammer2021_placebo_meta.jpg",
+  "role": "figure",
+  "concepts": [
+   "meta-analysis",
+   "group analysis",
+   "multiple comparisons"
+  ],
+  "caption": "Participant-level meta-analysis maps of placebo analgesia effects",
+  "citation": "Zunhammer et al. (2021), Nature Communications",
+  "doi_or_url": "https://doi.org/10.1038/s41467-021-21179-3",
+  "open_access": "yes",
+  "width": 1150,
+  "height": 1008,
+  "origin": "papers"
+ },
+ {
+  "file": "atlas2010_mediation.jpg",
+  "role": "figure",
+  "concepts": [
+   "mediation/path models"
+  ],
+  "caption": "Anterior insula mediates cue effects on reported pain",
+  "citation": "Atlas et al. (2010), Journal of Neuroscience",
+  "doi_or_url": "https://doi.org/10.1523/JNEUROSCI.0057-10.2010",
+  "open_access": "yes",
+  "width": 1153,
+  "height": 875,
+  "origin": "papers"
+ },
+ {
+  "file": "wager2008_mediation_network.jpg",
+  "role": "figure",
+  "concepts": [
+   "mediation/path models",
+   "connectivity"
+  ],
+  "caption": "Path model with brain networks mediating reappraisal success",
+  "citation": "Wager et al. (2008), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2008.09.006",
+  "open_access": "likely",
+  "width": 1176,
+  "height": 878,
+  "origin": "papers"
+ },
+ {
+  "file": "wager2009_pathways.jpg",
+  "role": "figure",
+  "concepts": [
+   "mediation/path models",
+   "connectivity"
+  ],
+  "caption": "Prefrontal-subcortical pathways mediating heart rate responses to threat",
+  "citation": "Wager et al. (2009), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2009.05.044",
+  "open_access": "likely",
+  "width": 957,
+  "height": 710,
+  "origin": "papers"
+ },
+ {
+  "file": "wager2003_genetic_algorithm.jpg",
+  "role": "figure",
+  "concepts": [
+   "experimental design efficiency",
+   "HRF & GLM"
+  ],
+  "caption": "Genetic algorithm crossover and design-matrix construction for fMRI designs",
+  "citation": "Wager & Nichols (2003), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/S1053-8119(02)00046-0",
+  "open_access": "unknown",
+  "width": 1194,
+  "height": 882,
+  "origin": "papers"
+ },
+ {
+  "file": "wager2003_efficiency_surface.jpg",
+  "role": "figure",
+  "concepts": [
+   "experimental design efficiency"
+  ],
+  "caption": "Design efficiency as a function of ISI and rest proportion",
+  "citation": "Wager & Nichols (2003), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/S1053-8119(02)00046-0",
+  "open_access": "unknown",
+  "width": 964,
+  "height": 779,
+  "origin": "papers"
+ },
+ {
+  "file": "lindquist2009_hrf.jpg",
+  "role": "figure",
+  "concepts": [
+   "HRF & GLM"
+  ],
+  "caption": "Region of interest and estimated HRF amplitude map",
+  "citation": "Lindquist et al. (2009), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.10.065",
+  "open_access": "likely",
+  "width": 769,
+  "height": 447,
+  "origin": "papers"
+ },
+ {
+  "file": "lindquist2009_hrf_bias.jpg",
+  "role": "panel",
+  "concepts": [
+   "HRF & GLM"
+  ],
+  "caption": "Bias and significance across HRF models and inference methods",
+  "citation": "Lindquist et al. (2009), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.10.065",
+  "open_access": "likely",
+  "width": 1600,
+  "height": 738,
+  "origin": "papers"
+ },
+ {
+  "file": "woo2014_cluster_threshold.jpg",
+  "role": "figure",
+  "concepts": [
+   "multiple comparisons/thresholding"
+  ],
+  "caption": "Cluster extent thresholds versus smoothness and primary threshold",
+  "citation": "Woo et al. (2014), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2013.12.058",
+  "open_access": "likely",
+  "width": 956,
+  "height": 762,
+  "origin": "papers"
+ },
+ {
+  "file": "kober2008_mkda.jpg",
+  "role": "figure",
+  "concepts": [
+   "meta-analysis",
+   "multiple comparisons/thresholding"
+  ],
+  "caption": "Multilevel kernel density analysis workflow with Monte Carlo threshold",
+  "citation": "Kober et al. (2008), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.03.059",
+  "open_access": "likely",
+  "width": 1195,
+  "height": 857,
+  "origin": "papers"
+ },
+ {
+  "file": "kober2008_meta_peaks.jpg",
+  "role": "figure",
+  "concepts": [
+   "meta-analysis"
+  ],
+  "caption": "Peak coordinates from 437 emotion contrasts and consistent activations",
+  "citation": "Kober et al. (2008), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.03.059",
+  "open_access": "likely",
+  "width": 1195,
+  "height": 897,
+  "origin": "papers"
+ },
+ {
+  "file": "yarkoni2011_overview.jpg",
+  "role": "figure",
+  "concepts": [
+   "meta-analysis",
+   "multivariate pattern"
+  ],
+  "caption": "Neurosynth automated meta-analysis, forward and reverse inference",
+  "citation": "Yarkoni et al. (2011), Nature Methods",
+  "doi_or_url": "https://doi.org/10.1038/nmeth.1635",
+  "open_access": "likely",
+  "width": 588,
+  "height": 411,
+  "origin": "papers"
+ },
+ {
+  "file": "calhoun2014_dfnc.jpg",
+  "role": "figure",
+  "concepts": [
+   "dynamic connectivity",
+   "ICA components",
+   "connectivity"
+  ],
+  "caption": "Windowed dynamic connectivity, states and transition matrices",
+  "citation": "Calhoun et al. (2014), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2014.10.015",
+  "open_access": "likely",
+  "width": 1294,
+  "height": 880,
+  "origin": "papers"
+ },
+ {
+  "file": "calhoun2014_kmeans_states.jpg",
+  "role": "figure",
+  "concepts": [
+   "dynamic connectivity",
+   "connectivity"
+  ],
+  "caption": "Maximally independent versus k-means connectivity states",
+  "citation": "Calhoun et al. (2014), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2014.10.015",
+  "open_access": "likely",
+  "width": 678,
+  "height": 432,
+  "origin": "papers"
+ },
+ {
+  "file": "calhoun2009_group_ica.jpg",
+  "role": "figure",
+  "concepts": [
+   "ICA components",
+   "group analysis"
+  ],
+  "caption": "Group ICA component maps and their task-related time courses",
+  "citation": "Calhoun et al. (2009), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.10.057",
+  "open_access": "likely",
+  "width": 1195,
+  "height": 859,
+  "origin": "papers"
+ },
+ {
+  "file": "calhoun2009_driving_networks.jpg",
+  "role": "figure",
+  "concepts": [
+   "ICA components",
+   "resting-state networks"
+  ],
+  "caption": "Multiple networks identified during simulated driving",
+  "citation": "Calhoun et al. (2009), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.10.057",
+  "open_access": "likely",
+  "width": 1195,
+  "height": 874,
+  "origin": "papers"
+ },
+ {
+  "file": "du2020_neuromark_templates.jpg",
+  "role": "figure",
+  "concepts": [
+   "ICA components",
+   "resting-state networks",
+   "reproducibility"
+  ],
+  "caption": "NeuroMark network templates by functional domain",
+  "citation": "Du et al. (2020), NeuroImage: Clinical",
+  "doi_or_url": "https://doi.org/10.1016/j.nicl.2020.102375",
+  "open_access": "yes",
+  "width": 976,
+  "height": 775,
+  "origin": "papers"
+ },
+ {
+  "file": "rashid2014_states.jpg",
+  "role": "panel",
+  "concepts": [
+   "dynamic connectivity",
+   "resting-state networks"
+  ],
+  "caption": "Five dynamic connectivity states rendered on cortical surfaces",
+  "citation": "Rashid et al. (2014), Frontiers in Human Neuroscience",
+  "doi_or_url": "https://doi.org/10.3389/fnhum.2014.00897",
+  "open_access": "yes",
+  "width": 1600,
+  "height": 868,
+  "origin": "papers"
+ },
+ {
+  "file": "rashid2014_connectograms.jpg",
+  "role": "figure",
+  "concepts": [
+   "dynamic connectivity",
+   "connectivity"
+  ],
+  "caption": "Connectograms of group differences in each connectivity state",
+  "citation": "Rashid et al. (2014), Frontiers in Human Neuroscience",
+  "doi_or_url": "https://doi.org/10.3389/fnhum.2014.00897",
+  "open_access": "yes",
+  "width": 1163,
+  "height": 877,
+  "origin": "papers"
+ },
+ {
+  "file": "allen2012_component_map.jpg",
+  "role": "figure",
+  "concepts": [
+   "ICA components",
+   "resting-state networks"
+  ],
+  "caption": "Simulated spatial component map for group ICA",
+  "citation": "Allen et al. (2012), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2011.10.010",
+  "open_access": "likely",
+  "width": 559,
+  "height": 535,
+  "origin": "papers"
+ },
+ {
+  "file": "damaraju2020_sleep_states.jpg",
+  "role": "figure",
+  "concepts": [
+   "dynamic connectivity",
+   "resting-state networks"
+  ],
+  "caption": "Connectivity states from wakefulness to sleep with occupancy and maps",
+  "citation": "Damaraju et al. (2020), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2020.117047",
+  "open_access": "yes",
+  "width": 1168,
+  "height": 833,
+  "origin": "papers"
+ },
+ {
+  "file": "ermer2012_paralimbic.jpg",
+  "role": "figure",
+  "concepts": [
+   "psychopathy/forensic neuroimaging",
+   "group analysis"
+  ],
+  "caption": "Paralimbic gray matter reductions associated with psychopathy",
+  "citation": "Ermer et al. (2012), Journal of Abnormal Psychology",
+  "doi_or_url": "https://doi.org/10.1037/a0026371",
+  "open_access": "likely",
+  "width": 869,
+  "height": 743,
+  "origin": "papers"
+ },
+ {
+  "file": "kiehl2018_gm_components.jpg",
+  "role": "figure",
+  "concepts": [
+   "psychopathy/forensic neuroimaging",
+   "ICA components"
+  ],
+  "caption": "Source-based morphometry gray matter components predicting recidivism",
+  "citation": "Kiehl et al. (2018), NeuroImage: Clinical",
+  "doi_or_url": "https://doi.org/10.1016/j.nicl.2018.05.036",
+  "open_access": "yes",
+  "width": 1113,
+  "height": 793,
+  "origin": "papers"
+ },
+ {
+  "file": "hosking2017_psychopathy.jpg",
+  "role": "figure",
+  "concepts": [
+   "psychopathy/forensic neuroimaging",
+   "mediation/path models",
+   "connectivity"
+  ],
+  "caption": "Psychopathy moderates prefrontal-striatal coupling and value signals",
+  "citation": "Hosking et al. (2017), Neuron",
+  "doi_or_url": "https://doi.org/10.1016/j.neuron.2017.06.030",
+  "open_access": "likely",
+  "width": 1285,
+  "height": 678,
+  "origin": "papers"
+ },
+ {
+  "file": "deming2020_psychopathy.jpg",
+  "role": "figure",
+  "concepts": [
+   "psychopathy/forensic neuroimaging",
+   "group analysis"
+  ],
+  "caption": "Affective perspective-taking activation maps by emotion",
+  "citation": "Deming et al. (2020), NeuroImage",
+  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2020.117342",
+  "open_access": "yes",
+  "width": 1076,
+  "height": 1046,
+  "origin": "papers"
+ },
+ {
+  "file": "lindquist2014_kspace.jpg",
+  "role": "figure",
+  "concepts": [
+   "MRI physics/k-space"
+  ],
+  "caption": "k-space sampling and Fourier reconstruction to image space",
+  "citation": "Lindquist & Wager (2014), Principles of fMRI (book chapter)",
+  "doi_or_url": "",
+  "open_access": "unknown",
+  "width": 802,
+  "height": 691,
+  "origin": "papers"
+ },
+ {
+  "file": "lindquist2014_bold.jpg",
+  "role": "figure",
+  "concepts": [
+   "HRF & GLM",
+   "MRI physics/k-space"
+  ],
+  "caption": "Canonical hemodynamic response and block convolution",
+  "citation": "Lindquist & Wager (2014), Principles of fMRI (book chapter)",
+  "doi_or_url": "",
+  "open_access": "unknown",
+  "width": 885,
+  "height": 809,
+  "origin": "papers"
+ },
+ {
+  "file": "lindquist2019_preproc.jpg",
+  "role": "figure",
+  "concepts": [
+   "preprocessing/registration",
+   "reproducibility"
+  ],
+  "caption": "Projection matrices and motion-correlated time series across pipelines",
+  "citation": "Lindquist et al. (2019), Human Brain Mapping",
+  "doi_or_url": "https://doi.org/10.1002/hbm.24528",
+  "open_access": "likely",
+  "width": 1195,
+  "height": 768,
+  "origin": "papers"
+ },
+ {
+  "file": "calhoun2017_t1_epi.jpg",
+  "role": "panel",
+  "concepts": [
+   "preprocessing/registration",
+   "group analysis"
+  ],
+  "caption": "Inter-subject variability after T1 versus EPI normalization",
+  "citation": "Calhoun et al. (2017), Human Brain Mapping",
+  "doi_or_url": "https://doi.org/10.1002/hbm.23737",
+  "open_access": "likely",
+  "width": 1600,
+  "height": 616,
+  "origin": "papers"
+ }
+]

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.7 Parametric modulators — fMRI Course</title>
+<meta name="description" content="This session introduces parametric modulation, which models trial-to-trial variation in brain activity as a function of a behavioral or stimulus variable w">
+<meta property="og:title" content="2.7 Parametric modulators — fMRI Course">
+<meta property="og:description" content="This session introduces parametric modulation, which models trial-to-trial variation in brain activity as a function of a behavioral or stimulus variable w">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/lindquist2009_hrf_bias.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 2 · Modeling, connectivity, and ICA</p>
+        <div class="lec-meta"><span><b>Day 2</b></span><span><b>Session 2.7</b></span><span>Wager</span><span>0:15 h</span><span>Lecture</span></div>
+        <h1>Parametric modulators</h1>
+        <p class="lede">This session introduces parametric modulation, which models trial-to-trial variation in brain activity as a function of a behavioral or stimulus variable within a person. It explains how SPM constructs and orthogonalizes modulator regressors, the assumptions involved, and why modulating duration rather than amplitude matters when reaction time varies.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>Parametric modulators test within-person relationships between a trial-level variable and brain activity, beyond the average response.</li><li>SPM orthogonalizes modulators sequentially; their order and interval scaling determine what each regressor can explain.</li><li>When reaction time varies, modulating duration (variable epochs) controls for RT better than modulating amplitude.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>parametric modulator</li><li>standard regressor</li><li>orthogonalization (spm_orth)</li><li>time modulation</li><li>amplitude vs. duration modulation</li><li>variable-epoch model</li><li>reaction time confound</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec2-7_a.jpg" alt="Variable-duration and constant-impulse models after HRF convolution" loading="lazy" width="1132" height="665"><figcaption><b>Variable-duration and constant-impulse models after HRF convolution.</b> Lecture 2.7 slides (Wager)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>Why parametric modulation</span></h3><ul><li>Captures brain-behavior relationships across trials within a person, with enhanced psychological specificity.</li><li>Modeling activity as a function of performance across multiple levels can give stronger evidence than a contrast between two conditions.</li><li>Examples: Tower of London task complexity, goal (purchase) value in ventromedial PFC (Dagher 1999; Hare 2009; Grinband 2006; Wood 2008).</li><li>Convolution assumptions still apply: the neural activity function, the HRF, and linear time-invariance are assumed correct.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>How modulators work in SPM</span></h3><ul><li>The standard regressor captures the average event-related response.</li><li>The modulator is orthogonal to the standard regressor, so it captures activity related to the variable above and beyond the average response.</li><li>Assumptions: brain responses are linear in the input variable and sensitive to its interval scaling; only stick-function amplitude is modulated, not shape or duration.</li><li>Multiple modulators are orthogonalized sequentially with respect to earlier ones (spm_orth.m), so order matters and later modulators explain only leftover variance.</li><li>SPM adds a modulator regressor after each event regressor; time modulation adds a regressor for linear change within the session.</li><li>With basis functions, SPM adds one regressor per basis function per modulator, including time.</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-7_b.jpg" alt="Impulse versus epoch models across stimulus durations" loading="lazy" width="583" height="503"><figcaption><b>Impulse versus epoch models across stimulus durations.</b> Lecture 2.7 slides (Wager)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec2-7_d.jpg" alt="Impulse and epoch event-coding schemes over time" loading="lazy" width="611" height="381"><figcaption><b>Impulse and epoch event-coding schemes over time.</b> Lecture 2.7 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">03</span><span>Amplitude versus duration, and reaction time as a confound</span></h3><ul><li>Events versus epochs matters for event-related fMRI (Grinband et al. 2008); in visual cortex, contrast modulation and duration modulation give different fits.</li><li>Four RT models: standard, amplitude modulated by RT, RT nuisance regressor, and duration modulated by RT (variable-duration model).</li><li>The standard model confounds duration differences with magnitude differences, at both within-subject and group levels.</li><li>The variable-duration model (Model 4) best controls for RT in a within-person ANCOVA design; models 3 and 4 diverge as RTs get longer.</li><li>The variable-epoch model has no standard regressor; to test effects above and beyond the average response, build both and orthogonalize the second to the first.</li><li>CANlab Core tools can build such custom regressors for import into SPM; example code is at canlab.github.io/tutorials.</li></ul></article></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/lindquist2009_hrf_bias.jpg')"></div><div class="band-cap">Bias and significance across HRF models and inference methods — Lindquist et al. (2009), NeuroImage</div></div><section class="section"><div class="wrap"><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-7_c.jpg" alt="Design matrix with duration-modulated parametric regressors" loading="lazy" width="514" height="441"><figcaption><b>Design matrix with duration-modulated parametric regressors.</b> Lecture 2.7 slides (Wager)</figcaption></figure></div><div class="section-head" style="margin-top:2rem"><div class="rv"><p class="eyebrow">From the instructors' research</p><h2>Related figures</h2></div><p class="lede rv rv-d1">Examples of these concepts in published work by the course instructors.</p></div><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/wager2013_nps.jpg" alt="Neurologic Pain Signature predictive weight map" loading="lazy" width="1172" height="470"><figcaption><b>Neurologic Pain Signature predictive weight map.</b> Wager et al. (2013), New England Journal of Medicine</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/yarkoni2011_overview.jpg" alt="Neurosynth automated meta-analysis, forward and reverse inference" loading="lazy" width="588" height="411"><figcaption><b>Neurosynth automated meta-analysis, forward and reverse inference.</b> Yarkoni et al. (2011), Nature Methods</figcaption></figure></div></div></section><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-2-6.html"><small>Previous · 2.6</small><strong>Derivative boost</strong></a><a class="next" href="lectures/session-2-8.html"><small>Next · 2.8</small><strong>Autocorrelation and generalized linear models</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

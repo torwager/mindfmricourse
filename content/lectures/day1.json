@@ -1,0 +1,892 @@
+[
+  {
+    "id": "0.0",
+    "title": "Course introduction",
+    "instructor": "Kiehl, Calhoun, Wager",
+    "duration": "0:30",
+    "type": "lecture",
+    "overview": "Introduces the instructors and the scope of the three-day course: paradigm design, image acquisition, and analysis of fMRI data. Sets up the two complementary software packages used throughout, SPM (model-based, univariate GLM) and GIFT (data-driven, multivariate ICA), and states what participants should take away from each session.",
+    "sections": [
+      {
+        "heading": "Who and what",
+        "points": [
+          "Instructors: Kent Kiehl (Mind Research Network / UNM), Vince Calhoun (TReNDS; Georgia State, Georgia Tech, Emory), Tor Wager (Dartmouth).",
+          "Three themes run through the course: paradigm design, data acquisition, and analysis.",
+          "Framed as everything you wanted to know about fMRI but were afraid to ask."
+        ]
+      },
+      {
+        "heading": "Two complementary software packages",
+        "points": [
+          "SPM (SPM8/12) implements the General Linear Model: model-based and univariate, one voxel at a time.",
+          "GIFT implements Independent Component Analysis: data-driven and multivariate.",
+          "The course gives a practical, hands-on introduction to both, with lectures and tutorials interleaved."
+        ]
+      },
+      {
+        "heading": "Goals of the course",
+        "points": [
+          "Hands-on overview of fMRI image acquisition and analysis.",
+          "From each lecture or tutorial, aim to take about 10 points home.",
+          "Those points should improve how you review the fMRI literature and how you design and run your own experiments.",
+          "Day 1 follows the SPM processing pipeline from raw images through preprocessing to the GLM."
+        ]
+      }
+    ],
+    "key_terms": [
+      "SPM",
+      "GIFT",
+      "General Linear Model (GLM)",
+      "Independent Component Analysis (ICA)",
+      "model-based vs. data-driven",
+      "univariate vs. multivariate",
+      "paradigm design"
+    ],
+    "takeaways": [
+      "The course covers design, acquisition, and analysis, not analysis alone.",
+      "SPM (GLM) and GIFT (ICA) are complementary approaches and both will be used hands-on.",
+      "Aim for roughly 10 concrete take-home points from each session."
+    ]
+  },
+  {
+    "id": "1.1",
+    "title": "Virtual tours of MRI and acquisition of data, stimulus presentation, behavioral monitoring",
+    "instructor": "Kiehl",
+    "duration": "1:00",
+    "type": "lecture",
+    "overview": "A walk through the scanner suite from the participant's point of view: screening and clothing, the magnet room, positioning and comfort, and the control room where stimulus delivery, response logging, and eye tracking are synchronized to the scanner. Ends with a practical protocol for prescribing EPI slices consistently across participants. Good data start with a comfortable, still participant and a timing chain that trusts the scanner clock.",
+    "sections": [
+      {
+        "heading": "Participant screening and preparation",
+        "points": [
+          "Standard screening covers metal implants, bullets, braces, hair clips, pregnancy, and tattoos (rules are IRB-specific).",
+          "Have participants use the bathroom first; change into scrubs, sweats, or a jumpsuit; no shoes, no underwire or sports bras, no jeans.",
+          "Contact lenses only if the participant normally wears them; otherwise MRI-compatible glasses.",
+          "Keep the clothing conversation professional and consistent across participants."
+        ]
+      },
+      {
+        "heading": "The magnet room",
+        "points": [
+          "Bed, pillow system, and head restraint (the Pearltec MULTIPAD is the presenter's favorite).",
+          "Visual presentation via front projection, rear projection, or goggles on a high-resolution screen.",
+          "Sound via pneumatic or electrostatic headphones with about 20 dB of attenuation.",
+          "Keep all electronics outside the magnet room and keep duplicates of every piece of hardware as backup.",
+          "Response devices (e.g., NAtA Technologies button boxes) are MRI-compatible and tested before each session."
+        ]
+      },
+      {
+        "heading": "Positioning and comfort",
+        "points": [
+          "Elevate the legs and keep them uncrossed; side pillows keep arms off the cold bore and reduce current loops.",
+          "Eye position is the most important trick for comfortable, still participants; a blanket and squeeze ball help.",
+          "Eye tracking is always worthwhile for monitoring alertness and compliance.",
+          "A soother display helps reduce claustrophobia."
+        ]
+      },
+      {
+        "heading": "Control room: stimulus presentation and behavioral monitoring",
+        "points": [
+          "Four screens: soother, stimulus presentation, CIRC (behavioral recording), eye tracking, plus the MRI console.",
+          "Use dedicated computers, not laptops; keep separate development machines elsewhere in the building.",
+          "CIRC shows three columns: inputs (event and response codes), output codes, and summary variables (RT, d-prime, beta, hits, misses, false alarms).",
+          "The scanner dictates time: its pulse starts stimulus presentation, and each TR a TTL pulse is converted to an 8-bit byte and logged in CIRC.",
+          "This lets every stimulus be re-synchronized to scanner time even if the presentation program drifts, which matters for both fast and slow fMRI."
+        ]
+      },
+      {
+        "heading": "Prescribing EPI slices consistently (cheat sheet)",
+        "points": [
+          "Slice orientation and angle change the pattern of susceptibility artifacts, so prescribe slices the same way for every participant.",
+          "Use oblique axial slices rather than true axial; this reduces truncation of the brain in large heads.",
+          "Simple rule: align the slice plane with the orbitofrontal cortex, about 20 degrees up from the AC-PC line.",
+          "Place the top slice one slice above the gray matter so sensorimotor cortex sits in the second slice from the top.",
+          "For very large heads this sacrifices caudal brainstem and cerebellum, which have poor signal anyway, in favor of sensorimotor coverage.",
+          "Structural and diffusion scans typically use a different prescription."
+        ]
+      }
+    ],
+    "key_terms": [
+      "MRI safety screening",
+      "head restraint",
+      "response device",
+      "CIRC",
+      "TTL scanner pulse",
+      "eye tracking",
+      "slice prescription",
+      "AC-PC line",
+      "orbitofrontal cortex (OFC) plane",
+      "susceptibility artifact"
+    ],
+    "takeaways": [
+      "Participant comfort and immobility are set up before the scan begins: clothing, padding, leg position, eye position.",
+      "Log every stimulus and response against the scanner's own TR pulses so timing can always be reconstructed.",
+      "Prescribe slices along the OFC plane, top slice just above gray matter, and do it identically for every participant."
+    ]
+  },
+  {
+    "id": "1.2",
+    "title": "fMRI physics, pulse sequences, and reconstruction",
+    "instructor": "Calhoun",
+    "duration": "1:00",
+    "type": "lecture",
+    "overview": "Covers the physics needed to understand an fMRI dataset: nuclear spin and the Larmor equation, T1 and T2 relaxation, spin and gradient echoes, spatial encoding with gradients and k-space, and echo-planar imaging. Then explains the BOLD contrast mechanism, susceptibility artifacts and how to reduce them, and the practical trade-offs among TR, TE, flip angle, slices, bandwidth, matrix, and field of view.",
+    "sections": [
+      {
+        "heading": "MR basic principles: spin and relaxation",
+        "points": [
+          "Protons have spin and precess at the Larmor frequency, omega = gamma times B0; gamma is 42 MHz/T for protons (11 MHz/T for carbon-13).",
+          "An RF pulse tips magnetization by 90 or 180 degrees; the signal decays and recovers afterward.",
+          "T1 (longitudinal, spin-lattice) relaxation is recovery of magnetization along B0; T2 (transverse, spin-spin) is decay of the measurable signal.",
+          "Relaxation times are tissue specific: T1 about 600 ms (white matter), 1000 ms (gray), 3000 ms (CSF); T2 about 70, 90, and 400 ms.",
+          "T2 is much shorter than T1; 200 ms after the pulse about 5 percent (white), 10 percent (gray), and 60 percent (CSF) remains."
+        ]
+      },
+      {
+        "heading": "Contrast and echoes",
+        "points": [
+          "TR and TE set contrast: long TR/short TE gives proton density, short TR/short TE gives T1, long TR/long TE gives T2.",
+          "A spin echo uses a 90 then 180 degree pulse to refocus dephasing (Hahn echo; CPMG for multiple echoes) and measures T2.",
+          "A gradient echo does not refocus static field inhomogeneities, so it measures T2*; this sensitivity is what BOLD fMRI relies on."
+        ]
+      },
+      {
+        "heading": "Making an image: gradients, k-space, EPI",
+        "points": [
+          "Slice selection: a gradient makes field strength depend on z (B = B0 + Gz z), so only one slab resonates with the RF pulse.",
+          "Frequency encoding along x makes precession rate depend on position; phase encoding along y uses a brief gradient stepped up on each repeat.",
+          "The raw data matrix (k-space) fills line by line with each phase-encode step; a 2D Fourier transform yields the image.",
+          "EPI and spirals both cover k-space in one shot: EPI gives distortion and ghosts, spirals give blurring; spirals sample k = 0 first.",
+          "In an EPI image, x corresponds to frequency and y to phase encoding, which matters for where distortion appears."
+        ]
+      },
+      {
+        "heading": "Basics of BOLD fMRI",
+        "points": [
+          "Hemodynamic measures of brain function date to Mosso (1881), who saw regional cortical pulsation change with mental activity.",
+          "BOLD chain: neural activity up, blood flow up (reactive hyperemia), deoxyhemoglobin down, field homogeneity up, gradient-echo EPI signal up.",
+          "Two-photon imaging in mice shows arterial dilation following neural activity after whisker stimulation (Chow et al., 2020).",
+          "Signal changes are small, 0.5 to 3 percent at 1.5 T, invisible in a single image; we always analyze differences or time courses.",
+          "The response is delayed and slow (about 10 s), so even short events produce a long response.",
+          "A typical volume is 64 x 64 voxels x 25 slices, about 102,400 voxels."
+        ]
+      },
+      {
+        "heading": "Susceptibility: the good, the bad, the ugly",
+        "points": [
+          "Deoxyhemoglobin is paramagnetic (the good); air-tissue interfaces near sinuses and ear canals distort the field (the bad); fillings and implants are the ugly.",
+          "All susceptibility effects grow with B0.",
+          "Two consequences: through-plane dephasing causes signal loss within a voxel; in-plane gradients cause geometric distortion, mostly in the phase-encode direction.",
+          "EPI bandwidth is asymmetric, so distortion is about 100 times larger in the phase-encode direction; reversing the k-space traversal flips compression to expansion.",
+          "Shorter encoding time (e.g., 34 down to 17 ms) reduces distortion; parallel imaging (PAT/GRAPPA) shortens it further.",
+          "Other remedies: first and second order shimming, thinner slices, shorter TE, z-shim, tailored RF pulses, a mouth shim, field-map correction, multi-shot sequences, tilting slices."
+        ]
+      },
+      {
+        "heading": "Choosing single-shot gradient-echo EPI parameters",
+        "points": [
+          "TR: long TR maximizes raw SNR, but noise is physiologic and more time points help statistics; use a short TR, 1 to 2 s is reasonable.",
+          "Flip angle: the Ernst angle is 90 degrees for TR over 3 s and 60 to 70 degrees for TR 1 to 2 s; wrong angles cause inflow artifacts.",
+          "Slices: collect as many as fit in the TR; whole-brain coverage normalizes better and motion correction works best with thin slices.",
+          "Voxel size = FOV/matrix (200 mm/64 = 3.125 mm); SNR scales with voxel volume, but thin isotropic voxels reduce partial volume and dephasing.",
+          "TE: the optimum is shorter at higher field (about 30 ms at 3 T, 50 ms at 1.5 T); shorter TE trades BOLD contrast for less dropout.",
+          "Bandwidth of 128 kHz over a 64 matrix gives 2000 Hz per pixel; higher bandwidth means faster acquisition, more slices, less blur, more noise."
+        ]
+      }
+    ],
+    "key_terms": [
+      "Larmor frequency",
+      "T1 and T2 relaxation",
+      "T2*",
+      "spin echo vs. gradient echo",
+      "k-space",
+      "echo-planar imaging (EPI)",
+      "BOLD contrast",
+      "susceptibility",
+      "phase-encode direction",
+      "Ernst angle"
+    ],
+    "takeaways": [
+      "BOLD is a T2* effect: less deoxyhemoglobin means a more uniform field and more gradient-echo EPI signal, but the change is only a few percent.",
+      "Susceptibility near air-tissue interfaces causes both signal loss and geometric distortion, mostly along the phase-encode direction; shorter encoding time and parallel imaging help.",
+      "Every EPI parameter trades SNR against speed, coverage, and artifact; a TR of 1 to 2 s, TE near 30 ms at 3 T, flip angle 60 to 70 degrees, and isotropic voxels are sensible defaults."
+    ]
+  },
+  {
+    "id": "1.2b",
+    "title": "Install: SPM and toolboxes",
+    "instructor": "Wager",
+    "duration": "0:20",
+    "type": "hands-on",
+    "overview": "Gets every laptop ready for the hands-on sessions: download the course folder, install MATLAB, and add SPM and the other toolboxes to the MATLAB path with add_toolbox_paths.m. Covers the most common failure points on Mac (quarantined MEX files, Gatekeeper, Apple Silicon) and the path errors that trip people up, and points ahead to GitHub-based installation of the CANlab tools.",
+    "sections": [
+      {
+        "heading": "Course files and folder structure",
+        "points": [
+          "The shared Dropbox folder contains data (course datasets), toolboxes (SPM and other code), and slides (PPT, Keynote, PDF).",
+          "Put the whole thing in a folder called mind on your desktop or C: drive; all files must be in place before moving on.",
+          "If Dropbox reports a file-size error, go inside the folder and download subfolders one by one.",
+          "Keep the subfolder names toolboxes and data exactly, or add_toolbox_paths.m will not find them."
+        ]
+      },
+      {
+        "heading": "Installing MATLAB",
+        "points": [
+          "Use the trial link and license file provided (instructions in MATLAB-installation080625.pdf), or your own copy.",
+          "Compatibility across hardware (e.g., Apple M-series), OS, MATLAB, and SPM is a moving target; the best test is to try it.",
+          "Versions before 2019 probably will not work; incompatibility usually shows as MATLAB or SPM failing to open."
+        ]
+      },
+      {
+        "heading": "Setting up the MATLAB path",
+        "points": [
+          "Navigate to the mind folder by dragging it into the Command Window or with cd('path/to/mind').",
+          "Type add_toolbox_paths to run the script that adds SPM and toolboxes.",
+          "pathtool shows the path graphically; MATLAB searches from top to bottom, and you can add folders and save from there.",
+          "Type spm fmri; the SPM windows should appear."
+        ]
+      },
+      {
+        "heading": "Permissions and Mac security",
+        "points": [
+          "You need privileges to write files and install software; organization-managed machines may block this.",
+          "MEX errors on Mac: remove quarantine with xattr -dr com.apple.quarantine on the spm12 folder and the MATLAB app, then spctl --add the .mexmaci64 files.",
+          "Alternatively disable Gatekeeper with sudo spctl --master-disable for the course and re-enable it afterward with sudo spctl --master-enable.",
+          "Apple Silicon (M1 to M4): unquarantine .mexmaca64 and .mexmaci64 files inside the GIFT icatb folder with find and xattr.",
+          "System Settings > Security & Privacy may also let you grant MATLAB permission."
+        ]
+      },
+      {
+        "heading": "Common errors",
+        "points": [
+          "Undefined function or variable means MATLAB cannot find it: usually a missing path entry or a misspelling.",
+          "Never have multiple versions of SPM on the path at once.",
+          "Avoid toolboxes or your own scripts that share names with built-in MATLAB functions; heed the shadowing warnings MATLAB prints at startup."
+        ]
+      },
+      {
+        "heading": "Looking ahead: version control and CANlab tools (optional)",
+        "points": [
+          "GitHub lets you share, reuse, track history, integrate changes from multiple contributors, and revert.",
+          "Install GitHub Desktop, sign in, and clone repositories with the green Code button; pull to synchronize later.",
+          "CANlab repositories to clone: CanlabCore, Neuroimaging_Pattern_Masks, MediationToolbox, RobustToolbox; then run canlab_toolbox_setup.",
+          "Resources: Principles of fMRI (leanpub), canlab.github.io tutorials and walkthroughs, and fMRI methods chapters at sites.dartmouth.edu/canlab."
+        ]
+      }
+    ],
+    "key_terms": [
+      "mind folder",
+      "add_toolbox_paths.m",
+      "MATLAB path",
+      "pathtool",
+      "MEX file",
+      "quarantine (xattr)",
+      "Gatekeeper (spctl)",
+      "GitHub Desktop",
+      "canlab_toolbox_setup"
+    ],
+    "takeaways": [
+      "Download everything into a folder named mind with data and toolboxes subfolders before anything else.",
+      "Run add_toolbox_paths, then spm fmri; if SPM opens, you are ready.",
+      "Most Mac problems are quarantine or Gatekeeper issues with MEX files; most path problems are shadowed names or duplicate SPM copies."
+    ],
+    "hands_on": [
+      "Download the course folder from the shared Dropbox link into a folder named mind on your desktop or C: drive; download subfolders separately if you hit a size limit.",
+      "Confirm the structure mind/data, mind/toolboxes, mind/slides matches Dropbox.",
+      "Install MATLAB using the provided trial link and license (or use your own recent version).",
+      "Open MATLAB and navigate to the mind folder (drag-and-drop into the Command Window, or cd('...mind')).",
+      "Type add_toolbox_paths to add SPM and the toolboxes to your path.",
+      "Type pathtool to inspect the path; make sure only one SPM version is present.",
+      "Type spm fmri and confirm the SPM windows open.",
+      "Mac only, if you get MEX or permission errors: run xattr -dr com.apple.quarantine on spm12 and the MATLAB app, or sudo spctl --master-disable (re-enable after the course).",
+      "Apple Silicon only: unquarantine .mexmaca64 and .mexmaci64 files in gift/GroupICAT/icatb.",
+      "Optional: install GitHub Desktop, clone CanlabCore and related repositories, and run canlab_toolbox_setup."
+    ]
+  },
+  {
+    "id": "1.3",
+    "title": "MATLAB basics and orientation",
+    "instructor": "Wager",
+    "duration": "0:10",
+    "type": "hands-on",
+    "overview": "A brief tour of MATLAB for people who will use SPM: the desktop, getting help, variable types, scripts versus functions, and file types. Then orients you to how SPM works as a collection of functions that read and write image files, what NIfTI and MNI space mean, and which SPM defaults are worth changing before you start.",
+    "sections": [
+      {
+        "heading": "The MATLAB desktop and getting help",
+        "points": [
+          "MATLAB's strengths for fMRI: visualization, matrix operations, and built-in help.",
+          "Desktop panels: Command Window, Command History, Workspace, and Current Directory.",
+          "Unix-style navigation: cd some_dir changes directory, ls lists files.",
+          "help spline prints a function's help text; helpdesk opens the Help Browser."
+        ]
+      },
+      {
+        "heading": "Variables, types, and the workspace",
+        "points": [
+          "Assignments like a = 5; b = 7; c = a + b create variables in the base workspace.",
+          "Types: double (numbers), char (text), struct (named fields, e.g., subj.id and subj.name), [ ] matrices, { } cell arrays of mixed content.",
+          "A struct can hold a region name, a time series vector, and a 3D coordinate grid together.",
+          "save mywkspace writes variables to a .mat file; load brings them back."
+        ]
+      },
+      {
+        "heading": "File types, scripts, and functions",
+        "points": [
+          ".mat holds data; .m is an editable script or function; .mex is a compiled function you cannot edit.",
+          "A script is a list of commands run in the base workspace, as if typed.",
+          "A function has its own isolated workspace and sees only what is passed in: a black box with inputs and outputs."
+        ]
+      },
+      {
+        "heading": "SPM as functions and files",
+        "points": [
+          "SPM is a collection of functions: some open a GUI, a few return output to the workspace, most read and write files to disk.",
+          "Image formats: NIfTI (.nii); Analyze (.img, .hdr, plus a .mat in SPM); others outside SPM include CIFTI, GIFTI, and AFNI BRIK.",
+          "The origin [0 0 0] is typically the anterior commissure; MNI space is more precise than Talairach, though the SPM/FSL origin is slightly off the AC.",
+          "If which spm reports not found, use pathtool to add the SPM folder; which spm then shows the file being used.",
+          "Command-line entry points: spm_vol (header info), spm_read_vols (read data), spm_image('init', filename) (display in orthviews), spm_orthviews (control the display)."
+        ]
+      },
+      {
+        "heading": "SPM defaults worth changing",
+        "points": [
+          "Defaults live in spm_defaults.m; put your overrides in spm_my_defaults.m on the path.",
+          "Recommended: defaults.stats.fmri.hpf = 180 (128 can be too low; choose deliberately) and defaults.stats.fmri.cvi = 'None' rather than AR(1) or FAST.",
+          "defaults.mask.thresh = -Inf instead of 0.8, so implicit masking does not block explicit masks.",
+          "defaults.stats.maxmem = 2^33 (about 8.6 GB) depending on your RAM; defaults.stats.topoFDR = 0.",
+          "Every SPM analysis writes mask.nii; a voxel missing in one subject is dropped for the whole group, whereas CANlab tools analyze available subjects voxel-wise."
+        ]
+      }
+    ],
+    "key_terms": [
+      "Command Window",
+      "workspace",
+      "struct",
+      "cell array",
+      "script vs. function",
+      ".mat / .m / .mex",
+      "NIfTI",
+      "MNI space",
+      "spm_defaults.m",
+      "mask.nii"
+    ],
+    "takeaways": [
+      "MATLAB scripts run in your workspace; functions are isolated black boxes; SPM is mostly functions that read and write image files.",
+      "Know where your images are in space: NIfTI headers, an origin near the anterior commissure, and MNI versus Talairach.",
+      "Set your own SPM defaults (high-pass filter, autocorrelation model, mask threshold, memory) in spm_my_defaults.m rather than accepting the stock values."
+    ],
+    "hands_on": [
+      "Open MATLAB and identify the Command Window, Command History, Workspace, and Current Directory panels.",
+      "Use cd and ls to move to the mind folder and list its contents.",
+      "Type help spline and helpdesk to see the two forms of help.",
+      "Create variables: a = 5; name = 'Tor'; subj.id = 100; c = [1 2 3; 4 5 6; 7 8 9]; a cell array with { }.",
+      "Save the workspace with save mywkspace, clear, and reload with load.",
+      "Type which spm; if not found, use pathtool to add the SPM folder.",
+      "Try spm_vol and spm_read_vols on a course image, then spm_image('init', filename) to view it.",
+      "Review spm_defaults.m and create spm_my_defaults.m with the recommended hpf, cvi, mask.thresh, maxmem, and topoFDR settings."
+    ]
+  },
+  {
+    "id": "1.4",
+    "title": "Reproducible analysis: coding and data-management practices; CANlab tools install check",
+    "instructor": "Wager",
+    "duration": "0:30",
+    "type": "lecture",
+    "overview": "Lays out what a reproducible, interpretable, well-documented analysis looks like and why it matters: analysis errors are common, and results that others can rerun and build on are more trusted and more useful. Offers concrete recommendations for design, analysis, and sharing, then walks through version control with GitHub and installing the CANlab toolboxes.",
+    "sections": [
+      {
+        "heading": "Goals: the perfect analysis",
+        "points": [
+          "Reproducibility: you or someone else can rerun the whole analysis, figures and statistics included, with one command.",
+          "Interpretability and documentation: simple, commented code with standard variable names and a code book explaining every variable and the study context.",
+          "Code reuse: modular code; common operations use heavily vetted, tested functions.",
+          "Sanity checks built in: data inspection, assumption checks, and positive and negative controls (effects that should and should not appear).",
+          "History and sharing: track what changed when analysis options changed; share the data and code needed to reproduce results."
+        ]
+      },
+      {
+        "heading": "Why bother",
+        "points": [
+          "Errors are very common; minimize them with code that is reused and tested, clearly laid out, and seen by many eyes.",
+          "Replication record: about one third of 100 psychology studies replicated; Amgen reproduced 6 of 53 landmark cancer studies; 2 of 18 microarray studies fully reproduced.",
+          "Nick Barnes (Climate Code Foundation): most professional software is not very good either, so publish your code anyway.",
+          "Shared, understandable results are trusted and can be reused; publication is a starting point, not the endpoint.",
+          "Cumulative science: utility is value; building on your own and others' code and results moves the field forward."
+        ]
+      },
+      {
+        "heading": "Perfection versus pragmatics",
+        "points": [
+          "The perfect analysis is infinitely slow; the goal is the best analysis you can actually do.",
+          "Design: include positive controls; pre-register if you are testing a falsifiable hypothesis.",
+          "Analysis: reuse existing tools; move from GUI to scripts and develop in GitHub; progress from prototype to function to toolbox.",
+          "Generate time- and date-stamped reports so results are tied to a specific code state.",
+          "Sharing: share code and models via OpenfMRI and NeuroVault."
+        ]
+      },
+      {
+        "heading": "Version control with GitHub",
+        "points": [
+          "Version control lets you share openly or privately, reuse code, integrate changes from multiple contributors, track history, and revert.",
+          "Install GitHub Desktop, create an account, find a repository, and use Code > Open with GitHub Desktop to clone it.",
+          "GitHub Desktop shows recent changes and history and pulls the latest version to synchronize your copy.",
+          "If you develop code: commit changes, open pull requests, or merge branches; everything is also available from command-line git.",
+          "GIFT is also distributed on GitHub."
+        ]
+      },
+      {
+        "heading": "CANlab toolboxes install check",
+        "points": [
+          "CANlab tools (github.com/canlab, canlab.github.io) provide object-oriented data handling, machine learning, batch second-level workflows, mediation, robust regression, HRF modeling, and visualization.",
+          "Core idea: simple commands on data objects; images are vectorized, which suits pattern-based and machine-learning analyses.",
+          "Steps: make a local repository folder, clone CanlabCore, Neuroimaging_Pattern_Masks, MediationToolbox, and RobustToolbox, open MATLAB in that folder, and run canlab_toolbox_setup.",
+          "Workaround: clone individual toolboxes and add them to the path with subfolders.",
+          "Resources: Principles of fMRI book, canlab.github.io tutorials and walkthroughs, and the fMRI methods chapters (Handbooks 2007 to 2017)."
+        ]
+      }
+    ],
+    "key_terms": [
+      "reproducibility",
+      "code book",
+      "positive and negative controls",
+      "pre-registration",
+      "prototype to function to toolbox",
+      "date-stamped reports",
+      "version control",
+      "GitHub Desktop",
+      "CanlabCore",
+      "canlab_toolbox_setup"
+    ],
+    "takeaways": [
+      "Write analyses as scripts that rerun end to end, with sanity checks and controls built in, and document every variable.",
+      "Errors are the norm, not the exception; reuse tested code and get more eyes on it.",
+      "Use GitHub to keep toolboxes current and to track your own code; clone the CANlab repositories and run canlab_toolbox_setup."
+    ]
+  },
+  {
+    "id": "1.5",
+    "title": "Intro to SPM: data checking, reorienting data",
+    "instructor": "Kiehl",
+    "duration": "1:00",
+    "type": "hands-on",
+    "overview": "Introduces Statistical Parametric Mapping, its history and why it is widely used, then begins the preprocessing pipeline with the two steps people most often skip: looking at the raw images and reorienting them to resemble the SPM EPI template, and running ArtRepair to find and replace bad volumes. These steps give later registration the best possible starting point and produce covariates for the first-level model.",
+    "sections": [
+      {
+        "heading": "History of SPM",
+        "points": [
+          "Started in 1991 in response to PET studies that reduced large datasets to a few regions of interest, with poor localization and reproducibility.",
+          "Public release in 1994 (SPMclassic); SPM94 for PET, SPM95 added fMRI, SPM96 major revision, SPM97 added event-related fMRI.",
+          "SPM99, SPM2, SPM5/8 were successive revisions still in use; SPM12 is the current version."
+        ]
+      },
+      {
+        "heading": "Why SPM",
+        "points": [
+          "Free, relatively easy to use, with an active help list.",
+          "Platform independent because it runs in MATLAB, and relatively easy to modify.",
+          "About ten developers, thousands of users, and modules subjected to peer review.",
+          "Customizable through editing and a toolbox mechanism."
+        ]
+      },
+      {
+        "heading": "Data checking and reorientation with Display",
+        "points": [
+          "This may be the only time you look at your raw images: check orientation, voxel sizes, and artifacts.",
+          "Goal: adjust the images so they look like the SPM EPI template; the closer the match, the better the starting estimates for registration and normalization.",
+          "In Display, select s01_aod_run1.nii,1 and enter translations and rotations in the x, y, z boxes until the image resembles the template.",
+          "Click Reorient and apply the transform to all images in the run (and optionally all runs for the subject).",
+          "Outputs: s01_aod_run1.mat with the transformation, a modified .nii header, and optionally s01_aod_run1_reorient.mat; record the values in your code book."
+        ]
+      },
+      {
+        "heading": "Artifact detection and repair with ArtRepair",
+        "points": [
+          "Purpose: identify bad volumes caused by motion, gradient problems, or RF spikes.",
+          "Bad volumes are replaced by interpolated images and a covariate (0 everywhere, 1 at the repaired scan) is written for the first-level model.",
+          "Dialog choices: global mean Auto; realignment files No; select all images; always repair first scan No (it was already checked during reorientation).",
+          "If images are flagged, click Repair then interp; output is vs01_aod_run1.nii (v for volume repair).",
+          "Also written: art_repaired.txt (repaired image numbers), art_regressors.txt (one regressor per repaired image), and a JPEG of the summary plot."
+        ]
+      }
+    ],
+    "key_terms": [
+      "Statistical Parametric Mapping",
+      "Display routine",
+      "reorientation",
+      "EPI template",
+      "origin",
+      "ArtRepair",
+      "bad volume",
+      "interpolated volume",
+      "nuisance covariate"
+    ],
+    "takeaways": [
+      "Look at your raw data once, carefully, and make it resemble the SPM EPI template before any automated step.",
+      "Reorientation changes the header and writes a .mat transform; keep a record of what you changed.",
+      "ArtRepair replaces bad volumes and gives you regressors to include at the first level."
+    ],
+    "hands_on": [
+      "Start spm12 (type spm fmri) and click Display.",
+      "Navigate to c:\\mind\\data\\auditory_oddball\\AOD_raw\\s01\\run1, set the frame filter to [1:200], select s01_aod_run1.nii,1 and click Done.",
+      "Compare the image with the SPM EPI template (shown in the normalization slides).",
+      "Enter the provided x, y, z translation and rotation values in the boxes at lower left until the image resembles the template.",
+      "Click Reorient, select all images s01_aod_run1.nii,1 to 189 (right-click, Select All), click Done; save the reorient matrix if prompted.",
+      "Display the images again and click Origin to confirm SPM now has the updated orientation; repeat for s01 run2 and other subjects.",
+      "Open Toolboxes > Art Repair and click Bad volumes: detect and repair.",
+      "Answer: global mean = Auto; realignment files = No; select all frames of s01_aod_run1.nii; always repair first scan = No.",
+      "Inspect the plot; if volumes are flagged, click Repair and choose interp.",
+      "Check outputs: vs01_aod_run1.nii, art_repaired.txt, art_regressors.txt (to be entered as first-level covariates)."
+    ]
+  },
+  {
+    "id": "1.6",
+    "title": "Spatial preprocessing: realignment, slice timing, unwarp",
+    "instructor": "Kiehl",
+    "duration": "1:00",
+    "type": "hands-on",
+    "overview": "Explains why head motion is the dominant artifact in fMRI, how much motion is enough to matter, and the four lines of defense: prevention, detection and discarding, prospective correction, and post-processing realignment. Also covers physiological artifacts, movement-by-inhomogeneity interactions addressed by Unwarp, slice acquisition order, and the slice-timing problem. The hands-on part runs realignment with INRIAlign on the auditory oddball data.",
+    "sections": [
+      {
+        "heading": "How much motion matters",
+        "points": [
+          "Signal change from motion depends on how far the head moves and how sharp the local intensity edge is.",
+          "Inside the brain intensity varies only 10 to 20 percent, so a quarter-voxel shift (about 1 mm) gives a 3 to 5 percent change, BOLD-sized.",
+          "At the edge intensity varies 70 to 90 percent, so 1/20 of a voxel (about 187 microns) produces the same 3 to 5 percent change.",
+          "Most motion is random or slow drift and not task-correlated, so it rarely creates false activations, but it reduces sensitivity, especially near edges.",
+          "BOLD activity itself can sometimes be estimated as motion by the realignment algorithm."
+        ]
+      },
+      {
+        "heading": "Prevention, detection, and prospective correction",
+        "points": [
+          "Prevention: foam padding (not painfully tight) or bite bars; short TR, thin slices, sagittal acquisition; short runs and total scan time under about an hour.",
+          "Event-related designs are less vulnerable than blocked designs to motion that co-varies with task blocks.",
+          "Detection: know when motion occurred so you can log it, discard, or reacquire; real-time imaging allows this during the scan.",
+          "Prospective correction (Mayo group ONAV navigators; Lee et al. 1996, Ward et al. 2000) updates gradients each TR so acquisition tracks the head."
+        ]
+      },
+      {
+        "heading": "Quality assurance with ART",
+        "points": [
+          "Review data bottom-up: check behavior (especially clinical groups), create a mean functional image, and watch the time series as a movie.",
+          "ART plots movement in mm and radians, global mean, and standard deviations from the mean, and flags motion outliers, intensity outliers, and combined outliers.",
+          "Composite motion converts the six parameters into trajectories of six bounding-box points and takes the maximum scan-to-scan displacement.",
+          "ART saves regressor files (art_regression_outliers_*.mat, art_regression_outliers_and_movement_*.mat) and a new analysis mask; thresholds can be changed and re-saved."
+        ]
+      },
+      {
+        "heading": "Realignment: estimation and correction",
+        "points": [
+          "The target is usually the first image of each run (if it looks fine); every later image is registered to it through hidden iterations.",
+          "Six rigid-body parameters are estimated: three translations (x, y, z) and three rotations.",
+          "Cost functions: mean squared difference (AIR, SPM) can regress away real signal; INRIAlign (Freire and Mangin 2001) is robust to local changes and eye movements.",
+          "Correction resamples the images using the estimated parameters; interpolation options include linear, bicubic, Fourier, and chirp-z.",
+          "Multiband data (TR 460 ms) and conventional EPI (TR 2000 ms) give parameter plots at very different temporal resolutions."
+        ]
+      },
+      {
+        "heading": "Physiological artifacts and Unwarp",
+        "points": [
+          "Respiration causes oscillations in signal through both motion and changes in the B0 field; iterative subtraction movies (i1 minus i2, i2 minus i3) reveal them.",
+          "Solutions: filtering, prospective or retrospective gating, and fast multiband TR (0.4 s) that separates cardiac and respiratory spectra (Tong and Frederick 2014).",
+          "After realignment, residual variance remains from movement-by-inhomogeneity interactions: the distortion field changes with head position.",
+          "Options: acquire a field map at every time point (about 50 percent slower) or run Andersson's Unwarp afterward, which is CPU intensive.",
+          "Susceptibility summary: prevent with thin slices, short TE, shimming; sequences with z-shim or tailored RF; post-process with unwarping; prefer event-related designs."
+        ]
+      },
+      {
+        "heading": "Slice acquisition and slice timing",
+        "points": [
+          "Slices are acquired one at a time (2D imaging), interleaved or sequential; sequential needs a small gap, but effective slice thickness is the same.",
+          "After 3D head motion the slices are no longer parallel to the brain; spatio-temporal blurring occurs with sequential order and is compounded by interleaving.",
+          "Adjacent slices are about 70 ms apart in sequential order but 1 to 2 s apart in interleaved order.",
+          "Slice-timing problem (Henson et al. 1999): one model for all slices gives different results with a canonical HRF depending on the reference slice.",
+          "Solutions: temporal interpolation (adds error, worse at long TR) or fast TRs plus a derivative boost (Calhoun et al. 2004); largely moot with multiband EPI."
+        ]
+      }
+    ],
+    "key_terms": [
+      "rigid-body realignment",
+      "six motion parameters",
+      "INRIAlign",
+      "ART / composite motion",
+      "prospective motion correction",
+      "interpolation",
+      "physiological noise",
+      "movement-by-inhomogeneity interaction",
+      "Unwarp",
+      "slice-timing correction"
+    ],
+    "takeaways": [
+      "Sub-millimeter motion produces signal changes as large as BOLD, especially at edges, so prevention and detection come before correction.",
+      "Realignment estimates six parameters per volume; prefer a robust cost function (INRIAlign) so real activation is not regressed away as motion.",
+      "Distortion changes with head position (Unwarp) and slices are acquired at different times (slice timing); both matter less with fast multiband acquisitions."
+    ],
+    "hands_on": [
+      "In the SPM GUI click Utils > cd and set the working directory to c:\\mind.",
+      "Click Toolboxes > INRIAlign; when asked to check local parameters, choose use defaults.",
+      "Enter number of subjects = 4 (2 subjects x 2 sessions).",
+      "For s01 run1: go to c:\\mind\\data\\auditory_oddball\\AOD_raw\\s01\\run1, filter [1:200], right-click Select All (s01_aod_run1.nii,1 to 189), Done.",
+      "Repeat for s01\\run2 (s01_aod_run2.nii), s02\\run1 (s02_aod_run1.nii), and s02\\run2 (s02_aod_run2.nii).",
+      "Which option: coregister and reslice.",
+      "Reslice interpolation method: sinc.",
+      "Create what: mean image only.",
+      "Let INRIAlign run; check outputs rp_s01_aod_run1.txt (3 translations, 3 rotations), the motion plots in the spm_*.ps file, and means01_aod_run1.nii for each run."
+    ]
+  },
+  {
+    "id": "1.7",
+    "title": "Preprocessing: coregistration, normalization, smoothing",
+    "instructor": "Kiehl",
+    "duration": "1:00",
+    "type": "hands-on",
+    "overview": "Covers moving each participant's data into a common stereotactic space so results can be compared across people, studies, and labs, and then smoothing the normalized images. Contrasts Talairach and MNI spaces, compares two normalization pathways (mean EPI to T1 to template versus mean EPI directly to the EPI template), and explains what spatial smoothing buys and costs. Hands-on: Old Normalize with the EPI template and 8 mm smoothing.",
+    "sections": [
+      {
+        "heading": "Why normalize, and into what space",
+        "points": [
+          "Realignment aligns images within a person; normalization provides a mechanism for comparing data across labs and studies.",
+          "Talairach space: atlas by Talairach and Tournoux based on one French woman's brain; origin at the anterior commissure; oriented on the AC-PC line.",
+          "MNI space (adopted in SPM96): based on 304 normal subjects, more representative, and 10 to 15 percent larger than Talairach.",
+          "Much confusion in the literature; conversions between Talairach and MNI are needed for meta-analyses and ROI planning, and methods differ by group and software.",
+          "Manuscripts must state the actual space used."
+        ]
+      },
+      {
+        "heading": "What an EPI volume looks like",
+        "points": [
+          "Typical raw multiband EPI: 82 x 82 x 56 voxels at about 3 mm; after warping to MNI, 61 x 73 x 61 at 3 mm isotropic.",
+          "Non-uniform local fields cause through-plane dephasing: protons in different parts of a voxel drift out of phase by TE.",
+          "Dropout above the frontal sinus is worse for thick slices and at long TE (3 T examples from 21 to 60 ms).",
+          "EPI distortion appears as local compression or expansion depending on k-space direction; use the shortest possible encoding time."
+        ]
+      },
+      {
+        "heading": "Two normalization pathways",
+        "points": [
+          "Pathway A: coregister the mean EPI to the subject's T1, normalize the T1 to the T1 template, and apply those parameters to the EPI.",
+          "Problem with A: coregistration is a linear operation, so EPI warping and distortion are not accounted for unless you have field-map correction (which slows acquisition).",
+          "Pathway B: normalize the mean EPI directly to the EPI template; the nonlinear components account for EPI distortion (Calhoun et al. 2017, Human Brain Mapping).",
+          "Risk with B: if the mean EPI differs much from the EPI template, normalization can fail; tune the basis functions or build a site template.",
+          "Field-map correction improves either pathway when available."
+        ]
+      },
+      {
+        "heading": "Reslicing and checking the output",
+        "points": [
+          "Data must be resliced into MNI space with interpolation; sinc is likely best.",
+          "Choose the output voxel size: inputs were 3.44 x 3.44 x 5 mm; SPM's default is 2 mm isotropic; the course uses 3 mm.",
+          "Review the normalization postscript: it should report 4 x 5 x 4 basis functions; if 9 x 12 x 9, renormalize with nonlinear frequency cutoff 45.",
+          "Outputs: means01_aod_run1_sn.mat (native-to-MNI transform) and ws01_aod_run1.nii (warped images)."
+        ]
+      },
+      {
+        "heading": "Spatial smoothing",
+        "points": [
+          "Smoothing increases signal-to-noise if the blur is smaller than the activation; cortical activations are larger than subcortical ones such as thalamus.",
+          "It compensates for imperfect spatial normalization and for functional anatomy that differs across people even when structure is aligned.",
+          "It facilitates inter-subject comparison, and smooth data is an assumption of the statistical model.",
+          "Cost: small activations are reduced; future thresholding strategies may reduce the need for smoothing.",
+          "Implementation: 3D convolution with a Gaussian; a fuzzy-edged ball replaces each voxel with a weighted average of its neighbors.",
+          "The class uses 8 x 8 x 8 mm FWHM; rule of thumb is 2 to 3 times the original voxel size."
+        ]
+      }
+    ],
+    "key_terms": [
+      "spatial normalization",
+      "Talairach space",
+      "MNI space",
+      "AC-PC line",
+      "EPI template",
+      "coregistration",
+      "nonlinear basis functions",
+      "reslicing / sinc interpolation",
+      "Gaussian kernel",
+      "FWHM"
+    ],
+    "takeaways": [
+      "Report the space you actually used; MNI and Talairach differ by 10 to 15 percent and require conversion.",
+      "Normalizing the mean EPI directly to the EPI template handles EPI distortion that a linear coregistration to T1 cannot.",
+      "Smooth with a kernel of about 2 to 3 times the voxel size (8 mm here) to gain SNR and tolerance to anatomical variability, knowing that small activations will shrink."
+    ],
+    "hands_on": [
+      "In the SPM GUI click Utils > cd and set the working directory to c:\\mind.",
+      "Click Normalise; in the batch window delete the default Normalise module, then choose SPM > Tools > Old Normalise > Estimate & Write.",
+      "Expand Normalise: Estimate & Write, click Data, and click New Subject four times (2 subjects x 2 sessions).",
+      "For each Subject: Source Image = the mean EPI for that session (e.g., means01_aod_run1.nii); Images to Write = all frames s01_aod_run1.nii,1 to 189 (filter [1:200], Select All).",
+      "Under Estimation Options set Template Image to c:\\mind\\toolboxes\\spm12\\toolbox\\OldNorm\\EPI.nii; leave the rest at defaults.",
+      "Under Writing Options confirm the voxel size is 3 x 3 x 3 mm, then click Run.",
+      "Check the postscript output for 4 x 5 x 4 basis functions (if 9 x 12 x 9, rerun with nonlinear frequency cutoff = 45) and confirm *_sn.mat and ws01_aod_run1.nii files exist.",
+      "Click Smooth; under Images to Smooth click Specify, filter ^ws.* with frames 1:500, and use the recursive (R) button from AOD_raw to collect all runs.",
+      "Keep FWHM at [8 8 8], click Done, then click the green Run icon; output images are prefixed sw."
+    ]
+  },
+  {
+    "id": "1.8",
+    "title": "General Linear Model I: principles and fMRI",
+    "instructor": "Wager",
+    "duration": "1:00",
+    "type": "lecture",
+    "overview": "Introduces the General Linear Model as the workhorse of fMRI analysis: the model, its assumptions, how parameters are estimated, and what leverage and influence mean for design and outliers. Then shows how fMRI predictors are built by convolving stimulus functions with a hemodynamic response function, how a two-level (within-subject, then group) analysis is organized, and which files SPM writes at each stage.",
+    "sections": [
+      {
+        "heading": "Framework: two-level strategy",
+        "points": [
+          "Within-person questions: is the task effect greater than zero, or does brain activity track performance across trials?",
+          "Between-person questions: do task effects differ between groups or correlate with individual differences?",
+          "Level 1: fit a GLM in each voxel for each person and save summary statistics (betas, regression slopes).",
+          "Level 2: analyze those summary statistics across people (random effects) to determine what is significant at the population level."
+        ]
+      },
+      {
+        "heading": "The GLM family and its assumptions",
+        "points": [
+          "The GLM treats data as a linear combination of predictors plus noise; t-tests, ANOVA, ANCOVA, and OLS regression are all special cases.",
+          "Key assumption: errors are independent; violations invalidate the statistics. Normality and equal variance matter less.",
+          "The correlated-errors variant assumes a known dependence structure (repeated measures or time series), which is the fMRI situation.",
+          "Logistic regression is a GLM with a link function; a generalized inverse handles design matrices that are not full rank.",
+          "A decision flowchart maps predictor and outcome types to the classic named tests."
+        ]
+      },
+      {
+        "heading": "The model and how it is fit",
+        "points": [
+          "y = X beta + epsilon: data equal design matrix times parameters plus residuals; predictors are known, parameters are estimated.",
+          "Predictors can be categorical (sex) or continuous (performance); the intercept is a column of ones.",
+          "Fitting minimizes the sum of squared residuals; beta = pinv(X) times y, geometrically a projection of y onto the space spanned by X.",
+          "Crime-rate versus police-expenditure example: a strong association, but beware causal inference when causes like urbanicity are unmodeled.",
+          "In MATLAB the whole fit is X = [i x]; b = pinv(X) * y; e = y - X*b."
+        ]
+      },
+      {
+        "heading": "Leverage, influence, and power",
+        "points": [
+          "Leverage is how far an observation's predictor values are from the predictor mean; high-leverage points can strongly affect the fit.",
+          "Influence is how much an observation actually changes the betas; it requires both high leverage and a large residual (Cook's distance).",
+          "An outlier at the mean of x has zero leverage and does not change the slope.",
+          "Design take-home: extreme x values create power; observations at the mean add little, which is why experiments beat observational correlations per observation.",
+          "Analysis take-home: check for predictors with uneven leverage and for influential outliers."
+        ]
+      },
+      {
+        "heading": "Building fMRI predictors: the HRF and convolution",
+        "points": [
+          "Brief neural events produce a delayed, dispersed BOLD response; the HRF reflects blood oxygenation, flow, and volume (Buxton et al. 1998).",
+          "Empirical HRF: peak at 4 to 6 s, baseline by 20 to 30 s, sometimes an initial undershoot; similar in V1, A1, S1 but not necessarily elsewhere.",
+          "Vasodilation involves PGE2, COX-2, EETs, nitric oxide, and potassium; both glutamatergic and GABAergic transmission can drive it, and neuromodulators (ACh, NA, 5-HT, DA) shape it.",
+          "Linear time-invariant assumption: the predictor is the stimulus function (blocks or events) convolved with the HRF.",
+          "Each event type gets its own regressor (e.g., famous versus non-famous faces) and betas are compared with contrasts; factorial designs work the same way.",
+          "Assumptions to keep in mind: the neural activity function is right, the HRF is right, and the system is LTI."
+        ]
+      },
+      {
+        "heading": "The GLM pipeline in SPM",
+        "points": [
+          "SPM is mass univariate: the model is fit one voxel at a time to produce a statistical image.",
+          "Design specification is saved in SPM.mat; estimation writes beta_????.img and ResMS.img.",
+          "T-contrasts (c'b) write con_????.img and spmT_????.img; F-contrasts write ess.img and spmF_????.img.",
+          "Each participant's score is usually a contrast between conditions (e.g., task minus control) that goes to the group analysis.",
+          "Variance in the two-level model comes from unexplained error (E), design-related inefficiency (D), and individual differences (I)."
+        ]
+      }
+    ],
+    "key_terms": [
+      "General Linear Model",
+      "design matrix",
+      "beta (parameter estimate)",
+      "pseudoinverse",
+      "leverage and influence",
+      "hemodynamic response function (HRF)",
+      "convolution",
+      "linear time-invariant system",
+      "mass univariate",
+      "contrast image"
+    ],
+    "takeaways": [
+      "The GLM finds betas that minimize squared error; independence of errors is the assumption that matters most.",
+      "fMRI predictors are stimulus functions convolved with an HRF that peaks at 4 to 6 s and returns to baseline by 20 to 30 s.",
+      "Analyses are hierarchical: single-subject betas and contrasts (con images) feed a random-effects group test."
+    ]
+  },
+  {
+    "id": "1.9",
+    "title": "CANlab interactive tools: basic analysis and visualization",
+    "instructor": "Wager",
+    "duration": "0:30",
+    "type": "hands-on",
+    "overview": "A short walkthrough of the CANlab object-oriented tools using a MATLAB live script: load a set of first-level contrast images, check them for outliers, run a one-sample t-test with FDR thresholding, and visualize the results as slice montages, labeled region tables, and surface renderings. Shows how a full group analysis can be a handful of commands on a data object.",
+    "sections": [
+      {
+        "heading": "Setting up the tools",
+        "points": [
+          "You need the CanlabCore and Neuroimaging_Pattern_Masks repositories from GitHub (see canlab.github.io/setup).",
+          "Add each with subfolders: cd to the repository, g = genpath(pwd); addpath(g); then savepath.",
+          "The script follows the CANlab walkthrough; more examples are at canlab.github.io/walkthroughs."
+        ]
+      },
+      {
+        "heading": "Loading and inspecting data",
+        "points": [
+          "img_obj = load_image_set('emotionreg') loads 30 contrast images (reappraise versus look negative) from Wager et al. 2008 into an fmri_data object.",
+          "plot(img_obj) shows the images, runs an outlier analysis (global mean, global mean to variance, spatial MAD, missing values, Mahalanobis distance), and opens spm_check_registration.",
+          "The outlier table reports counts per criterion, uncorrected and Bonferroni corrected; one image is flagged as a likely outlier with whole-brain deactivation."
+        ]
+      },
+      {
+        "heading": "Running and thresholding the t-test",
+        "points": [
+          "t = ttest(img_obj) runs a one-sample t-test across images and returns a statistic_image object.",
+          "t = threshold(t, .05, 'fdr', 'k', 10) applies FDR q < 0.05 with an extent threshold of 10 contiguous voxels.",
+          "Output reports the FDR p threshold (0.003 here), number of clusters (9), and positive and negative voxel counts."
+        ]
+      },
+      {
+        "heading": "Showing results",
+        "points": [
+          "montage(t) draws sagittal and axial slice montages of the thresholded map.",
+          "r = region(t) converts the map into a region object with one element per contiguous cluster.",
+          "table(r) prints a table with volume, peak XYZ, max Z, and automatic labels from the CANlab_2018_combined atlas, with atlas references.",
+          "Columns such as Perc_covered_by_label and Atlas_regions_covered tell you how well a cluster matches a single atlas region."
+        ]
+      },
+      {
+        "heading": "Surface plots and customization",
+        "points": [
+          "surface(t) renders the map on a cortical surface; surface(t, 'foursurfaces') and surface(t, 'coronal_slabs') give alternative views.",
+          "addbrain('midbrain_group') and addbrain('hires left') build custom surface sets whose FaceColor and FaceAlpha you can set.",
+          "surface(t, 'surface_handles', handles) renders blobs on those custom surfaces; help t.surface lists options.",
+          "The toolkit uses MATLAB handle graphics, so run the code line by line to see what each step does."
+        ]
+      }
+    ],
+    "key_terms": [
+      "fmri_data object",
+      "load_image_set",
+      "statistic_image",
+      "ttest",
+      "threshold (FDR, extent k)",
+      "montage",
+      "region object",
+      "table (atlas labels)",
+      "surface",
+      "addbrain"
+    ],
+    "takeaways": [
+      "With the CANlab tools a group t-test, thresholding, and visualization take a few lines: load_image_set, ttest, threshold, montage, region, table.",
+      "Always run plot(img_obj) first; the outlier report can flag problem participants before you test.",
+      "Region tables and surface renderings are customizable objects, not static pictures."
+    ],
+    "hands_on": [
+      "Clone CanlabCore and Neuroimaging_Pattern_Masks from github.com/canlab if not already installed.",
+      "In MATLAB, cd to each repository, run g = genpath(pwd); addpath(g); then savepath.",
+      "img_obj = load_image_set('emotionreg'); to load the 30 emotion-regulation contrast images.",
+      "plot(img_obj) and review the outlier analysis and registration check.",
+      "t = ttest(img_obj); to run the one-sample t-test.",
+      "t = threshold(t, .05, 'fdr', 'k', 10); to threshold at FDR q < .05 with 10-voxel extent.",
+      "figure; axis off; montage(t); to view slice montages.",
+      "r = region(t); table(r); to list clusters with atlas labels.",
+      "surface(t); then try surface(t, 'foursurfaces') and surface(t, 'coronal_slabs').",
+      "Build custom surfaces with handles = addbrain('midbrain_group'); handles = [handles addbrain('hires left')]; set(handles, 'FaceColor', [1 .5 .7], 'FaceAlpha', 1); surface(t, 'surface_handles', handles)."
+    ]
+  }
+]

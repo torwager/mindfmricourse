@@ -1,0 +1,56 @@
+<p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Second Level (one sample t-test).</p>
+<p>We have prepared 50 subjects worth of data for this exercise.</p>
+<p>Two different contrasts have been included. Targets vs standards and
+Novels vs standards.</p>
+<p>These data are located in
+../mind/data/auditory_oddball/50subjects-stats/50_subs_contrast_images_target_stimuli</p>
+<p>These data are located in
+../mind/data/auditory_oddball/50subjects-stats/50_subs_contrast_images_target_stimuli</p>
+<p>Each of these directories contains 50 derivative boosted contrast
+images. Recall that the derivative boost adjusts the amplitude of the
+HRF to address latency effects. See the Calhoun et al paper.
+Importantly, the derivative boost is necessary if you want to utilize
+the temporal (and/or dispersion) components from the first level into
+the second level analyses.</p>
+<p>To start off second level (group) analyses, click on the spm button
+‘Specify 2<sup>nd</sup> level’. This will pull up a batch GUI. The batch
+GUI first requires you to specify a directory to place the statistics
+files in. So select:</p>
+<p>From here ../mind/data/auditory_oddball/50subjects-stats/ select</p>
+<p>“Group-stats-targets_vs_standards”</p>
+<p>The next data that needs to be entered are the contrast scans for
+analyses. Highlight/click on ‘scans’ and then go down to ‘specify’. Go
+to the directory:
+../mind/data/auditory_oddball/50subjects-stats/50_subs_contrast_images_target_stimuli
+and right click and select ALL the images.</p>
+<p>1-db_targets_vs_standards.img</p>
+<p>2-db_targets_vs_standards.img</p>
+<p>……</p>
+<p>50-db_targets_vs_standards.img</p>
+<p>Please note the ordering of the images in the matlab GUI – you will
+see that it selects them 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2,
+20, 21……. This is not from 1-50……so this is ok, but if you enter any
+covariates (i.e., age) then your vector of age data MUST match up to the
+order of these images…….(this ordering was done on purpose to highlight
+this common problem).</p>
+<p>Click ‘done’ once the images are selected.</p>
+<p><img
+src="../assets/img/guides/cheat_sheet_second_level_t-test_2021/image1.png"
+style="width:7.5in;height:7.16528in"
+alt="Graphical user interface, text, application Description automatically generated" /></p>
+<p>Click on the green arrow and this will compute the design matrix and
+create an SPM.mat file.</p>
+<p>Now click ‘estimate’ button in spm. Select the SPM.mat in the
+“Group-stats-targets_vs_standards” directory.</p>
+<p>The green arrow will illuminate. Click it to run this model.</p>
+<p>Now you may review the results.</p>
+<p>Click on ‘Results’. Select the SPM.mat file above.</p>
+<p>The contrast manager will come up. Define new contrast. Specify a
+name ‘target vs standard’. Enter a contrast value of ‘1’. Click submit,
+then click ok. Then click done.</p>
+<p>Estimate the contrast and then complete the subsequent steps (no
+masking, FWE, p &lt; .05) (thresholding at p &lt; .05 FWE Corrected) and
+this will display the group results. You may then play around with the
+display/plot routines to interrogate the data.</p>
+<p>Repeat the steps above if you want analyze the novel stimuli.</p>

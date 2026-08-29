@@ -1,0 +1,97 @@
+<p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Course Stats Processing.</p>
+<p>-fMRI model specification</p>
+<p>- Directory – ‘select
+c:\mind\data\auditory_oddball\AOD_raw\s01\stats’</p>
+<p>- Timing parameters –</p>
+<p>Units for design - select ‘scans’</p>
+<p>Interscan interval - enter ‘2’</p>
+<p>Microtime resolution – enter ‘30’</p>
+<p>Microtime onset – enter ‘15’</p>
+<blockquote>
+<p>-Data &amp; Design &lt;-X *click twice and add two
+subject/sessions</p>
+<p>+ subject/session</p>
+<p>Scans – enter all the ‘sw*.nii’ scans (smoothed/warped) for
+s01\run1\sw* - use the filter settings ‘sw.*’ in the window to help you
+select the right scans also use the filter settings [1:200] in the
+window to help you select the right scans Right click on mouse and
+‘select all’ images sws01_aod_run1.nii,1 to sws01_aod_run1.nii,189’)</p>
+<p>Conditions *click three times to add three conditions</p>
+<p>Name – ‘targets’</p>
+<p>Onsets – spm_load – then select s01\beh\targets_run1.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Condition (double click to highlight)</p>
+<p>Name ‘novels’</p>
+<p>Onsets – spm_load – then select s01\beh\novels_run1.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Condition (double click to highlight)</p>
+<p>Name ‘standards’</p>
+<p>Onsets – spm_load – then select s01\beh\nontargs_run1.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Multiple conditions</p>
+<p>Regressors</p>
+<p>Multiple regressors</p>
+<p>High-pass filter</p>
+<p>+Subject/session</p>
+<p>Scans – enter all the ‘sw*.nii’ scans (smoothed/warped) for
+s01\run2\sw* - use the filter settings ‘sw.*’ in the window to help you
+select the right scans also use the filter settings [1:200] in the
+window to help you select the right scans Right click on mouse and
+‘select all’ images sws01_aod_run2.nii,1 to sws01_aod_run2.nii,189’)</p>
+<p>Conditions *click three times to add three conditions</p>
+<p>Name – ‘targets’</p>
+<p>Onsets – spm_load – then select s01\beh\targets_run2.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Condition (double click to highlight)</p>
+<p>Name ‘novels’</p>
+<p>Onsets – spm_load – then select s01\beh\novels_run2.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Condition (double click to highlight)</p>
+<p>Name ‘standards’</p>
+<p>Onsets – spm_load – then select s01\beh\nontargs_run2.txt</p>
+<p>Durations -‘0’</p>
+<p>Time modulations</p>
+<p>Parametric modulations</p>
+<p>Multiple conditions</p>
+<p>Regressors</p>
+<p>Multiple regressors</p>
+<p>High-pass filter</p>
+<p>Factorial design</p>
+<p>Basis functions *click on this to expand</p>
+<p>-canonical HRF</p>
+<p>Model derivatives - select ‘time derivatives’</p>
+<p>Model interactions (volterra)</p>
+<p>Global normalization (none) *** recall we never want to accidently
+click ‘scale’ here – a big NO NO!</p>
+<p>Explicit Mask</p>
+<p>Serial Correlations *click to expand</p>
+<p>- Select None.</p>
+<p>Contrasts. So once you have modelled the data and also run thru the
+‘Estimate’ button, selecting the SPM.mat file in the stats directory you
+are ready to hit the ‘Results’ button and specify a contrast.</p>
+<p>A simple contrast you can specify is Targets vs Nontargets
+(Standards) and assuming you included the temporal derivative, this is
+the contrast for this: .5 0 0 0 -.5 0 .5 0 0 0 -.5 0 (run 1) target,
+target derivative, novel, novel derivative, standard, standard
+derivative, (run 2) target, target derivative, novel, novel derivative,
+standard, standard derivative, block effect, block effect) You can copy
+and paste this contrast in the contrast manager.</p>
+<p>If you did not model the temporal derivative, then use this contrast
+for targets vs standards.</p>
+<p>.5 0 -.5 .5 0 -.5 0 0 (target, novel, standard, target, novel,
+standard, block effect, block effect).</p>
+<p>Outputs are placed in the s01/stats directory. Always make sure to
+use ‘check reg’ and select the mask.img and a t1.img (from the canonical
+folder in spm) to see if your mask looks ok.</p>
+</blockquote>

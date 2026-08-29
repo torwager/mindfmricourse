@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.8 Autocorrelation and generalized linear models — fMRI Course</title>
+<meta name="description" content="This session covers temporal autocorrelation in fMRI noise, why it violates the independence assumption of ordinary least squares, and how generalized leas">
+<meta property="og:title" content="2.8 Autocorrelation and generalized linear models — fMRI Course">
+<meta property="og:description" content="This session covers temporal autocorrelation in fMRI noise, why it violates the independence assumption of ordinary least squares, and how generalized leas">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/rashid2014_states.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 2 · Modeling, connectivity, and ICA</p>
+        <div class="lec-meta"><span><b>Day 2</b></span><span><b>Session 2.8</b></span><span>Wager</span><span>1:00 h</span><span>Lecture</span></div>
+        <h1>Autocorrelation and generalized linear models</h1>
+        <p class="lede">This session covers temporal autocorrelation in fMRI noise, why it violates the independence assumption of ordinary least squares, and how generalized least squares with prewhitening addresses it. It describes autoregressive noise models, the iterative estimation procedure used in SPM (ReML via EM), differences among SPM, AFNI, and FSL, and practical guidance on when autocorrelation modeling matters.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>fMRI errors are autocorrelated, so OLS p-values and degrees of freedom are wrong for single-subject inference.</li><li>Prewhitening with an iteratively estimated AR or ARMA model (ReML via EM in SPM) restores valid inference when the noise model fits.</li><li>Choose the simplest adequate noise model; FAST or ARMA(1,1) generally outperform AR(1), and group analyses do not require autocorrelation modeling.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>temporal autocorrelation</li><li>white noise</li><li>AR(1) model</li><li>ARMA(1,1)</li><li>sphericity</li><li>generalized least squares (GLS)</li><li>prewhitening</li><li>Yule-Walker</li><li>ReML</li><li>FAST</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec2-8_d.jpg" alt="Discrete cosine basis set beside a box-car task regressor" loading="lazy" width="1158" height="1158"><figcaption><b>Discrete cosine basis set beside a box-car task regressor.</b> Lecture 2.8 slides (Wager)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>Types of noise</span></h3><ul><li>Post-acquisition options: remove noise (high-pass filtering, physiological models) or model its structure (autocorrelation, multilevel); the first helps more.</li><li>White noise: independent errors, flat power spectrum, no temporal correlation.</li><li>Structured noise arises from identifiable processes; stationary noise has constant mean, variance, and autocorrelation, nonstationary noise does not.</li><li>AR noise: carry-over of noise from previous time points, stationary; AR(1) is epsilon_t = phi * epsilon_(t-1) + eta_t, with higher phi meaning more autocorrelation.</li><li>Brownian (random walk) noise integrates independent innovations and is nonstationary, with variance growing over time.</li><li>1/f-like noise falls in power with frequency; AR models capture geometric decay of carry-over, MA terms capture non-propagating carry-over, and ARMA(1,1) includes both.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>Modeling approaches and software</span></h3><ul><li>Three options: assume independence (ignore), precoloring (SPM99 temporal smoothing), or prewhitening (preferred).</li><li>Prewhitening uses iterative estimation of the noise structure: AR(1) (SPM5), AR(1) plus white noise, ARMA(1,1).</li><li>SPM: AR(1) linear approximation, or FAST (linearization of an exponential); AFNI: ARMA(1,1); FSL: arbitrary autocorrelation function with a Tukey taper.</li><li>Estimation requires the variance, the AR phi parameter, and the degrees of freedom, via an iterative procedure (Box, Jenkins and Reinsel).</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-8_b.jpg" alt="AR(1) autocorrelation functions for several phi values" loading="lazy" width="487" height="387"><figcaption><b>AR(1) autocorrelation functions for several phi values.</b> Lecture 2.8 slides (Wager)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec2-8_a.jpg" alt="Autocorrelation matrix and its whitening matrix" loading="lazy" width="597" height="249"><figcaption><b>Autocorrelation matrix and its whitening matrix.</b> Lecture 2.8 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">03</span><span>The error covariance matrix and whitening</span></h3><ul><li>GLM: Y = X beta + epsilon with cov(epsilon) = V; OLS assumes sphericity, V = sigma^2 I.</li><li>Violations of sphericity: serial autocorrelation (AR(1) form with rho, rho^2, rho^3 off the diagonal), unequal variances, and repeated-measures covariance.</li><li>Whitening multiplies the data and design by a matrix derived from the inverse error covariance to decorrelate the time series.</li><li>Iteration: start with W = I (OLS), compute residuals, estimate sample autocovariance, fit AR parameters (Yule-Walker), build the whitening matrix, re-estimate betas.</li><li>The independence model versus an AR model really does make a difference to the resulting statistics.</li><li>ReML (restricted maximum likelihood) maximizes the likelihood of the residuals and gets degrees of freedom right; SPM finds ReML variance parameters with expectation maximization (EM).</li></ul></article><article class="osec glow rv"><h3><span class="n">04</span><span>Choosing an autocorrelation model</span></h3><ul><li>Aim for the simplest model that accurately describes the noise structure.</li><li>Complex models are more accurate with large, clean datasets but less precise with limited data; n = 500 simulations show more error variability.</li><li>FAST in SPM decomposes residual covariance into exponential and derivative terms and outperformed SPM AR(1) and FSL in several large datasets (Olszowy 2019).</li><li>Autocorrelation modeling is not needed for group analysis; it is needed for single-subject inference, which is often fragile anyway because of artifacts.</li><li>SPM2 through SPM12 use an AR(1) approximation pooled across the brain, which only helps if the AR model fits the data well.</li><li>FAST in SPM or AFNI&#x27;s ARMA(1,1) is preferred to AR(1) or FSL&#x27;s ACF in many cases; BROCCOLI uses voxelwise AR(4) by default.</li></ul></article><div class="fig-row "><figure class="figure glow"><img src="../assets/img/figures/lec2-8_c.jpg" alt="Flexible autocorrelation estimates across voxels with mean curve" loading="lazy" width="356" height="329"><figcaption><b>Flexible autocorrelation estimates across voxels with mean curve.</b> Lecture 2.8 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">05</span><span>Summary: issues in using the GLM for fMRI</span></h3><ul><li>Unknown neural response shape: assume one (event or epoch).</li><li>Delayed, dispersed BOLD response: use an HRF.</li><li>HRF shape varies across the brain: use basis functions.</li><li>Low-frequency noise and motion or cardiopulmonary artifacts: high-pass filter and model known noise sources.</li><li>Temporal autocorrelation violates GLM assumptions: use iterative autocorrelation models, or focus on group statistics and ignore it.</li></ul></article></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/rashid2014_states.jpg')"></div><div class="band-cap">Five dynamic connectivity states rendered on cortical surfaces — Rashid et al. (2014), Frontiers in Human Neuroscience</div></div><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-2-7.html"><small>Previous · 2.7</small><strong>Parametric modulators</strong></a><a class="next" href="lectures/session-2-9.html"><small>Next · 2.9</small><strong>Intro to connectivity and mediation; mediation demo/walkthrough</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

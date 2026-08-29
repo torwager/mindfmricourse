@@ -1,0 +1,20 @@
+<p>Spatial smoothing:</p>
+<p>Fire up spm gui. Click on the ‘Smooth’ button and it will populate
+the batch window.</p>
+<p><img src="../assets/img/guides/cheat_sheet_spatial_smoothing/image1.png"
+style="width:6.5in;height:6.22014in"
+alt="A screenshot of a computer Description automatically generated" /></p>
+<p>Click on the ‘specify’ button to select all the images you want to
+smooth.</p>
+<p>You should select the ‘warped/subject’ images. So select ‘^ws.*’ and
+then 1:500 in each s01/run1 and s01/run2 directory. For the class we
+used the default of 8x8x8 smoothing. In practice, 2-3 times the original
+voxel size is rule-of-thumb.</p>
+<p><img src="../assets/img/guides/cheat_sheet_spatial_smoothing/image2.png"
+style="width:6.5in;height:5.23472in"
+alt="A screenshot of a computer Description automatically generated" /></p>
+<p>You can use the ’recursive button’ at the ‘AOD_raw/ directory and it
+will autopopulate the ws.* images down all subdirectories in this tree.
+The ‘recursive’ button is the ? Ed R (the R next to the Done bar).</p>
+<p>Once the images are selected click ‘done’. Then click the green icon
+in the batch window to run.</p>

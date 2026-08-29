@@ -1,0 +1,962 @@
+[
+ {
+  "file": "lec0-0_a.jpg",
+  "lecture": "0.0",
+  "role": "figure",
+  "caption": "Block-design fMRI time series with fitted model",
+  "source": "Lecture 0.0 slides (Kiehl)",
+  "width": 481,
+  "height": 236,
+  "origin": "slides"
+ },
+ {
+  "file": "lec0-0_b.jpg",
+  "lecture": "0.0",
+  "role": "figure",
+  "caption": "SPM glass-brain projections and design matrix",
+  "source": "Lecture 0.0 slides (Kiehl)",
+  "width": 461,
+  "height": 261,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-1_a.jpg",
+  "lecture": "1.1",
+  "role": "figure",
+  "caption": "MRI scanner suite with patient table",
+  "source": "Lecture 1.1 slides (Kiehl)",
+  "width": 1600,
+  "height": 1200,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-1_b.jpg",
+  "lecture": "1.1",
+  "role": "figure",
+  "caption": "MRI-compatible response glove on the scanner bed",
+  "source": "Lecture 1.1 slides (Kiehl)",
+  "width": 1600,
+  "height": 1200,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-1_c.jpg",
+  "lecture": "1.1",
+  "role": "figure",
+  "caption": "Scanner control room with operator consoles",
+  "source": "Lecture 1.1 slides (Kiehl)",
+  "width": 1600,
+  "height": 1200,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2b_a.jpg",
+  "lecture": "1.2b",
+  "role": "figure",
+  "caption": "Blue-toned voxel correlation matrix graphic",
+  "source": "Lecture 1.2b slides (Wager)",
+  "width": 469,
+  "height": 401,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2b_b.jpg",
+  "lecture": "1.2b",
+  "role": "figure",
+  "caption": "CANlab object-oriented image analysis workflow map",
+  "source": "Lecture 1.2b slides (Wager)",
+  "width": 1094,
+  "height": 456,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2_a.jpg",
+  "lecture": "1.2",
+  "role": "figure",
+  "caption": "Phase-clock rendering of MR signal states",
+  "source": "Lecture 1.2 slides (Calhoun)",
+  "width": 1305,
+  "height": 1175,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2_b.jpg",
+  "lecture": "1.2",
+  "role": "figure",
+  "caption": "Spin-echo pulse sequence timing diagram",
+  "source": "Lecture 1.2 slides (Calhoun)",
+  "width": 835,
+  "height": 391,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2_c.jpg",
+  "lecture": "1.2",
+  "role": "figure",
+  "caption": "Sagittal T2-weighted structural MRI slice",
+  "source": "Lecture 1.2 slides (Calhoun)",
+  "width": 512,
+  "height": 511,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-2_d.jpg",
+  "lecture": "1.2",
+  "role": "figure",
+  "caption": "Coronal MRI with focal activation cluster",
+  "source": "Lecture 1.2 slides (Calhoun)",
+  "width": 511,
+  "height": 487,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-3_a.jpg",
+  "lecture": "1.3",
+  "role": "figure",
+  "caption": "Axial brain slices in a false-color map",
+  "source": "Lecture 1.3 slides (Wager)",
+  "width": 1522,
+  "height": 666,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-3_b.jpg",
+  "lecture": "1.3",
+  "role": "figure",
+  "caption": "Coronal, sagittal, and axial anatomical slices",
+  "source": "Lecture 1.3 slides (Wager)",
+  "width": 518,
+  "height": 518,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-3_c.jpg",
+  "lecture": "1.3",
+  "role": "figure",
+  "caption": "3-D head rendering with orthogonal slice planes",
+  "source": "Lecture 1.3 slides (Wager)",
+  "width": 1469,
+  "height": 1210,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-4_a.jpg",
+  "lecture": "1.4",
+  "role": "figure",
+  "caption": "Color mesh surface over the Boulder Flatirons",
+  "source": "Lecture 1.4 slides (Wager)",
+  "width": 904,
+  "height": 377,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-4_b.jpg",
+  "lecture": "1.4",
+  "role": "figure",
+  "caption": "Dog balancing on an agility seesaw",
+  "source": "Lecture 1.4 slides (Wager)",
+  "width": 600,
+  "height": 301,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-5_a.jpg",
+  "lecture": "1.5",
+  "role": "figure",
+  "caption": "Activation maps overlaid on anatomical slices",
+  "source": "Lecture 1.5 slides (Kiehl)",
+  "width": 375,
+  "height": 285,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-5_b.jpg",
+  "lecture": "1.5",
+  "role": "figure",
+  "caption": "Orthogonal views of an EPI functional volume",
+  "source": "Lecture 1.5 slides (Kiehl)",
+  "width": 432,
+  "height": 339,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-6_a.jpg",
+  "lecture": "1.6",
+  "role": "figure",
+  "caption": "Axial montage of group activation maps",
+  "source": "Lecture 1.6 slides (Kiehl)",
+  "width": 989,
+  "height": 989,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-6_b.jpg",
+  "lecture": "1.6",
+  "role": "figure",
+  "caption": "Head contour overlays before and after coregistration",
+  "source": "Lecture 1.6 slides (Kiehl)",
+  "width": 595,
+  "height": 312,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-6_c.jpg",
+  "lecture": "1.6",
+  "role": "figure",
+  "caption": "Artifact detection: time series and motion traces",
+  "source": "Lecture 1.6 slides (Kiehl)",
+  "width": 1059,
+  "height": 801,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-6_d.jpg",
+  "lecture": "1.6",
+  "role": "figure",
+  "caption": "Realignment translation and rotation estimates",
+  "source": "Lecture 1.6 slides (Kiehl)",
+  "width": 562,
+  "height": 539,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-7_a.jpg",
+  "lecture": "1.7",
+  "role": "figure",
+  "caption": "Montage of normalized functional slices",
+  "source": "Lecture 1.7 slides (Kiehl)",
+  "width": 612,
+  "height": 608,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-7_b.jpg",
+  "lecture": "1.7",
+  "role": "figure",
+  "caption": "3-D Gaussian smoothing kernel with FWHM",
+  "source": "Lecture 1.7 slides (Kiehl)",
+  "width": 492,
+  "height": 316,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-7_c.jpg",
+  "lecture": "1.7",
+  "role": "figure",
+  "caption": "Orthogonal views of a smoothed functional volume",
+  "source": "Lecture 1.7 slides (Kiehl)",
+  "width": 432,
+  "height": 339,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-8_a.jpg",
+  "lecture": "1.8",
+  "role": "figure",
+  "caption": "Voxel-wise effects across an axial brain slice",
+  "source": "Lecture 1.8 slides (Wager)",
+  "width": 567,
+  "height": 567,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-8_b.jpg",
+  "lecture": "1.8",
+  "role": "figure",
+  "caption": "Micrograph of cortical vasculature",
+  "source": "Lecture 1.8 slides (Wager)",
+  "width": 615,
+  "height": 615,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-8_c.jpg",
+  "lecture": "1.8",
+  "role": "figure",
+  "caption": "GLM schematic: data equals design matrix times betas",
+  "source": "Lecture 1.8 slides (Wager)",
+  "width": 879,
+  "height": 416,
+  "origin": "slides"
+ },
+ {
+  "file": "lec1-8_d.jpg",
+  "lecture": "1.8",
+  "role": "figure",
+  "caption": "Canonical hemodynamic response function",
+  "source": "Lecture 1.8 slides (Wager)",
+  "width": 650,
+  "height": 564,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day1_a.jpg",
+  "lecture": "1.1",
+  "role": "panel",
+  "caption": "MRI scanner suite with patient table",
+  "source": "Lecture 1.1 slides (Kiehl)",
+  "width": 1600,
+  "height": 912,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day1_b.jpg",
+  "lecture": "1.8",
+  "role": "panel",
+  "caption": "Three axial slices with simulated effect patterns",
+  "source": "Lecture 1.8 slides (Wager)",
+  "width": 1600,
+  "height": 668,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day1_c.jpg",
+  "lecture": "1.3",
+  "role": "panel",
+  "caption": "Axial brain slices in a false-color map",
+  "source": "Lecture 1.3 slides (Wager)",
+  "width": 1600,
+  "height": 720,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-1_a.jpg",
+  "lecture": "2.1",
+  "role": "figure",
+  "caption": "Stick-function event onsets and their HRF-convolved regressors",
+  "source": "Lecture 2.1 slides (Wager)",
+  "width": 541,
+  "height": 341,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-1_b.jpg",
+  "lecture": "2.1",
+  "role": "figure",
+  "caption": "Two-condition predicted BOLD time courses with event onsets",
+  "source": "Lecture 2.1 slides (Wager)",
+  "width": 660,
+  "height": 275,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-1_c.jpg",
+  "lecture": "2.1",
+  "role": "figure",
+  "caption": "Design covariance matrix shown as a heat map",
+  "source": "Lecture 2.1 slides (Wager)",
+  "width": 471,
+  "height": 401,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-1_d.jpg",
+  "lecture": "2.1",
+  "role": "figure",
+  "caption": "Observed data, box-car predictor, and residual noise over time",
+  "source": "Lecture 2.1 slides (Wager)",
+  "width": 1221,
+  "height": 1221,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-2_a.jpg",
+  "lecture": "2.2",
+  "role": "figure",
+  "caption": "Axial montage of task activation before nuisance filtering",
+  "source": "Lecture 2.2 slides (Wager)",
+  "width": 916,
+  "height": 916,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-2_b.jpg",
+  "lecture": "2.2",
+  "role": "figure",
+  "caption": "Convolved regressors for two conditions with event onsets",
+  "source": "Lecture 2.2 slides (Wager)",
+  "width": 1340,
+  "height": 674,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-2_c.jpg",
+  "lecture": "2.2",
+  "role": "figure",
+  "caption": "Low-frequency drift fit and its separation from task signal",
+  "source": "Lecture 2.2 slides (Wager)",
+  "width": 1156,
+  "height": 792,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-2_d.jpg",
+  "lecture": "2.2",
+  "role": "figure",
+  "caption": "Discrete cosine high-pass filter basis alongside a box-car task",
+  "source": "Lecture 2.2 slides (Wager)",
+  "width": 586,
+  "height": 586,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-3_a.jpg",
+  "lecture": "2.3",
+  "role": "figure",
+  "caption": "Scatter of two correlated predictors with regression line",
+  "source": "Lecture 2.3 slides (Wager)",
+  "width": 515,
+  "height": 469,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-3_b.jpg",
+  "lecture": "2.3",
+  "role": "figure",
+  "caption": "Two overlapping block predictors that are nearly collinear",
+  "source": "Lecture 2.3 slides (Wager)",
+  "width": 727,
+  "height": 303,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-3_c.jpg",
+  "lecture": "2.3",
+  "role": "figure",
+  "caption": "Simulated data points against a predictor",
+  "source": "Lecture 2.3 slides (Wager)",
+  "width": 405,
+  "height": 398,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-3_d.jpg",
+  "lecture": "2.3",
+  "role": "figure",
+  "caption": "Parameter estimates for two collinear predictors",
+  "source": "Lecture 2.3 slides (Wager)",
+  "width": 558,
+  "height": 363,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-4_a.jpg",
+  "lecture": "2.4",
+  "role": "figure",
+  "caption": "SPM glass-brain projection of a thresholded statistical map",
+  "source": "Lecture 2.4 slides (Kiehl)",
+  "width": 332,
+  "height": 300,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-4_b.jpg",
+  "lecture": "2.4",
+  "role": "figure",
+  "caption": "Global mean signal across scans before adjustment",
+  "source": "Lecture 2.4 slides (Kiehl)",
+  "width": 685,
+  "height": 518,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-4_c.jpg",
+  "lecture": "2.4",
+  "role": "figure",
+  "caption": "Glass-brain map showing widespread global-signal-related effects",
+  "source": "Lecture 2.4 slides (Kiehl)",
+  "width": 338,
+  "height": 300,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-5_a.jpg",
+  "lecture": "2.5",
+  "role": "figure",
+  "caption": "Basis-set fits of BOLD responses to mechanical versus heat stimulation",
+  "source": "Lecture 2.5 slides (Wager)",
+  "width": 1074,
+  "height": 820,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-5_b.jpg",
+  "lecture": "2.5",
+  "role": "figure",
+  "caption": "Hemodynamic response shapes for young and older adults",
+  "source": "Lecture 2.5 slides (Wager)",
+  "width": 562,
+  "height": 424,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-5_c.jpg",
+  "lecture": "2.5",
+  "role": "figure",
+  "caption": "Basis functions and the design matrices they generate",
+  "source": "Lecture 2.5 slides (Wager)",
+  "width": 579,
+  "height": 544,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-5_d.jpg",
+  "lecture": "2.5",
+  "role": "figure",
+  "caption": "Variable-duration versus constant-impulse models and their convolved predictors",
+  "source": "Lecture 2.5 slides (Wager)",
+  "width": 1600,
+  "height": 911,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-6_a.jpg",
+  "lecture": "2.6",
+  "role": "figure",
+  "caption": "Family of hemodynamic responses spanning delay and dispersion",
+  "source": "Lecture 2.6 slides (Calhoun)",
+  "width": 812,
+  "height": 670,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-6_b.jpg",
+  "lecture": "2.6",
+  "role": "figure",
+  "caption": "Activation gained by adding the temporal derivative term",
+  "source": "Lecture 2.6 slides (Calhoun)",
+  "width": 1014,
+  "height": 600,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-6_c.jpg",
+  "lecture": "2.6",
+  "role": "figure",
+  "caption": "Phase-shifted oscillations and the derivative-boost phase wheel",
+  "source": "Lecture 2.6 slides (Calhoun)",
+  "width": 834,
+  "height": 574,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-6_d.jpg",
+  "lecture": "2.6",
+  "role": "figure",
+  "caption": "Axial montage of derivative-boosted t statistics",
+  "source": "Lecture 2.6 slides (Calhoun)",
+  "width": 500,
+  "height": 500,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-7_a.jpg",
+  "lecture": "2.7",
+  "role": "figure",
+  "caption": "Variable-duration and constant-impulse models after HRF convolution",
+  "source": "Lecture 2.7 slides (Wager)",
+  "width": 1132,
+  "height": 665,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-7_b.jpg",
+  "lecture": "2.7",
+  "role": "figure",
+  "caption": "Impulse versus epoch models across stimulus durations",
+  "source": "Lecture 2.7 slides (Wager)",
+  "width": 583,
+  "height": 503,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-7_c.jpg",
+  "lecture": "2.7",
+  "role": "figure",
+  "caption": "Design matrix with duration-modulated parametric regressors",
+  "source": "Lecture 2.7 slides (Wager)",
+  "width": 514,
+  "height": 441,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-7_d.jpg",
+  "lecture": "2.7",
+  "role": "figure",
+  "caption": "Impulse and epoch event-coding schemes over time",
+  "source": "Lecture 2.7 slides (Wager)",
+  "width": 611,
+  "height": 381,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-8_a.jpg",
+  "lecture": "2.8",
+  "role": "figure",
+  "caption": "Autocorrelation matrix and its whitening matrix",
+  "source": "Lecture 2.8 slides (Wager)",
+  "width": 597,
+  "height": 249,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-8_b.jpg",
+  "lecture": "2.8",
+  "role": "figure",
+  "caption": "AR(1) autocorrelation functions for several phi values",
+  "source": "Lecture 2.8 slides (Wager)",
+  "width": 487,
+  "height": 387,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-8_c.jpg",
+  "lecture": "2.8",
+  "role": "figure",
+  "caption": "Flexible autocorrelation estimates across voxels with mean curve",
+  "source": "Lecture 2.8 slides (Wager)",
+  "width": 356,
+  "height": 329,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-8_d.jpg",
+  "lecture": "2.8",
+  "role": "figure",
+  "caption": "Discrete cosine basis set beside a box-car task regressor",
+  "source": "Lecture 2.8 slides (Wager)",
+  "width": 1158,
+  "height": 1158,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-9_a.jpg",
+  "lecture": "2.9",
+  "role": "figure",
+  "caption": "Cortical parcellation rendered on the lateral surface",
+  "source": "Lecture 2.9 slides (Wager)",
+  "width": 792,
+  "height": 680,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-9_b.jpg",
+  "lecture": "2.9",
+  "role": "figure",
+  "caption": "Mediation path maps on sagittal and axial brain slices",
+  "source": "Lecture 2.9 slides (Wager)",
+  "width": 1042,
+  "height": 801,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-9_c.jpg",
+  "lecture": "2.9",
+  "role": "figure",
+  "caption": "Brain mediation path diagram from noxious input to avoidance",
+  "source": "Lecture 2.9 slides (Wager)",
+  "width": 995,
+  "height": 962,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-9_d.jpg",
+  "lecture": "2.9",
+  "role": "figure",
+  "caption": "Trial-averaged BOLD time course with stimulus onset and offset",
+  "source": "Lecture 2.9 slides (Wager)",
+  "width": 527,
+  "height": 522,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-10_a.jpg",
+  "lecture": "2.10",
+  "role": "figure",
+  "caption": "ICA component maps with associated time courses on brain slices",
+  "source": "Lecture 2.10 slides (Calhoun)",
+  "width": 1600,
+  "height": 718,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-10_b.jpg",
+  "lecture": "2.10",
+  "role": "figure",
+  "caption": "PCA directions on a scatter of mixed sources",
+  "source": "Lecture 2.10 slides (Calhoun)",
+  "width": 468,
+  "height": 410,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-10_c.jpg",
+  "lecture": "2.10",
+  "role": "figure",
+  "caption": "Unmixed ICA source clusters",
+  "source": "Lecture 2.10 slides (Calhoun)",
+  "width": 472,
+  "height": 382,
+  "origin": "slides"
+ },
+ {
+  "file": "lec2-10_d.jpg",
+  "lecture": "2.10",
+  "role": "figure",
+  "caption": "ICA component time courses and their spatial maps",
+  "source": "Lecture 2.10 slides (Calhoun)",
+  "width": 735,
+  "height": 435,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day2_a.jpg",
+  "lecture": "2.10",
+  "role": "panel",
+  "caption": "ICA component maps with time courses on brain slices",
+  "source": "Lecture 2.10 slides (Calhoun)",
+  "width": 1600,
+  "height": 718,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day2_b.jpg",
+  "lecture": "2.9",
+  "role": "panel",
+  "caption": "Colored white-matter fiber tract renderings from multiple views",
+  "source": "Lecture 2.9 slides (Wager)",
+  "width": 1370,
+  "height": 600,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day2_c.jpg",
+  "lecture": "2.2",
+  "role": "panel",
+  "caption": "Tissue segmentation of axial brain slices in warm and cool tones",
+  "source": "Lecture 2.2 slides (Wager)",
+  "width": 1534,
+  "height": 679,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-1_a.jpg",
+  "lecture": "3.1",
+  "role": "figure",
+  "caption": "Predicted BOLD responses for block versus event-related designs",
+  "source": "Lecture 3.1 slides (Wager)",
+  "width": 627,
+  "height": 474,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-1_b.jpg",
+  "lecture": "3.1",
+  "role": "figure",
+  "caption": "Contrast efficiency as a function of inter-stimulus interval",
+  "source": "Lecture 3.1 slides (Wager)",
+  "width": 394,
+  "height": 385,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-1_c.jpg",
+  "lecture": "3.1",
+  "role": "figure",
+  "caption": "Axial activation map from a well-powered task contrast",
+  "source": "Lecture 3.1 slides (Wager)",
+  "width": 381,
+  "height": 393,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-1_d.jpg",
+  "lecture": "3.1",
+  "role": "figure",
+  "caption": "Design covariance structure of a task regressor matrix",
+  "source": "Lecture 3.1 slides (Wager)",
+  "width": 471,
+  "height": 401,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-2_a.jpg",
+  "lecture": "3.2",
+  "role": "figure",
+  "caption": "Voxel-wise group effects rendered as colored dots on an axial slice",
+  "source": "Lecture 3.2 slides (Wager)",
+  "width": 715,
+  "height": 715,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-2_b.jpg",
+  "lecture": "3.2",
+  "role": "figure",
+  "caption": "Autocorrelated error covariance matrix used in mixed-effects modeling",
+  "source": "Lecture 3.2 slides (Wager)",
+  "width": 960,
+  "height": 778,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-2_c.jpg",
+  "lecture": "3.2",
+  "role": "figure",
+  "caption": "Group activation rendered on an inflated cortical surface",
+  "source": "Lecture 3.2 slides (Wager)",
+  "width": 431,
+  "height": 328,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-2_d.jpg",
+  "lecture": "3.2",
+  "role": "figure",
+  "caption": "OLS versus robust (IRLS) group maps and their difference",
+  "source": "Lecture 3.2 slides (Wager)",
+  "width": 430,
+  "height": 348,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-4_a.jpg",
+  "lecture": "3.4",
+  "role": "figure",
+  "caption": "SPM-style glass brain showing thresholded t-statistics",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 381,
+  "height": 355,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-3_a.jpg",
+  "lecture": "3.3",
+  "role": "figure",
+  "caption": "Statistical peaks rising above the cortical surface as a random field",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 793,
+  "height": 793,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-3_b.jpg",
+  "lecture": "3.3",
+  "role": "figure",
+  "caption": "Thresholded contrast map shown in coronal and sagittal views",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 1094,
+  "height": 520,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-3_c.jpg",
+  "lecture": "3.3",
+  "role": "figure",
+  "caption": "Cluster-based versus voxel-based thresholding of a task map",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 862,
+  "height": 677,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-3_d.jpg",
+  "lecture": "3.3",
+  "role": "figure",
+  "caption": "Montage of axial slices with thresholded activation",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 747,
+  "height": 314,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-5_a.jpg",
+  "lecture": "3.5",
+  "role": "figure",
+  "caption": "ICA component loadings mapped onto lateral and medial cortical surfaces",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 1600,
+  "height": 1174,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-5_b.jpg",
+  "lecture": "3.5",
+  "role": "figure",
+  "caption": "Functional network connectivity matrix between ICA components",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 1432,
+  "height": 1415,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-5_c.jpg",
+  "lecture": "3.5",
+  "role": "figure",
+  "caption": "Color-coded ICA spatial components on axial slices",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 852,
+  "height": 539,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-5_d.jpg",
+  "lecture": "3.5",
+  "role": "figure",
+  "caption": "Gallery of intrinsic network components from group ICA",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 1167,
+  "height": 918,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-6_a.jpg",
+  "lecture": "3.6",
+  "role": "figure",
+  "caption": "Spatial ICA component maps on grey axial slices (GIFT output)",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 602,
+  "height": 582,
+  "origin": "slides"
+ },
+ {
+  "file": "lec3-6_b.jpg",
+  "lecture": "3.6",
+  "role": "figure",
+  "caption": "Group ICA component map displayed on axial slices",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 599,
+  "height": 570,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day3_a.jpg",
+  "lecture": "3.5",
+  "role": "panel",
+  "caption": "Gallery of ICA components estimated by two group-ICA methods",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 1600,
+  "height": 941,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day3_b.jpg",
+  "lecture": "3.5",
+  "role": "panel",
+  "caption": "Resting-state networks matched to BrainMap task networks",
+  "source": "Lecture 3.5 slides (Calhoun)",
+  "width": 1365,
+  "height": 738,
+  "origin": "slides"
+ },
+ {
+  "file": "panel_day3_c.jpg",
+  "lecture": "3.3",
+  "role": "panel",
+  "caption": "Brain maps of separable signal sources across axial slices",
+  "source": "Lecture 3.3 slides (Wager)",
+  "width": 1359,
+  "height": 647,
+  "origin": "slides"
+ }
+]

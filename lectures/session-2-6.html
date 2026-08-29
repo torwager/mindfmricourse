@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.6 Derivative boost — fMRI Course</title>
+<meta name="description" content="A short session on hemodynamic delays that vary across the brain, why adding a temporal derivative to the HRF only partly solves the problem, and how a &#x27;bo">
+<meta property="og:title" content="2.6 Derivative boost — fMRI Course">
+<meta property="og:description" content="A short session on hemodynamic delays that vary across the brain, why adding a temporal derivative to the HRF only partly solves the problem, and how a &#x27;bo">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/chang2015_pines_maps.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 2 · Modeling, connectivity, and ICA</p>
+        <div class="lec-meta"><span><b>Day 2</b></span><span><b>Session 2.6</b></span><span>Calhoun</span><span>0:15 h</span><span>Lecture</span></div>
+        <h1>Derivative boost</h1>
+        <p class="lede">A short session on hemodynamic delays that vary across the brain, why adding a temporal derivative to the HRF only partly solves the problem, and how a &#x27;boosted&#x27; amplitude estimate combining the HRF and derivative parameters removes latency-induced amplitude bias in group (random-effects) analyses.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>Hemodynamic delays vary by several seconds across the brain and bias amplitude estimates if ignored.</li><li>Adding an HRF derivative fits delays of about plus or minus 2 s but does not fix group-level bias on its own.</li><li>Combine the HRF and derivative parameters into a boosted contrast image before taking results to a random-effects analysis.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>spatially varying delay</li><li>slice-timing correction</li><li>temporal derivative</li><li>latency-induced amplitude bias</li><li>derivative boost</li><li>fixed vs. random effects</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec2-6_b.jpg" alt="Activation gained by adding the temporal derivative term" loading="lazy" width="1014" height="600"><figcaption><b>Activation gained by adding the temporal derivative term.</b> Lecture 2.6 slides (Calhoun)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>Spatially varying delays</span></h3><ul><li>Scan-related delays (up to half the TR) can be removed with slice-timing correction.</li><li>Brain-related delays of up to 4-5 s cannot be corrected at acquisition; we are stuck with them.</li><li>Ignoring delays biases the model toward regions whose response happens to match the assumed timing.</li><li>More flexible models (basis functions, FIR) handle delays; the simplest option is adding a derivative term to the HRF.</li><li>The derivative term allows the model to fit delays on the order of plus or minus 2 s.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>The derivative boost</span></h3><ul><li>Caveat: the derivative helps a fixed-effects analysis (absorbing variance, increasing significance) but a random-effects analysis remains biased if only the HRF beta is used.</li><li>Solution: compute a modified (boosted) contrast image using parameters from both the HRF and its derivative (Calhoun, Stevens, Pearlson and Kiehl, NeuroImage 2004).</li><li>Auditory oddball example: maps of (with derivative) minus (without derivative) for target and novel stimuli show where amplitude was underestimated.</li><li>The target-minus-novel comparison identifies regions exhibiting significant amplitude bias.</li><li>Related work estimates delay in functional network connectivity via dynamic coherence analysis (Yaesoubi et al. 2015).</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-6_a.jpg" alt="Family of hemodynamic responses spanning delay and dispersion" loading="lazy" width="812" height="670"><figcaption><b>Family of hemodynamic responses spanning delay and dispersion.</b> Lecture 2.6 slides (Calhoun)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec2-6_c.jpg" alt="Phase-shifted oscillations and the derivative-boost phase wheel" loading="lazy" width="834" height="574"><figcaption><b>Phase-shifted oscillations and the derivative-boost phase wheel.</b> Lecture 2.6 slides (Calhoun)</figcaption></figure></div></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/chang2015_pines_maps.jpg')"></div><div class="band-cap">PINES negative-affect signature rendered on cortical surfaces — Chang et al. (2015), PLoS Biology</div></div><section class="section"><div class="wrap"><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-6_d.jpg" alt="Axial montage of derivative-boosted t statistics" loading="lazy" width="500" height="500"><figcaption><b>Axial montage of derivative-boosted t statistics.</b> Lecture 2.6 slides (Calhoun)</figcaption></figure></div></div></section><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-2-5.html"><small>Previous · 2.5</small><strong>Basis sets: flexible hemodynamic modeling</strong></a><a class="next" href="lectures/session-2-7.html"><small>Next · 2.7</small><strong>Parametric modulators</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

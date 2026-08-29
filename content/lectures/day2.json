@@ -1,0 +1,755 @@
+[
+  {
+    "id": "2.1",
+    "title": "GLM model building: predictors and contrasts",
+    "instructor": "Wager",
+    "duration": "0:30",
+    "type": "lecture",
+    "overview": "This session moves from a single-regressor GLM to designs with multiple event types, and introduces contrasts as the tool for testing differences, averages, and custom hypotheses on the fitted betas. It sets out the two practical rules for T-contrasts, an expected value of zero under the null and consistent scaling, and explains why scaling matters when contrast images are carried to a group analysis, especially when participants have missing runs.",
+    "sections": [
+      {
+        "heading": "From single-predictor to multiple-predictor designs",
+        "points": [
+          "Famous vs. non-famous faces example: the question is a difference between two conditions.",
+          "In a block design a single regressor can directly capture the famous-minus-non-famous difference.",
+          "Basic first-level design matrix: an intercept plus a task regressor, with betas as slopes and residuals left over.",
+          "In event-related designs, model each event type as its own regressor.",
+          "With separate regressors you can test the difference, each condition alone, or their average, each via a different linear contrast."
+        ]
+      },
+      {
+        "heading": "Contrasts as a flexible tool",
+        "points": [
+          "A contrast is a linear combination of GLM parameters, specified by a weight vector c so that c-transpose-beta is a scalar.",
+          "A T-contrast is a single planned comparison tested with a t-test; weights are signed (positive or negative).",
+          "ANOVA-style contrasts express planned comparisons, e.g., weights [1 1 -1 -1] give the main effect (A+B) minus (C+D).",
+          "C can be a matrix; each column is applied independently and is a separate test.",
+          "Custom contrasts are not limited to ANOVA effects; specify whatever planned tests follow from your hypotheses."
+        ]
+      },
+      {
+        "heading": "Rule 1: expected value must be zero under the null",
+        "points": [
+          "Null hypothesis is c-transpose-beta = 0, alternative is not equal to 0, which permits a t-test.",
+          "When testing a difference between conditions, the contrast weights should sum to zero.",
+          "Exception: testing the average of one or more conditions against the implicit baseline, e.g., H0: (betaA + betaB)/2 = 0.",
+          "This works because regression betas are signed and zero under the null, so testing against zero is reasonable."
+        ]
+      },
+      {
+        "heading": "Rule 2: scaling of contrast weights",
+        "points": [
+          "For a single subject, weight scaling changes the contrast magnitude but not t- or p-values; [1 -1] and [.5 -.5] are equivalent.",
+          "In imaging, contrast magnitudes (con images) go to group analysis, so scale must be comparable across participants.",
+          "Contrast weights must be the same for all participants; beware of missing sessions or runs.",
+          "Summing across three runs ([1 1 1]) is not equivalent to summing across four; the scale becomes 3*(F-N) vs. 2*(F-N) even with identical activation.",
+          "Fix: scale so the contrast is mean(F) minus mean(N) across runs, i.e., positive weights sum to +1 and negative weights sum to -1.",
+          "Consistent scaling also supports interpreting contrast values on a meaningful scale such as percent signal change."
+        ]
+      }
+    ],
+    "key_terms": [
+      "contrast",
+      "contrast weight vector (c)",
+      "T-contrast",
+      "ANOVA contrast",
+      "planned comparison",
+      "implicit baseline",
+      "con image",
+      "contrast scaling",
+      "missing runs"
+    ],
+    "takeaways": [
+      "Model each event type separately in event-related designs, then use contrasts to test differences, averages, or custom hypotheses.",
+      "Contrasts testing differences should sum to zero; tests against the implicit baseline are the exception.",
+      "Use the same weights for every participant and scale positive and negative weights to sum to +1 and -1 so missing runs do not change the contrast scale."
+    ]
+  },
+  {
+    "id": "2.2",
+    "title": "GLM filtering and nuisance regressors",
+    "instructor": "Wager",
+    "duration": "0:30",
+    "type": "lecture",
+    "overview": "This session surveys the main sources of noise in fMRI time series (scanner drift, spikes, physiological fluctuations, head motion) and the post-acquisition tools for removing them: high-pass filtering, outlier indicator regressors, physiological models, and motion covariates. It uses a real conditioning dataset to show how task-correlated motion produces implausible results, discusses the trade-offs of scrubbing, and frames covariate selection as a causal-inference decision. Practical tools in SPM and CANlab are described.",
+    "sections": [
+      {
+        "heading": "Sources and consequences of noise",
+        "points": [
+          "Scanner instability: slow drift over time and transient spikes or gradient artifacts.",
+          "Physiological noise: heartbeat, respiration, and head movement, which interact with the magnetic field and cause artifacts.",
+          "Thermal noise is inherent signal instability but is much smaller than the first two sources.",
+          "Consequences: reduced power, artifacts and bias, and violation of the independence assumption, so single-subject p-values are invalid without a noise model.",
+          "Two strategies: model and remove noise (high-pass filtering, physiological regressors) or model the noise structure (autocorrelation, multilevel models); the first helps much more.",
+          "Ciric et al. 2018 review many approaches to motion mitigation in connectivity, including movement-related regressors."
+        ]
+      },
+      {
+        "heading": "Nuisance covariates and drift",
+        "points": [
+          "The GLM Y = X beta + noise has an error covariance V whose form depends on the noise model.",
+          "Nuisance regressors capture known variance unrelated to the hypothesis: drift, physiological artifacts, and head motion.",
+          "Motion is typically six regressors (three translations, three rotations), sometimes with transformations added.",
+          "Drift is slow low-frequency change seen even in cadavers, so scanner instability rather than motion is the main cause.",
+          "Model drift with splines, polynomial bases, or a discrete cosine basis (the approach behind SPM high-pass filtering)."
+        ]
+      },
+      {
+        "heading": "High-pass filtering and choosing a cutoff",
+        "points": [
+          "Typical noise is 1/f: most variance sits at low frequencies (slow drift).",
+          "High-pass filtering removes variation below a cutoff; the SPM default is 128 s (0.0078 Hz).",
+          "A 16 s on/off block design oscillates at a 32 s period (0.031 Hz), above the cutoff, so filtering removes noise but keeps signal.",
+          "Random event-related designs spread variance across frequencies; in the example an 80 s (0.0125 Hz) filter removed about 12% of contrast variance.",
+          "Rule of thumb: twice the longest periodicity in the design plus 20-30 s for safety, since real physiological signals are irregular.",
+          "For event-related designs, inspect the effect of the filter on regressors and especially contrasts, and do not remove too much."
+        ]
+      },
+      {
+        "heading": "Spikes, physiological noise, and aliasing",
+        "points": [
+          "Transient gradient artifacts appear as bright bands in individual slices; detect outliers via the global mean and successive differences (RMSSD).",
+          "Model flagged volumes with one indicator regressor per bad image.",
+          "Respiration and heartbeat are periodic and often alias into task frequencies; they are hard to remove and contribute to autocorrelation.",
+          "Nyquist limit: signals above half the sampling rate alias to lower frequencies; at TR = 2 s anything above 0.25 Hz aliases.",
+          "A realistic heartbeat at TR = 1 s aliases into low frequencies; avoiding most aliasing would require TR under 500 ms.",
+          "RETROICOR and RVHRCOR (Glover 2000; Chang and Glover 2009) model cardiac and respiratory phase, respiration volume, and heart rate."
+        ]
+      },
+      {
+        "heading": "Head motion: covariates, scrubbing, and a case study",
+        "points": [
+          "Realignment corrects position but not field changes and spin-history artifacts induced by motion.",
+          "Solutions: nuisance regressors (movement and global CSF covariates) or scrubbing (dropping high-motion images as missing data).",
+          "A 24-covariate motion model: centered parameters, their squares, successive differences, and squared differences (Lund et al. 2006).",
+          "CS+ vs. CS- shock conditioning (N = 25): task-correlated motion and spikes did not average out and produced implausible whole-brain activation or deactivation.",
+          "Diagnostic: histograms of contrast values across the brain per subject should be roughly mean zero and on the same scale (fmri_data.plot).",
+          "Adding motion covariates with squares and derivatives plus spike regressors removed implausible ventricle deactivation and revealed the expected cingulate pattern."
+        ]
+      },
+      {
+        "heading": "To scrub or not, when to control, and practical tools",
+        "points": [
+          "Scrubbing concerns: data missing not at random, altered error distribution and autocorrelation, interpolation ignored in degrees of freedom, and no ground truth.",
+          "A matter of degree: removing about 1-3% of images via nuisance regressors is typical; lenient censoring produced better parcellations than strict censoring in recent work.",
+          "Covariate choice requires causal reasoning: adjust for confounders (back-door paths), generally not for mediators, descendants of mediators, or colliders.",
+          "Controlling for a collider opens a spurious path (collider bias); global signal regression is one example.",
+          "CANlab tools: movement_regressors() and fmri_data.outliers() flag outliers from global mean, missing values, RMSSD (dvars), Mahalanobis distance, and framewise displacement.",
+          "fmri_data.denoise_timeseries_pipeline removes motion, run intercepts, outliers, and filter effects at once, since sequential removal can reintroduce artifacts (Lindquist et al. 2019)."
+        ]
+      }
+    ],
+    "key_terms": [
+      "high-pass filter",
+      "discrete cosine basis",
+      "1/f noise",
+      "Nyquist limit",
+      "aliasing",
+      "RETROICOR",
+      "nuisance regressor",
+      "24-parameter motion model",
+      "scrubbing",
+      "collider bias"
+    ],
+    "takeaways": [
+      "Removing known noise (high-pass filtering, motion and spike regressors, physiological models) helps far more than modeling the residual noise structure.",
+      "Choose the high-pass cutoff relative to the design's longest periodicity and check how much contrast variance an event-related design loses.",
+      "Task-correlated motion does not average out at the group level; include motion covariates and outlier indicators, scrub sparingly, and reason causally about which covariates to add."
+    ]
+  },
+  {
+    "id": "2.3",
+    "title": "GLM multicollinearity and diagnostics",
+    "instructor": "Wager",
+    "duration": "0:45",
+    "type": "lecture",
+    "overview": "This session reviews the statistical assumptions behind GLM p-values and what happens when each is violated, then focuses on two practical hazards in fMRI regression: multicollinearity among predictors and high-leverage observations. It introduces variance inflation factors, the hat matrix, and robust or nonparametric alternatives, and shows how to check an SPM design with CANlab's scn_spm_design_check.",
+    "sections": [
+      {
+        "heading": "Review: the SPM first-level pipeline and its assumptions",
+        "points": [
+          "SPM is mass univariate: design specification saved in SPM.mat, model estimation, contrasts, and results, one voxel at a time.",
+          "Outputs: beta images, ResMS.img (error variance), con images (c-transpose-b), spmT images, and ess and spmF images for F-contrasts.",
+          "Predictors are built by convolving indicator (onset) functions with an assumed HRF basis function.",
+          "This assumes the neural activity function is correct, the HRF is correct, and the system is linear and time-invariant."
+        ]
+      },
+      {
+        "heading": "Assumptions required for valid p-values",
+        "points": [
+          "Identically distributed: if violated, subgroups can mask or reverse effects and outliers can dominate even large samples.",
+          "Independence: if violated, p-values are too liberal, nominal degrees of freedom are overestimated, and slopes are unbiased but more variable.",
+          "Linearity: if violated, power is lost or inference is incorrect, especially in multiple regression.",
+          "Normality: if violated, p-values are wrong with no simple rule for the direction of error.",
+          "Equal variance (homoscedasticity): if violated, p-values are too liberal and degrees of freedom overestimated.",
+          "Remedies: SPMd diagnostics (Luo and Nichols), log transforms for skewed behavioral data, nonparametric tests (SnPM, Spearman), and robust regression (IRLS)."
+        ]
+      },
+      {
+        "heading": "Multicollinearity",
+        "points": [
+          "Correlated predictors increase the variance (uncertainty) of parameter estimates because it is unclear which predictor should be assigned credit.",
+          "Which predictor fits best depends only on the time points where the predictor values differ.",
+          "Inference on one beta depends on getting the model for the other parameters right, including predictors you did not know to include.",
+          "Interpretation is model-dependent: the sign of a beta can flip after controlling for an omitted grouping variable collinear with it.",
+          "Nuisance regressors may be correlated with each other as long as you do not interpret their individual betas; the spanned subspace is what is controlled."
+        ]
+      },
+      {
+        "heading": "Practical: variance inflation factors and design checks",
+        "points": [
+          "VIF is the multiplicative increase in error variance due to design collinearity; VIF = 2 means error variance is doubled.",
+          "VIF reflects how much of a regressor is explained by a linear combination of the others; condition number is an alternative index.",
+          "Pairwise correlations are not enough; a regressor can be predicted by a combination of others even when each pairwise correlation is modest.",
+          "Steps: download CanlabCore from github.com/canlab, add to the MATLAB path with subfolders, go to the single-subject SPM directory, run scn_spm_design_check.",
+          "Run the check after specifying contrasts: contrasts must be uniquely estimable and should not lose variance to high-pass filtering, even when individual regressors look fine."
+        ]
+      },
+      {
+        "heading": "Leverage and outliers",
+        "points": [
+          "In null data with N = 50, a single outlier can create a spurious significant effect.",
+          "Influence, the pull on the fit, increases with the square of the distance from the regression line.",
+          "Hat matrix H = X (X'X)^-1 X'; H times the data gives fitted values and diag(H) gives each point's leverage.",
+          "Check leverages at the second level, where every voxel is regressed on the same behavioral or clinical predictors.",
+          "Fixes: censor or winsorize outliers with caution, or use robust regression (IRLS) to minimize the influence of outliers at high-leverage points."
+        ]
+      },
+      {
+        "heading": "Take-home",
+        "points": [
+          "Check for multicollinearity: look at the design matrix visually and compute VIFs.",
+          "Check leverages, especially in group-level brain-behavior regressions.",
+          "P-, t-, and Z-values are only valid if the GLM assumptions hold.",
+          "A predictor with a significant fit does not by itself establish that it is the right explanation; interpretation depends on the full model."
+        ]
+      }
+    ],
+    "key_terms": [
+      "multicollinearity",
+      "variance inflation factor (VIF)",
+      "condition number",
+      "estimability",
+      "hat matrix",
+      "leverage",
+      "influence",
+      "homoscedasticity",
+      "robust regression (IRLS)",
+      "scn_spm_design_check"
+    ],
+    "takeaways": [
+      "Valid p-values require independence, identical distributions, linearity, normality, and equal variance; check diagnostics rather than assuming them.",
+      "Collinear predictors inflate parameter variance and make betas model-dependent; use VIFs and scn_spm_design_check, not just pairwise correlations.",
+      "High-leverage points can create or hide effects, particularly in second-level brain-behavior regressions; check leverages and consider robust regression."
+    ]
+  },
+  {
+    "id": "2.4",
+    "title": "SPM GUI for single subjects: explore design, scaling, results",
+    "instructor": "Kiehl",
+    "duration": "1:30",
+    "type": "hands-on",
+    "overview": "A hands-on session in which participants specify, estimate, and view results for a single-subject auditory oddball model in the SPM GUI, using the course cheat sheet. The lecture component explains the types of intensity scaling in SPM, session (mean) scaling versus proportional (global) scaling, and why proportional scaling can produce both false positives and false negatives when the global signal correlates with the task.",
+    "sections": [
+      {
+        "heading": "Session (mean intensity) scaling",
+        "points": [
+          "Also called global mean scaling, block effect, or mean intensity scaling.",
+          "Purpose: remove intensity differences between runs, i.e., differences in the mean of the whole time series.",
+          "Runs can have different mean values, so between-run variance must be compensated for.",
+          "Each run is usually scaled to a mean of 100 (or 50 or similar)."
+        ]
+      },
+      {
+        "heading": "Proportional (global) scaling and its dangers",
+        "points": [
+          "Proportional scaling divides each scan's intensities by that scan's mean over all voxels (the global brain mean).",
+          "Intended to remove global drifts and improve sensitivity.",
+          "The global mean must be independent of task activity; if it correlates with the task, scaling can dramatically change the results.",
+          "A voxel of no interest divided by a task-correlated global signal appears negatively correlated with the task: a false deactivation (Type I error).",
+          "A task-related voxel divided by a task-correlated global signal becomes nearly flat and is missed (Type II error).",
+          "In the SPM batch, global normalisation should be left at 'none'; do not click 'scale'."
+        ]
+      },
+      {
+        "heading": "Evidence: adjusted proportional scaling in an oddball study",
+        "points": [
+          "Desjardins, Kiehl and Liddle (2001) compared no scaling, proportional scaling, and adjusted proportional scaling (global signal orthogonalized to the covariates of interest).",
+          "For target responses, proportional scaling produced considerably fewer activations; no scaling and adjusted scaling looked similar.",
+          "Z-scores were highest with adjusted scaling and lowest with proportional scaling, e.g., SMA: 12.79 (none), 10.39 (proportional), 13.17 (adjusted).",
+          "Novel-stimulus activations were similar across methods, consistent with a low correlation between the global signal and the novel covariate.",
+          "The component removed by orthogonalization was small: global signal SD 0.157% of mean, difference between global and adjusted global 0.0328%.",
+          "Further reading: Macey et al. 2004, Aguirre et al. 1998, Andersson 1997, Andersson et al. 2001."
+        ]
+      },
+      {
+        "heading": "Specifying and estimating the single-subject model in SPM",
+        "points": [
+          "Data: subject s01 of the auditory oddball dataset, two runs of 189 smoothed, warped volumes (sws01_aod_run1.nii, sws01_aod_run2.nii).",
+          "Timing parameters: units in scans, interscan interval 2, microtime resolution 30, microtime onset 15.",
+          "Three conditions per run (targets, novels, standards) with onsets loaded via spm_load from the s01\\beh text files and duration 0.",
+          "Basis functions: canonical HRF with time derivatives; global normalisation none; serial correlations none.",
+          "Contrast columns per run are target, target derivative, novel, novel derivative, standard, standard derivative, followed by two block effects.",
+          "Use Check Reg with mask.img and a canonical T1 to confirm the analysis mask looks reasonable."
+        ]
+      }
+    ],
+    "key_terms": [
+      "session scaling",
+      "proportional scaling",
+      "global brain mean",
+      "adjusted proportional scaling",
+      "Type I and Type II errors",
+      "fMRI model specification",
+      "microtime resolution",
+      "temporal derivative",
+      "contrast manager",
+      "Check Reg"
+    ],
+    "takeaways": [
+      "Session scaling removes between-run mean differences and is standard; proportional scaling divides by the global mean and is risky.",
+      "If the global signal correlates with the task, proportional scaling creates false deactivations and hides true activations; leave global normalisation at none.",
+      "In SPM the design is built from onsets per condition and run, estimated from SPM.mat, and tested with contrast vectors that must match the column order including derivatives and block effects."
+    ],
+    "hands_on": [
+      "Open SPM, fMRI model specification; set Directory to c:\\mind\\data\\auditory_oddball\\AOD_raw\\s01\\stats.",
+      "Timing parameters: Units for design = scans; Interscan interval = 2; Microtime resolution = 30; Microtime onset = 15.",
+      "Data & Design: add two subject/sessions. For run 1, select sws01_aod_run1.nii frames 1-189 using filter 'sw.*' and frames [1:200]; right-click and 'select all'.",
+      "Add three conditions for run 1: targets (onsets via spm_load from s01\\beh\\targets_run1.txt), novels (novels_run1.txt), standards (nontargs_run1.txt); Durations = 0; leave time and parametric modulations empty.",
+      "Repeat for run 2 with sws01_aod_run2.nii and the run2 onset files.",
+      "Basis functions: canonical HRF; Model derivatives = time derivatives. Leave Volterra interactions off.",
+      "Global normalisation = none (never 'scale'); Explicit mask empty; Serial correlations = none. Run the batch.",
+      "Press Estimate and select SPM.mat in the s01\\stats directory.",
+      "Press Results, select SPM.mat, and define the contrast targets vs. standards. With derivatives: .5 0 0 0 -.5 0 .5 0 0 0 -.5 0 (per run: target, target deriv, novel, novel deriv, standard, standard deriv; then two block effects).",
+      "If derivatives were not modelled, use .5 0 -.5 .5 0 -.5 0 0 (target, novel, standard per run, then two block effects).",
+      "Inspect the thresholded results and outputs written to s01\\stats.",
+      "Use Check Reg to overlay mask.img on a t1.img from SPM's canonical folder and confirm the mask covers the brain."
+    ]
+  },
+  {
+    "id": "2.5",
+    "title": "Basis sets: flexible hemodynamic modeling",
+    "instructor": "Wager",
+    "duration": "0:45",
+    "type": "lecture",
+    "overview": "This session explains why a single canonical HRF is often wrong for a given voxel, region, or population, and how temporal basis sets (canonical plus derivatives, finite impulse response) let the GLM fit a range of response shapes. It covers how to recover interpretable amplitude, time-to-peak, and width estimates from flexible fits, and frames basis-set choice as a bias-variance trade-off that depends on the task and brain region.",
+    "sections": [
+      {
+        "heading": "Review: neural event models and the canonical HRF",
+        "points": [
+          "Multiple predictors are built by convolving each condition's indicator function with an HRF.",
+          "The choice between events and epochs matters more than expected, e.g., modeling trial-to-trial reaction time with mean RT around 1 s (Grinband et al. 2008).",
+          "The canonical HRF is a linear combination of two gamma functions; optimal if correct, but biased with lower power if wrong.",
+          "The same HRF is unlikely to hold for all voxels: responses may be faster or slower, have different undershoots, or peak later.",
+          "Aging reduces HRF amplitude and disperses its shape; dementia and pharmacological states also change the HRF."
+        ]
+      },
+      {
+        "heading": "Temporal basis functions",
+        "points": [
+          "Model the HRF as a linear combination of pre-specified functions f_i(t); the stimulus function is convolved with each basis to form a set of predictors.",
+          "Parameter estimates are weights on the basis functions, giving the weighted sum that best fits the response.",
+          "Fit separately for each trial type in each voxel for each person; the design matrix has one predictor per condition per basis function.",
+          "Three common sets: canonical HRF (one parameter), HRF plus time and dispersion derivatives ('SPM-3'), and finite impulse response (one column per time point).",
+          "Basis sets differ in how much they assume a priori about shape and which HRF shapes they can capture.",
+          "HRF shape varies across regions: lateral occipital peaks at 6-8 s, hippocampus at 10 s with a response at 16 s (Summerfield 2006)."
+        ]
+      },
+      {
+        "heading": "Flexible fits and neural versus vascular sources",
+        "points": [
+          "The observed response depends on both the neural activity time course and vascular hemodynamics; these are hard to separate.",
+          "The overall estimated HRF captures the joint neural and hemodynamic effect and is robust to neural-model misspecification within the limits of the basis set.",
+          "With an inflexible model, a change in response duration can be mistaken for a change in amplitude (Lindquist 2007, 2009; Waugh 2010)."
+        ]
+      },
+      {
+        "heading": "Estimating amplitude, timing, and width from fits",
+        "points": [
+          "CanlabCore function spm_htw_from_fit.m: run it in the SPM first-level directory, ideally after specifying contrasts.",
+          "Outputs per condition: htw_amplitude_001.nii, htw_time_to_peak_001.nii, htw_width_001.nii, htw_area_under_curve_001.nii.",
+          "Contrast images across conditions are named from SPM.xCon.name, e.g., con_htw_ampl_targetvsstandards5.nii, con_htw_time_..., con_htw_widt_..., con_htw_area_....",
+          "Take these to second-level group analysis, with separate analyses for amplitude, time, and width."
+        ]
+      },
+      {
+        "heading": "Choosing a basis set",
+        "points": [
+          "Accuracy: can the model capture the true response without systematic bias? Precision: are parameters estimated with little error variance?",
+          "This is the bias-variance trade-off; more flexible sets are more accurate but less precise.",
+          "Prefer few parameters (precision), parameters that are interpretable (e.g., amplitude), and accuracy in the physiological range that matters for your task and region.",
+          "The three-parameter set captures a limited family of curves, suits events or short epochs, and needs amplitude estimation not built into SPM or FSL.",
+          "Often three parameters are not enough: aging dispersion is not corrected, and sustained responses (e.g., to aversive images) appear as lower or reversed amplitude.",
+          "FIR fits for each stimulus type reveal shape and duration differences that fixed-shape models miss; see Lindquist and Wager 2007 and Lindquist et al. 2009."
+        ]
+      }
+    ],
+    "key_terms": [
+      "canonical HRF",
+      "temporal basis function",
+      "time and dispersion derivatives (SPM-3)",
+      "finite impulse response (FIR)",
+      "deconvolution",
+      "bias-variance trade-off",
+      "amplitude, time-to-peak, width",
+      "spm_htw_from_fit",
+      "HRF mis-modeling"
+    ],
+    "takeaways": [
+      "A fixed canonical HRF is usually wrong somewhere in the brain or population, and mis-modeling can create or hide amplitude differences.",
+      "Basis sets make the HRF shape a linear estimation problem; more flexibility improves accuracy at the cost of precision and interpretability.",
+      "Use tools such as spm_htw_from_fit to convert flexible fits into amplitude, timing, and width images that can be taken to group analysis."
+    ]
+  },
+  {
+    "id": "2.6",
+    "title": "Derivative boost",
+    "instructor": "Calhoun",
+    "duration": "0:15",
+    "type": "lecture",
+    "overview": "A short session on hemodynamic delays that vary across the brain, why adding a temporal derivative to the HRF only partly solves the problem, and how a 'boosted' amplitude estimate combining the HRF and derivative parameters removes latency-induced amplitude bias in group (random-effects) analyses.",
+    "sections": [
+      {
+        "heading": "Spatially varying delays",
+        "points": [
+          "Scan-related delays (up to half the TR) can be removed with slice-timing correction.",
+          "Brain-related delays of up to 4-5 s cannot be corrected at acquisition; we are stuck with them.",
+          "Ignoring delays biases the model toward regions whose response happens to match the assumed timing.",
+          "More flexible models (basis functions, FIR) handle delays; the simplest option is adding a derivative term to the HRF.",
+          "The derivative term allows the model to fit delays on the order of plus or minus 2 s."
+        ]
+      },
+      {
+        "heading": "The derivative boost",
+        "points": [
+          "Caveat: the derivative helps a fixed-effects analysis (absorbing variance, increasing significance) but a random-effects analysis remains biased if only the HRF beta is used.",
+          "Solution: compute a modified (boosted) contrast image using parameters from both the HRF and its derivative (Calhoun, Stevens, Pearlson and Kiehl, NeuroImage 2004).",
+          "Auditory oddball example: maps of (with derivative) minus (without derivative) for target and novel stimuli show where amplitude was underestimated.",
+          "The target-minus-novel comparison identifies regions exhibiting significant amplitude bias.",
+          "Related work estimates delay in functional network connectivity via dynamic coherence analysis (Yaesoubi et al. 2015)."
+        ]
+      }
+    ],
+    "key_terms": [
+      "spatially varying delay",
+      "slice-timing correction",
+      "temporal derivative",
+      "latency-induced amplitude bias",
+      "derivative boost",
+      "fixed vs. random effects"
+    ],
+    "takeaways": [
+      "Hemodynamic delays vary by several seconds across the brain and bias amplitude estimates if ignored.",
+      "Adding an HRF derivative fits delays of about plus or minus 2 s but does not fix group-level bias on its own.",
+      "Combine the HRF and derivative parameters into a boosted contrast image before taking results to a random-effects analysis."
+    ]
+  },
+  {
+    "id": "2.7",
+    "title": "Parametric modulators",
+    "instructor": "Wager",
+    "duration": "0:15",
+    "type": "lecture",
+    "overview": "This session introduces parametric modulation, which models trial-to-trial variation in brain activity as a function of a behavioral or stimulus variable within a person. It explains how SPM constructs and orthogonalizes modulator regressors, the assumptions involved, and why modulating duration rather than amplitude matters when reaction time varies.",
+    "sections": [
+      {
+        "heading": "Why parametric modulation",
+        "points": [
+          "Captures brain-behavior relationships across trials within a person, with enhanced psychological specificity.",
+          "Modeling activity as a function of performance across multiple levels can give stronger evidence than a contrast between two conditions.",
+          "Examples: Tower of London task complexity, goal (purchase) value in ventromedial PFC (Dagher 1999; Hare 2009; Grinband 2006; Wood 2008).",
+          "Convolution assumptions still apply: the neural activity function, the HRF, and linear time-invariance are assumed correct."
+        ]
+      },
+      {
+        "heading": "How modulators work in SPM",
+        "points": [
+          "The standard regressor captures the average event-related response.",
+          "The modulator is orthogonal to the standard regressor, so it captures activity related to the variable above and beyond the average response.",
+          "Assumptions: brain responses are linear in the input variable and sensitive to its interval scaling; only stick-function amplitude is modulated, not shape or duration.",
+          "Multiple modulators are orthogonalized sequentially with respect to earlier ones (spm_orth.m), so order matters and later modulators explain only leftover variance.",
+          "SPM adds a modulator regressor after each event regressor; time modulation adds a regressor for linear change within the session.",
+          "With basis functions, SPM adds one regressor per basis function per modulator, including time."
+        ]
+      },
+      {
+        "heading": "Amplitude versus duration, and reaction time as a confound",
+        "points": [
+          "Events versus epochs matters for event-related fMRI (Grinband et al. 2008); in visual cortex, contrast modulation and duration modulation give different fits.",
+          "Four RT models: standard, amplitude modulated by RT, RT nuisance regressor, and duration modulated by RT (variable-duration model).",
+          "The standard model confounds duration differences with magnitude differences, at both within-subject and group levels.",
+          "The variable-duration model (Model 4) best controls for RT in a within-person ANCOVA design; models 3 and 4 diverge as RTs get longer.",
+          "The variable-epoch model has no standard regressor; to test effects above and beyond the average response, build both and orthogonalize the second to the first.",
+          "CANlab Core tools can build such custom regressors for import into SPM; example code is at canlab.github.io/tutorials."
+        ]
+      }
+    ],
+    "key_terms": [
+      "parametric modulator",
+      "standard regressor",
+      "orthogonalization (spm_orth)",
+      "time modulation",
+      "amplitude vs. duration modulation",
+      "variable-epoch model",
+      "reaction time confound"
+    ],
+    "takeaways": [
+      "Parametric modulators test within-person relationships between a trial-level variable and brain activity, beyond the average response.",
+      "SPM orthogonalizes modulators sequentially; their order and interval scaling determine what each regressor can explain.",
+      "When reaction time varies, modulating duration (variable epochs) controls for RT better than modulating amplitude."
+    ]
+  },
+  {
+    "id": "2.8",
+    "title": "Autocorrelation and generalized linear models",
+    "instructor": "Wager",
+    "duration": "1:00",
+    "type": "lecture",
+    "overview": "This session covers temporal autocorrelation in fMRI noise, why it violates the independence assumption of ordinary least squares, and how generalized least squares with prewhitening addresses it. It describes autoregressive noise models, the iterative estimation procedure used in SPM (ReML via EM), differences among SPM, AFNI, and FSL, and practical guidance on when autocorrelation modeling matters.",
+    "sections": [
+      {
+        "heading": "Types of noise",
+        "points": [
+          "Post-acquisition options: remove noise (high-pass filtering, physiological models) or model its structure (autocorrelation, multilevel); the first helps more.",
+          "White noise: independent errors, flat power spectrum, no temporal correlation.",
+          "Structured noise arises from identifiable processes; stationary noise has constant mean, variance, and autocorrelation, nonstationary noise does not.",
+          "AR noise: carry-over of noise from previous time points, stationary; AR(1) is epsilon_t = phi * epsilon_(t-1) + eta_t, with higher phi meaning more autocorrelation.",
+          "Brownian (random walk) noise integrates independent innovations and is nonstationary, with variance growing over time.",
+          "1/f-like noise falls in power with frequency; AR models capture geometric decay of carry-over, MA terms capture non-propagating carry-over, and ARMA(1,1) includes both."
+        ]
+      },
+      {
+        "heading": "Modeling approaches and software",
+        "points": [
+          "Three options: assume independence (ignore), precoloring (SPM99 temporal smoothing), or prewhitening (preferred).",
+          "Prewhitening uses iterative estimation of the noise structure: AR(1) (SPM5), AR(1) plus white noise, ARMA(1,1).",
+          "SPM: AR(1) linear approximation, or FAST (linearization of an exponential); AFNI: ARMA(1,1); FSL: arbitrary autocorrelation function with a Tukey taper.",
+          "Estimation requires the variance, the AR phi parameter, and the degrees of freedom, via an iterative procedure (Box, Jenkins and Reinsel)."
+        ]
+      },
+      {
+        "heading": "The error covariance matrix and whitening",
+        "points": [
+          "GLM: Y = X beta + epsilon with cov(epsilon) = V; OLS assumes sphericity, V = sigma^2 I.",
+          "Violations of sphericity: serial autocorrelation (AR(1) form with rho, rho^2, rho^3 off the diagonal), unequal variances, and repeated-measures covariance.",
+          "Whitening multiplies the data and design by a matrix derived from the inverse error covariance to decorrelate the time series.",
+          "Iteration: start with W = I (OLS), compute residuals, estimate sample autocovariance, fit AR parameters (Yule-Walker), build the whitening matrix, re-estimate betas.",
+          "The independence model versus an AR model really does make a difference to the resulting statistics.",
+          "ReML (restricted maximum likelihood) maximizes the likelihood of the residuals and gets degrees of freedom right; SPM finds ReML variance parameters with expectation maximization (EM)."
+        ]
+      },
+      {
+        "heading": "Choosing an autocorrelation model",
+        "points": [
+          "Aim for the simplest model that accurately describes the noise structure.",
+          "Complex models are more accurate with large, clean datasets but less precise with limited data; n = 500 simulations show more error variability.",
+          "FAST in SPM decomposes residual covariance into exponential and derivative terms and outperformed SPM AR(1) and FSL in several large datasets (Olszowy 2019).",
+          "Autocorrelation modeling is not needed for group analysis; it is needed for single-subject inference, which is often fragile anyway because of artifacts.",
+          "SPM2 through SPM12 use an AR(1) approximation pooled across the brain, which only helps if the AR model fits the data well.",
+          "FAST in SPM or AFNI's ARMA(1,1) is preferred to AR(1) or FSL's ACF in many cases; BROCCOLI uses voxelwise AR(4) by default."
+        ]
+      },
+      {
+        "heading": "Summary: issues in using the GLM for fMRI",
+        "points": [
+          "Unknown neural response shape: assume one (event or epoch).",
+          "Delayed, dispersed BOLD response: use an HRF.",
+          "HRF shape varies across the brain: use basis functions.",
+          "Low-frequency noise and motion or cardiopulmonary artifacts: high-pass filter and model known noise sources.",
+          "Temporal autocorrelation violates GLM assumptions: use iterative autocorrelation models, or focus on group statistics and ignore it."
+        ]
+      }
+    ],
+    "key_terms": [
+      "temporal autocorrelation",
+      "white noise",
+      "AR(1) model",
+      "ARMA(1,1)",
+      "sphericity",
+      "generalized least squares (GLS)",
+      "prewhitening",
+      "Yule-Walker",
+      "ReML",
+      "FAST"
+    ],
+    "takeaways": [
+      "fMRI errors are autocorrelated, so OLS p-values and degrees of freedom are wrong for single-subject inference.",
+      "Prewhitening with an iteratively estimated AR or ARMA model (ReML via EM in SPM) restores valid inference when the noise model fits.",
+      "Choose the simplest adequate noise model; FAST or ARMA(1,1) generally outperform AR(1), and group analyses do not require autocorrelation modeling."
+    ]
+  },
+  {
+    "id": "2.9",
+    "title": "Intro to connectivity and mediation; mediation demo/walkthrough",
+    "instructor": "Wager",
+    "duration": "1:00",
+    "type": "hands-on",
+    "overview": "This session situates mediation analysis within the landscape of connectivity methods, then explains the mediation and moderation path models, the a*b indirect effect, and bootstrap inference. It introduces Mediation Effect Parametric Mapping with the CANlab Mediation Toolbox, illustrated with emotion regulation, stress and heart rate, and expectancy and pain studies, and walks through the toolbox tutorial.",
+    "sections": [
+      {
+        "heading": "Two families of connectivity analysis",
+        "points": [
+          "Functional connectivity models broad patterns of connections: functional connectome, ICA, clustering, graph metrics.",
+          "Effective connectivity models direct, often directional connections: path models among observed series and dynamic causal models among dynamic changes.",
+          "Data-reduction approaches (PCA, ICA, PLS, tensor-ICA) identify distributed patterns; path-modeling approaches (path models, PPI, SEM, Granger causality, DCM) test specific connections.",
+          "The two families can be complementary."
+        ]
+      },
+      {
+        "heading": "Mediation and moderation",
+        "points": [
+          "Mediation asks about mechanism: an exposure or manipulation affects an outcome via a mediator, e.g., drug to striatal dopamine to clinical benefit.",
+          "Equations: m = i_m + a*x + e_m and y = i_y + b*m + c'*x + e_y; the mediation (indirect) effect is a*b.",
+          "Path c is the total effect and c' the direct effect; testing c minus c' equals testing a*b, and complete mediation means c' = 0.",
+          "Baron and Kenny framed mediation as the conjunction of a, b, and c effects, though c need not be significant (Kenny, Kashy and Bolger 1998).",
+          "Moderation asks whether the level of m changes the x-y relationship, modeled as an interaction term.",
+          "Significant a and b effects are not enough; a*b tests whether both are jointly large enough to explain c."
+        ]
+      },
+      {
+        "heading": "Inference on the indirect effect",
+        "points": [
+          "The Sobel test (Aroian version) is usually over-conservative.",
+          "Bootstrap test: resample rows of [x m y] with replacement, compute a*b, repeat 1,000-10,000 times, and derive confidence intervals and p-values from the distribution.",
+          "Bias-corrected, accelerated (BCa) bootstrapping is the toolbox default; permutation testing is also available."
+        ]
+      },
+      {
+        "heading": "Mediation Effect Parametric Mapping (MEPM)",
+        "points": [
+          "Search brain voxels or regions for mediators, producing maps of a, b, a*b, and their conjunction.",
+          "Single-level mediation: one observation per person on X, M, Y, with M usually a contrast image; this covers most applications.",
+          "Multilevel mediation: repeated observations per person (ordered conditions, single trials, or volumes), with subject-level paths as random effects; c - c' = a*b + cov(a,b).",
+          "Use cases: task to brain to behavior, brain to brain to physiology, population to brain to symptom.",
+          "Toolbox features: multiple mediators and covariates, logistic outcomes, second-level moderators, three-path mediation, latent HRF basis for fMRI mediators, AR(p) errors, multivariate mediation."
+        ]
+      },
+      {
+        "heading": "Examples and cautions",
+        "points": [
+          "Wager et al. 2008 (Neuron): 30 participants reappraising versus viewing negative images; prefrontal-subcortical pathways mediated reappraisal success.",
+          "Wager et al. 2009: multilevel mediation of speech preparation on heart rate via pregenual ACC; moderated mediation was strongest in heart-rate 'reactors'.",
+          "Atlas et al. 2010: separate analyses of cue effects on pain and brain cannot show which voxels transmit the effect; mediation tests a*b per voxel.",
+          "Causal interpretation depends on unmodeled variables; avoid strong causal claims unless x is an experimentally randomized variable."
+        ]
+      }
+    ],
+    "key_terms": [
+      "effective connectivity",
+      "mediation",
+      "moderation",
+      "indirect effect (a*b)",
+      "direct effect (c')",
+      "bootstrap test",
+      "BCa bootstrap",
+      "Mediation Effect Parametric Mapping",
+      "multilevel mediation",
+      "Mediation Toolbox (M3)"
+    ],
+    "takeaways": [
+      "Mediation links an experimental manipulation, a brain measure, and an outcome in a single model and tests the indirect effect a*b with a bootstrap.",
+      "MEPM searches the brain for voxels that mediate, at a single level (one contrast image per person) or multilevel (trials or time points within person).",
+      "Path models specify assumptions transparently, but causal claims require a randomized x and awareness of unmodeled variables."
+    ],
+    "hands_on": [
+      "Download CanlabCore and MediationToolbox from github.com/canlab and add both to the MATLAB path with subfolders.",
+      "Read through the basics tutorial at canlab.github.io/_pages/tutorials/html/mediation_1_basics.html.",
+      "Download the corresponding live script (.mlx) from canlab.github.io/walkthroughs/ and open it in MATLAB.",
+      "Run mediation.m on vectors X, Y, and M with bootstrapping enabled; examine the a, b, c, c', and a*b estimates, bootstrap p-values, and built-in path and scatter plots.",
+      "Optionally add covariates or a second mediator to see how estimates change.",
+      "Open the brain walkthrough at canlab.github.io/_pages/tutorials/html/mediation_brain_single_level_walkthrough1.html and download its live script.",
+      "Set up the single-level brain mediation: X is the experimental variable, Y the outcome, and M a set of per-subject contrast images.",
+      "Run mediation_brain.m to search across voxels, producing a, b, a*b, and conjunction maps.",
+      "Use the toolbox results commands to save tables, montages, plots, surfaces, and data extracted from significant regions.",
+      "For repeated-measures data, review mediation_brain_multilevel.m, which fits subject-level paths as random effects."
+    ]
+  },
+  {
+    "id": "2.10",
+    "title": "Introduction to ICA: Independent Component Analysis",
+    "instructor": "Calhoun",
+    "duration": "1:30",
+    "type": "lecture",
+    "overview": "This session introduces independent component analysis as a data-driven alternative to seed-based and GLM approaches for fMRI. It covers the blind source separation model, the difference between ICA and PCA, spatial ICA of fMRI and the kinds of components it yields, the sorting and scaling ambiguities, model-order selection, validation strategies, and available software including the GIFT toolbox.",
+    "sections": [
+      {
+        "heading": "Motivation: seeds versus components",
+        "points": [
+          "'All models are wrong, but some are useful' (Box); data-driven methods play to our ignorance about the right model.",
+          "Seed approaches need one or more seed regions, univariate cross-correlation, filtering, physiological noise removal, and a decision between full and partial correlation.",
+          "ICA is fully data-driven (no seed, though priors are possible), assumes linear covariation within and linear mixing among components, and maximizes spatial independence.",
+          "All components have values at every voxel, enabling spatial filtering of artifacts and overlapping components.",
+          "'Network' depends on method: correlation with a reference signal (GLM, seeds), with a component time course (ICA), or a connectivity matrix (graph theory)."
+        ]
+      },
+      {
+        "heading": "ICA basics",
+        "points": [
+          "Blind source separation (cocktail party problem): recover sources from mixed observations without knowing the mixing.",
+          "Model X = A S (mixture, mixing matrix, sources); estimate the unmixing matrix W = A^-1 so that S = W X.",
+          "Assumptions: linear mixing, statistically independent sources, and non-Gaussian sources.",
+          "PCA finds directions of maximal variance using second-order statistics; ICA finds directions maximizing independence using higher-order statistics.",
+          "Algorithm families: Infomax (Bell and Sejnowski 1995), maximum likelihood, negentropy/FastICA (Hyvarinen), minimum mutual information, JADE; Infomax equals ML when the nonlinearity matches the cdf.",
+          "ICA maximizes non-Gaussianity; many real signals are supergaussian (peaked with heavy tails), and the FastICA demo shows whitening followed by iterative rotation."
+        ]
+      },
+      {
+        "heading": "ICA of fMRI",
+        "points": [
+          "The GLM requires a model for the fMRI time course; spatial ICA estimates the time courses along with the source locations.",
+          "Data (time by voxels) equals a mixing matrix of time courses multiplied by spatially independent component maps.",
+          "Typical components: task-related, cardiac, motion (e.g., mouth movement in inferior temporal and orbitofrontal regions), vasomotor oscillation and high-order visual.",
+          "ICA is useful for artifact detection and reduction (Beckmann's 'Little Shop of fMRI Horrors'); preprocessing may differ when hunting artifacts.",
+          "Spatial ICA is more common than temporal ICA; results differ when components are spatially dependent.",
+          "ICA is not model-free, but it assumes nothing about time-course shape; data-driven does not mean fishing, and tools exist for focused questions."
+        ]
+      },
+      {
+        "heading": "Sorting and calibration",
+        "points": [
+          "Permutation ambiguity, X = (A P^-1)(P S), means component order is arbitrary, so sorting is needed.",
+          "Scaling ambiguity, X = (A M^-1)(M S), means amplitudes are arbitrary, so calibration is needed.",
+          "Temporal sorting: correlation or multiple regression with a design, or features such as skew, kurtosis, and power spectra.",
+          "Spatial sorting: correlation with a mask or SPM map, maximum value within a mask, multiple regression.",
+          "Multivariate sorting and classification: SVM approaches (Formisano), Noisecloud (Sochat), FSL-FIX (Griffanti)."
+        ]
+      },
+      {
+        "heading": "Number of components (model order)",
+        "points": [
+          "Too many components over-split; too few over-clump.",
+          "Between 20 and 40 is reasonable for a typical experiment, but many studies now use higher orders (75-200).",
+          "Order is estimated from PCA eigenvalues with AIC, MDL, or BIC; MDL is consistent, AIC may do better at low SNR (correlated-sample correction: Li 2006).",
+          "Post-ICA clustering is another way to address model order, and low-order components can be reconstructed from higher-order decompositions."
+        ]
+      },
+      {
+        "heading": "Validation and software",
+        "points": [
+          "Validation studies address algorithm differences (Esposito 2002), preprocessing (Calhoun 2004), cluster validation via ICASSO (Himberg 2004), and test-retest performance (Nybakken 2002).",
+          "Hybrid experiments mix known sources into real fMRI data and score recovery with Kullback-Leibler divergence; Infomax was consistent across runs (Correa et al. 2006).",
+          "Packages: GIFT (over 15 algorithms, constrained ICA, sorting and visualization, dynamic connectivity, batch scripting), MELODIC in FSL, FMRLAB, ICALAB, BrainVoyager, DTU toolbox.",
+          "GIFT has over 25,000 unique downloads and a BIDS-App (GIFTBIDS).",
+          "GIFT BIDS-App demo: install Docker, download the demo dataset, copy config_multi_ses.m, and run the trends/gift-bids container with --participant_label and --config."
+        ]
+      }
+    ],
+    "key_terms": [
+      "independent component analysis",
+      "blind source separation",
+      "mixing matrix",
+      "non-Gaussianity",
+      "Infomax",
+      "FastICA",
+      "spatial ICA",
+      "permutation and scaling ambiguity",
+      "model order (AIC/MDL)",
+      "GIFT"
+    ],
+    "takeaways": [
+      "ICA decomposes fMRI data into spatially independent maps and their time courses without a model of the time course, unlike the GLM or seed correlation.",
+      "Components must be sorted and calibrated because ICA solutions are ambiguous up to permutation and scale.",
+      "Model order, algorithm, and preprocessing all affect results; use information criteria, ICASSO-style clustering, and validation with known sources."
+    ]
+  }
+]

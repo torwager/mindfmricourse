@@ -1,0 +1,81 @@
+<h1 id="install-steps-spm-fmri-course">Install steps: SPM fMRI
+Course</h1>
+<h1 id="summary"> Summary</h1>
+<ol type="1">
+<li><p>Download the USBDrive folder from Dropbox to your hard
+drive</p></li>
+<li><p>Install Matlab</p></li>
+<li><p>Set up Matlab Path by adding SPM and other toolboxes</p></li>
+<li><p>Beware of common errors</p></li>
+</ol>
+<h1 id="steps">Steps</h1>
+<h2
+id="download-the-usbdrive-folder-from-dropbox-to-your-hard-drive">Download
+the USBDrive folder from Dropbox to your hard drive</h2>
+<ul>
+<li><p>You may have to do this in several pieces, if your
+Dropbox/browser says it’s too big</p></li>
+<li><p>Arrange the files (if needed) on your local hard drive to match
+the structure in Dropbox</p></li>
+</ul>
+<blockquote>
+<p>Mac:</p>
+<p><img src="../assets/img/guides/fMRI_analysis_course_install_steps/image1.png"
+style="width:2.33073in;height:1.98077in" /></p>
+<p>Windows (this shows the contents of the USBDrive/Mind folder:</p>
+<p><img src="../assets/img/guides/fMRI_analysis_course_install_steps/image2.png"
+style="width:5.34729in;height:2.23077in" /></p>
+</blockquote>
+<h2 id="install-matlab">Install Matlab</h2>
+<ul>
+<li><p>You should have received a link and license file to download a
+trial version of Matlab. Follow the instructions to install</p></li>
+<li><p>You can use your own version of Matlab if you already have
+it</p></li>
+<li><p>Very old versions of Matlab (pre-2019) probably won’t
+work.</p></li>
+<li><p>Very new versions should work, but know that maintaining
+compatibility between Matlab, SPM, and the operating systems is an
+ongoing challenge. The best way is to try it and see. If there are
+compatibility issues it will usually result in either Matlab or SPM not
+opening at all.</p></li>
+</ul>
+<h2 id="set-up-matlab-path-by-adding-spm-and-other-toolboxes">Set up
+Matlab Path by adding SPM and other toolboxes</h2>
+<h3 id="navigate-to-the-mind-folder-in-matlab">Navigate to the Mind
+folder in Matlab</h3>
+<ul>
+<li><p>The easiest way is to find the folder in your Finder (Mac) or
+Explorer (PC) and drag and drop it to your Matlab Command
+Window.</p></li>
+<li><p>You can also type it in in the Matlab</p>
+<ul>
+<li><p><strong>cd('my_path_name’),</strong> e.g.,
+<strong>cd(‘/Users/torwager/…USBDrive/mind')</strong></p></li>
+</ul></li>
+</ul>
+<h3 id="type-add_toolbox_paths">Type add_toolbox_paths</h3>
+<ul>
+<li><p>This runs the script
+<strong>add_toolbox_paths.m</strong>.</p></li>
+<li><p>Another helpful thing to do is type pathtool. This shows a
+graphical picture of your path. <em><u>Matlab looks for files and
+functions in order, from “top” to “bottom” on the path</u></em>. You can
+add folders “manually” from here and save the path, too.</p></li>
+<li><p>When this is done, type <strong>spm fmri</strong>, and you should
+get the SPM windows.</p></li>
+</ul>
+<h2 id="beware-of-common-errors">Beware of common errors</h2>
+<ul>
+<li><p>??? Undefined function or variable means that Matlab can’t find
+either a variable or function (program) named whatever you typed in.
+Usually this is because a function (like spm.m) hasn’t been added to
+your Matlab path, or you’ve mis-spelled it.</p></li>
+<li><p>Don’t include multiple versions of SPM on your path</p></li>
+<li><p>Don’t include toolboxes with variables named the same thing as
+internal Matlab functions. This can cause errors when SPM (or another
+toolbox) runs a DIFFERENT function from what was intended, with the same
+name. Matlab checks for this and gives you a warning when you open it.
+Pay attention to those. And don’t name program (executable scripts or
+functions) with the same name as Matlab built-in functions.</p></li>
+</ul>

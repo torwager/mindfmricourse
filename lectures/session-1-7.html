@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.7 Preprocessing: coregistration, normalization, smoothing — fMRI Course</title>
+<meta name="description" content="Covers moving each participant&#x27;s data into a common stereotactic space so results can be compared across people, studies, and labs, and then smoothing the ">
+<meta property="og:title" content="1.7 Preprocessing: coregistration, normalization, smoothing — fMRI Course">
+<meta property="og:description" content="Covers moving each participant&#x27;s data into a common stereotactic space so results can be compared across people, studies, and labs, and then smoothing the ">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/chang2015_pines_maps.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 1 · Acquisition, preprocessing, and the GLM</p>
+        <div class="lec-meta"><span><b>Day 1</b></span><span><b>Session 1.7</b></span><span>Kiehl</span><span>1:00 h</span><span>Hands-on session</span></div>
+        <h1>Preprocessing: coregistration, normalization, smoothing</h1>
+        <p class="lede">Covers moving each participant&#x27;s data into a common stereotactic space so results can be compared across people, studies, and labs, and then smoothing the normalized images. Contrasts Talairach and MNI spaces, compares two normalization pathways (mean EPI to T1 to template versus mean EPI directly to the EPI template), and explains what spatial smoothing buys and costs. Hands-on: Old Normalize with the EPI template and 8 mm smoothing.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>Report the space you actually used; MNI and Talairach differ by 10 to 15 percent and require conversion.</li><li>Normalizing the mean EPI directly to the EPI template handles EPI distortion that a linear coregistration to T1 cannot.</li><li>Smooth with a kernel of about 2 to 3 times the voxel size (8 mm here) to gain SNR and tolerance to anatomical variability, knowing that small activations will shrink.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>spatial normalization</li><li>Talairach space</li><li>MNI space</li><li>AC-PC line</li><li>EPI template</li><li>coregistration</li><li>nonlinear basis functions</li><li>reslicing / sinc interpolation</li><li>Gaussian kernel</li><li>FWHM</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec1-7_a.jpg" alt="Montage of normalized functional slices" loading="lazy" width="612" height="608"><figcaption><b>Montage of normalized functional slices.</b> Lecture 1.7 slides (Kiehl)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>Why normalize, and into what space</span></h3><ul><li>Realignment aligns images within a person; normalization provides a mechanism for comparing data across labs and studies.</li><li>Talairach space: atlas by Talairach and Tournoux based on one French woman&#x27;s brain; origin at the anterior commissure; oriented on the AC-PC line.</li><li>MNI space (adopted in SPM96): based on 304 normal subjects, more representative, and 10 to 15 percent larger than Talairach.</li><li>Much confusion in the literature; conversions between Talairach and MNI are needed for meta-analyses and ROI planning, and methods differ by group and software.</li><li>Manuscripts must state the actual space used.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>What an EPI volume looks like</span></h3><ul><li>Typical raw multiband EPI: 82 x 82 x 56 voxels at about 3 mm; after warping to MNI, 61 x 73 x 61 at 3 mm isotropic.</li><li>Non-uniform local fields cause through-plane dephasing: protons in different parts of a voxel drift out of phase by TE.</li><li>Dropout above the frontal sinus is worse for thick slices and at long TE (3 T examples from 21 to 60 ms).</li><li>EPI distortion appears as local compression or expansion depending on k-space direction; use the shortest possible encoding time.</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec1-7_b.jpg" alt="3-D Gaussian smoothing kernel with FWHM" loading="lazy" width="492" height="316"><figcaption><b>3-D Gaussian smoothing kernel with FWHM.</b> Lecture 1.7 slides (Kiehl)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec1-7_c.jpg" alt="Orthogonal views of a smoothed functional volume" loading="lazy" width="432" height="339"><figcaption><b>Orthogonal views of a smoothed functional volume.</b> Lecture 1.7 slides (Kiehl)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">03</span><span>Two normalization pathways</span></h3><ul><li>Pathway A: coregister the mean EPI to the subject&#x27;s T1, normalize the T1 to the T1 template, and apply those parameters to the EPI.</li><li>Problem with A: coregistration is a linear operation, so EPI warping and distortion are not accounted for unless you have field-map correction (which slows acquisition).</li><li>Pathway B: normalize the mean EPI directly to the EPI template; the nonlinear components account for EPI distortion (Calhoun et al. 2017, Human Brain Mapping).</li><li>Risk with B: if the mean EPI differs much from the EPI template, normalization can fail; tune the basis functions or build a site template.</li><li>Field-map correction improves either pathway when available.</li></ul></article><article class="osec glow rv"><h3><span class="n">04</span><span>Reslicing and checking the output</span></h3><ul><li>Data must be resliced into MNI space with interpolation; sinc is likely best.</li><li>Choose the output voxel size: inputs were 3.44 x 3.44 x 5 mm; SPM&#x27;s default is 2 mm isotropic; the course uses 3 mm.</li><li>Review the normalization postscript: it should report 4 x 5 x 4 basis functions; if 9 x 12 x 9, renormalize with nonlinear frequency cutoff 45.</li><li>Outputs: means01_aod_run1_sn.mat (native-to-MNI transform) and ws01_aod_run1.nii (warped images).</li></ul></article><article class="osec glow rv"><h3><span class="n">05</span><span>Spatial smoothing</span></h3><ul><li>Smoothing increases signal-to-noise if the blur is smaller than the activation; cortical activations are larger than subcortical ones such as thalamus.</li><li>It compensates for imperfect spatial normalization and for functional anatomy that differs across people even when structure is aligned.</li><li>It facilitates inter-subject comparison, and smooth data is an assumption of the statistical model.</li><li>Cost: small activations are reduced; future thresholding strategies may reduce the need for smoothing.</li><li>Implementation: 3D convolution with a Gaussian; a fuzzy-edged ball replaces each voxel with a weighted average of its neighbors.</li><li>The class uses 8 x 8 x 8 mm FWHM; rule of thumb is 2 to 3 times the original voxel size.</li></ul></article></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/chang2015_pines_maps.jpg')"></div><div class="band-cap">PINES negative-affect signature rendered on cortical surfaces — Chang et al. (2015), PLoS Biology</div></div><section class="section"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Hands-on</p><h2>Step by step</h2></div><p class="lede rv rv-d1">The walk-through below is distilled from the course cheat sheets. Data paths refer to the course Dropbox folder (e.g. <code>data/auditory_oddball</code>).</p></div><ol class="steps-list rv"><li><span>In the SPM GUI click Utils &gt; cd and set the working directory to c:\mind.</span></li><li><span>Click Normalise; in the batch window delete the default Normalise module, then choose SPM &gt; Tools &gt; Old Normalise &gt; Estimate &amp; Write.</span></li><li><span>Expand Normalise: Estimate &amp; Write, click Data, and click New Subject four times (2 subjects x 2 sessions).</span></li><li><span>For each Subject: Source Image = the mean EPI for that session (e.g., means01_aod_run1.nii); Images to Write = all frames s01_aod_run1.nii,1 to 189 (filter [1:200], Select All).</span></li><li><span>Under Estimation Options set Template Image to c:\mind\toolboxes\spm12\toolbox\OldNorm\EPI.nii; leave the rest at defaults.</span></li><li><span>Under Writing Options confirm the voxel size is 3 x 3 x 3 mm, then click Run.</span></li><li><span>Check the postscript output for 4 x 5 x 4 basis functions (if 9 x 12 x 9, rerun with nonlinear frequency cutoff = 45) and confirm *_sn.mat and ws01_aod_run1.nii files exist.</span></li><li><span>Click Smooth; under Images to Smooth click Specify, filter ^ws.* with frames 1:500, and use the recursive (R) button from AOD_raw to collect all runs.</span></li><li><span>Keep FWHM at [8 8 8], click Done, then click the green Run icon; output images are prefixed sw.</span></li></ol><details class="cheat rv"><summary><span>Cheat sheet: normalization — full cheat sheet</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="cheat-body"><p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Normalization</p>
+<p>-Spatial normalization –</p>
+<p>This procedure takes the mean fMRI (EPI) image for each session for
+each subject and spatially normalizes (using linear and nonlinear
+(tailored basis set) to the EPI template provided with SPM. This latter
+procedure works well to account for EPI distortions and nonlinear
+warping that is not well managed if you use the alternative path of
+using the linear coregistration of the mean fMRI (EPI image) for each
+session for each subject to the subjects T1 (anatomical) images. Then
+the subject’s anatomical T1 image is used to determine spatial
+normalization parameters and these parameters are applied to the EPI
+images for that subject’s sessions since they are ‘coregistered’ to the
+subjects T1 data. This latter step does not consider the nonlinearities
+inherent in EPI data.</p>
+<p>Here is the citation relevant to this process:</p>
+<ol type="1">
+<li><p>Calhoun, V.D., Wager, T.D., Krishnan, A., Rosch, K.S., Seymour,
+K.E., Nebel, M.B., Mostofsky, S.H., Nyalakanai, P., &amp; Kiehl, K.A.
+(2017). The impact of T1 vs EPI spatial registration templates for fMRI.
+<em>Human Brain Mapping</em>, 38(11), 5331-5342<em>. PMID: 28745021
+PMCID: <a
+href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5565844/">PMC5565844</a>
+DOI: <a
+href="https://doi.org/10.1002/hbm.23737">10.1002/hbm.23737</a></em></p></li>
+</ol>
+<p>- Set your working directory:</p>
+<p>- click on ‘utils’ on the spm gui</p>
+<p>- select ‘cd’ – dialog box opens, select your working directory
+(e.g., c:\mind)</p>
+<p>- Start normalization –</p>
+<p>- click on ‘normalization’ button in spm gui; select ‘normalize
+&lt;-X’</p>
+<p>- in the spm graphics gui, select ‘New “Normalize: Estimate &amp;
+Write”</p>
+<p>We are going to use the ‘old normalize routine’.</p>
+<p>Using your mouse, right click in the ‘module list’ and delete the
+Normalize process.</p>
+<p>Then select the SPM button, tools, old normalize, estimate and
+write.</p>
+<p><img src="../assets/img/guides/cheat_sheet_normalization_2022/image1.png"
+style="width:4.06452in;height:3.84963in"
+alt="Graphical user interface, text, application Description automatically generated" /></p>
+<p>- click on ‘+Normalize: Estimate &amp; Write’ to expand to see:</p>
+<p>-Normalize: Estimate &amp; Write</p>
+<blockquote>
+<p>Data &lt;. X</p>
+</blockquote>
+<p>+Estimation Options</p>
+<p>+Writing Options</p>
+<p>-Click on ‘Data &lt;-X’</p>
+<p>-Click on ‘New “Subject”’ 4 times (once for each session x 2
+subjects)</p>
+<p>Your display should now look like:</p>
+<p>-Normalize: Estimate &amp; Write</p>
+<blockquote>
+<p>Data</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+</blockquote>
+<p>+Estimation Options</p>
+<p>+Write Options</p>
+<ul>
+<li><p>Now you can click on the first ‘Subject &lt;-X’ above</p></li>
+<li><p>Then click on ‘Source Image &lt;-X’</p>
+<ul>
+<li><p>Select ‘specify files’</p></li>
+<li><p>Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\01’</p>
+<ul>
+<li><p>Select the mean EPI image for this subject.</p>
+<ul>
+<li><p>means01_aod_run1.nii</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>Select ‘Images to write &lt;-X</p>
+<p>- Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run1’</p>
+</blockquote>
+<ul>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s01_aod_run1.nii,1 to s01_aod_run1.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<ul>
+<li></li>
+<li><p>Repeat ‘subject’ specification three more times to select the
+mean image for s01 run2, s02 run1, and s02 run2. carefully selecting the
+mean image and corresponding functional images to normalize for each
+session.</p></li>
+</ul>
+<p>Click on ‘estimation options’,</p>
+<ul>
+<li><p>select ‘template image &lt;-X’</p>
+<ul>
+<li><p>specify files – go to c:\mind\toolboxes\spm12\toolbox\OldNorm\’
+and select the ‘EPI.nii’ image.</p></li>
+</ul></li>
+<li></li>
+<li><p>All other options are set for you by default. Always review the
+spm normalization postscript output to ensure that you have used ‘4x5x4
+basis functions’. If you see ‘9x12x9’ then you may need to renormalize
+the data and set the ‘nonlinear frequency cutoff to 45’.</p></li>
+<li><p>Click on writing options if you want to change any other options.
+In our defaults, we are reslicing into 3x3x3 mm.</p></li>
+</ul>
+<blockquote>
+<p>Click Run and spatial normalization will go.</p>
+<p>The outputs include appending the spm_2022mar8.ps with the spatial
+normalization output files; you will see ‘means01_aod_run1_sn.mat’ – a
+file that contains the transformation data for native space to MNI
+space; and you will see ‘ws01_aod_run1.nii’ image file – this file
+contains the warped images that are now in MNI space.</p>
+</blockquote>
+</div></details><details class="cheat rv"><summary><span>Cheat sheet: spatial smoothing — full cheat sheet</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></summary><div class="cheat-body"><p>Spatial smoothing:</p>
+<p>Fire up spm gui. Click on the ‘Smooth’ button and it will populate
+the batch window.</p>
+<p><img src="../assets/img/guides/cheat_sheet_spatial_smoothing/image1.png"
+style="width:6.5in;height:6.22014in"
+alt="A screenshot of a computer Description automatically generated" /></p>
+<p>Click on the ‘specify’ button to select all the images you want to
+smooth.</p>
+<p>You should select the ‘warped/subject’ images. So select ‘^ws.*’ and
+then 1:500 in each s01/run1 and s01/run2 directory. For the class we
+used the default of 8x8x8 smoothing. In practice, 2-3 times the original
+voxel size is rule-of-thumb.</p>
+<p><img src="../assets/img/guides/cheat_sheet_spatial_smoothing/image2.png"
+style="width:6.5in;height:5.23472in"
+alt="A screenshot of a computer Description automatically generated" /></p>
+<p>You can use the ’recursive button’ at the ‘AOD_raw/ directory and it
+will autopopulate the ws.* images down all subdirectories in this tree.
+The ‘recursive’ button is the ? Ed R (the R next to the Done bar).</p>
+<p>Once the images are selected click ‘done’. Then click the green icon
+in the batch window to run.</p>
+</div></details></div></section><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-1-6.html"><small>Previous · 1.6</small><strong>Spatial preprocessing: realignment, slice timing, unwarp</strong></a><a class="next" href="lectures/session-1-8.html"><small>Next · 1.8</small><strong>General Linear Model I: principles and fMRI</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

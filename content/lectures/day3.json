@@ -1,0 +1,480 @@
+[
+  {
+    "id": "3.1",
+    "title": "Experimental design: psychological and statistical principles",
+    "instructor": "Wager",
+    "duration": "1:30",
+    "type": "lecture",
+    "overview": "This lecture covers how to design an fMRI task so that participants actually engage the psychological process of interest and so that the resulting brain signals can be detected efficiently. It works through five psychological considerations, the algebra of design efficiency, and eight statistical principles of fMRI design, ending with computer-aided design optimization.",
+    "sections": [
+      {
+        "heading": "Bird's-eye view: two kinds of considerations",
+        "points": [
+          "The goal is to induce the psychological state you are studying and detect brain signals related to it.",
+          "You control what is presented and when; design choices have both psychological and statistical consequences.",
+          "Psychological question: does the task make subjects think the way you intend?",
+          "Statistical question: does the timing of events give enough power to estimate the effects you care about?"
+        ]
+      },
+      {
+        "heading": "Five psychological considerations",
+        "points": [
+          "Stimulus predictability changes the process: in a go/no-go task, predictable no-go stimuli allow preparation, unpredictable ones demand inhibition on each trial.",
+          "Time on task: you can only image what subjects are doing; famous-face recognition takes ~250 ms, leaving seconds for off-task thought unless presentation is rapid.",
+          "Participant strategy: in the Stroop task, predictable compatible trials induce reading rather than color naming, confounding control with task.",
+          "Temporal precision: expectations must fit what subjects can do; people cannot switch sad and happy recall in a typical block design.",
+          "Unintended activity: subjects spontaneously shift attention between trials, so the modeled sequence (switch vs. stay) may not match what happened.",
+          "There are no fixed rules, only principles; you must understand your task domain."
+        ]
+      },
+      {
+        "heading": "Algebraic foundations: design efficiency",
+        "points": [
+          "Power depends on effect magnitude (c'beta-hat) divided by its standard error; the error term contains c'(X'X)^-1 c times sigma-squared.",
+          "The (X'X)^-1 term depends only on the design, not the data, so efficiency can be computed before scanning.",
+          "Efficient designs maximize predictor variance and minimize covariance among predictors (orthogonal predictors).",
+          "Maximizing average efficiency across the contrasts you care about is called A-optimality; D-optimality is another criterion.",
+          "The fMRI formula adds contrasts (C), the high-pass filter matrix (K, giving filtered design Z) and the autocorrelation matrix (V).",
+          "Rules of thumb: equal trial counts, large manipulations at the extremes, few event types, and a large psychological effect."
+        ]
+      },
+      {
+        "heading": "Temporal frequencies, block length and filtering",
+        "points": [
+          "A single brief event is inefficient; very slow designs are hard to distinguish from the intercept and mean scanner drift.",
+          "For one predictor and a correct HRF, a sine wave near 1/33 s per cycle is close to optimal.",
+          "Short blocks lose variance because the HRF acts as a smoothing filter; long blocks overlap with 1/f noise.",
+          "High-pass filtering removes variance from both noise and predictors, so its optimal cutoff depends on stimulation frequency, noise and HRF.",
+          "Example: 18 s blocks with an 80 s filter retain design variance; blocks over 40 s are risky."
+        ]
+      },
+      {
+        "heading": "Eight principles of fMRI design",
+        "points": [
+          "Sample size is usually the rate-limiting factor; group power is bounded by subjects even if first-level efficiency were infinite.",
+          "Scan time: first-level efficiency grows with the square root of images; rule of thumb is 20 to 40 min functional time, then add participants.",
+          "Number of conditions: two (task minus control) is optimal for detection; more comparison conditions help interpretability.",
+          "Grouping: blocks give detection power and robustness; event-related designs give more specific inferences.",
+          "Randomization: randomize per participant and jitter or use catch trials, because fixed A-then-B ordering produces spurious A > B differences.",
+          "Nonlinearity: BOLD saturates at short ISIs (about 10 percent at 5 s, strong at 1 s); space events at least 3 to 4 s apart."
+        ]
+      },
+      {
+        "heading": "Dependent events and computer-aided optimization",
+        "points": [
+          "With a fixed 20 s ISI, regressors for temporally dependent events correlate up to r = 0.93 under a flexible FIR model.",
+          "Jitter plus catch trials (partial trials on half the trials) reduce the maximum correlation to about r = 0.47.",
+          "Fundamental tradeoff: blocks detect condition differences best; unpredictable sequences (m-sequences) estimate HRF shape best.",
+          "Tools: the genetic algorithm (Wager and Nichols 2003), OptSeq (Greve) and m-sequence programs (Buracas) optimize trial order.",
+          "The genetic algorithm handles multiple weighted contrasts, filtering, autocorrelation, a simple nonlinearity model and counterbalancing.",
+          "A favored scheme: event-related, pseudorandomized by genetic algorithm, balancing contrast and HRF power, with at least 4 s between events."
+        ]
+      }
+    ],
+    "key_terms": ["design efficiency", "A-optimality", "predictor variance", "high-pass filter", "autocorrelation matrix", "block design", "event-related design", "jitter and catch trials", "BOLD nonlinearity", "genetic algorithm optimization"],
+    "takeaways": [
+      "A design must first induce the intended mental process; activation for the wrong reasons is easy to obtain.",
+      "Efficiency is set by predictor variance and covariance, and can be computed from the design before any data are collected.",
+      "Number of subjects, block length near 18 s, randomization and event spacing of several seconds matter more than clever modeling."
+    ]
+  },
+  {
+    "id": "3.2",
+    "title": "Group analysis: fixed, random, and mixed effects",
+    "instructor": "Wager",
+    "duration": "0:45",
+    "type": "lecture",
+    "overview": "This lecture explains why generalizing to a population requires modeling between-subject variance, and compares fixed-effects, two-stage summary-statistics and full mixed-effects approaches. It also covers second-level covariates, effects coding, robust regression for outliers, and the issues that arise when multiple images per subject are taken to the second level.",
+    "sections": [
+      {
+        "heading": "Sources of variance and terminology",
+        "points": [
+          "Group data contain unexplained error (E), design-related inefficiency (D) and individual differences (I).",
+          "Mixed effects, hierarchical models and random effects (RFX) in neuroimaging are the same idea: multiple variance components.",
+          "Fixed-effects models have a single variance component: scan-to-scan measurement error.",
+          "Only by including both measurement error and subject-to-subject variation can you generalize to unobserved subjects."
+        ]
+      },
+      {
+        "heading": "Fixed versus random effects",
+        "points": [
+          "A fixed effect has the same levels in every experiment (sex, drug type); a random effect has levels sampled from a population (subject, day, word).",
+          "If subject is treated as fixed, the error term omits between-subject variability and results cannot generalize to new subjects.",
+          "Fixed-effects error uses scan-to-scan variance with degrees of freedom from the number of scans; random-effects uses between-subject variance with df from subjects.",
+          "The sleepstudy example shows both intercepts and slopes varying randomly across participants.",
+          "Intra-subject variance can make every subject look different from zero while the population effect is not."
+        ]
+      },
+      {
+        "heading": "Two-stage summary statistics versus full mixed effects",
+        "points": [
+          "Two-stage approach (Holmes and Friston): estimate contrasts per subject, then t-test the contrast images across subjects.",
+          "Full mixed effects fits all trials in one model with random intercepts and slopes (lmer, fitlme, HLM, SAS proc mixed; spm_mfx, FSL FEAT, FEMA).",
+          "Combined model: the error term contains residual noise divided by within-subject sample size plus between-subject variance divided by N.",
+          "If within-subject variance differs across subjects, summary statistics are still unbiased but degrees of freedom are off; weighted least squares fixes this.",
+          "Mumford and Nichols (2006) and Olszowy et al. (2019): power differences between the two approaches are modest; summary statistics is valid under the null.",
+          "The grand GLM on concatenated data is wrong: it assumes independence within subjects and equal error variance across subjects."
+        ]
+      },
+      {
+        "heading": "Second-level designs and covariates",
+        "points": [
+          "Second-level covariates generate maps of interest (age, performance), explain error variance and control confounds.",
+          "The intercept is the average group activity when all covariates are zero; an ANOVA can be built from regression predictors.",
+          "Recommendation: effects-code categorical predictors as [1, -1] without centering, and mean-center continuous covariates.",
+          "With unequal N, mean-centering a [1, -1] covariate gives weighted effects coding, so the intercept is dominated by the larger group.",
+          "Controlling covariates can move the group intercept from non-significant to P = 0.001 by reducing residual variance."
+        ]
+      },
+      {
+        "heading": "Robust regression for outliers",
+        "points": [
+          "High-variance observations dominate when their values are extreme, and assumptions cannot be checked at every voxel.",
+          "Iteratively reweighted least squares: weight by inverse leverage, fit, scale and reweight residuals, refit until convergence, then adjust df.",
+          "A single outlier in N = 50 null data can produce false results that the robust IRLS solution removes.",
+          "Case studies in motor, pain and visual data show robust regression recovering expected activation."
+        ]
+      },
+      {
+        "heading": "Multiple images per subject and alternative summaries",
+        "points": [
+          "SPM handles one image per subject with the Holmes and Friston approach and multiple images with a variance basis (nonsphericity) approach.",
+          "Repeated measures violate sphericity because measurements within subjects are correlated; 48 images from 12 subjects do not yield 44 df.",
+          "SPM pools variance estimates across the brain from high-F voxels, which is inaccurate when variance is spatially heterogeneous.",
+          "Take multiple images to the second level only when a planned contrast is impossible, such as comparing multiple basis functions.",
+          "Spatial similarity to atlases, Neurosynth terms and neuromaps annotations offers another way to summarize activation maps."
+        ]
+      }
+    ],
+    "key_terms": ["variance components", "fixed effect", "random effect", "summary statistics approach", "Holmes and Friston", "mixed effects model", "effects coding", "robust regression (IRLS)", "nonsphericity", "second-level covariate"],
+    "takeaways": [
+      "To generalize to a population, between-subject variance must be in the error term and df must come from the number of subjects.",
+      "The two-stage summary-statistics approach is nearly as efficient as full mixed effects when subjects are reasonably balanced.",
+      "Covariate coding, outlier handling and repeated-measures dependence each change the interpretation and validity of group maps."
+    ]
+  },
+  {
+    "id": "3.3",
+    "title": "Group analysis: thresholding and inference",
+    "instructor": "Wager",
+    "duration": "0:45",
+    "type": "lecture",
+    "overview": "This lecture covers how to threshold statistical maps when testing many voxels: voxel-, cluster- and set-level inference, family-wise error control by Bonferroni, random field theory and permutation, and false discovery rate control. It then addresses the power cost of correction, pitfalls of cluster-extent thresholding, inflated effect sizes, and practical solutions such as a priori regions and patterns.",
+    "sections": [
+      {
+        "heading": "Levels of inference and the multiple comparisons problem",
+        "points": [
+          "SPM mainly tests signal magnitude at voxels; cluster volume p-values are available but sensitive to the cluster-defining threshold.",
+          "Testing 100,000 voxels at alpha = 0.05 yields about 5,000 false positives if tests were independent.",
+          "Arbitrary height plus extent thresholds (p < .001 and 10 voxels) are too liberal because smooth noise produces blob-like false positives.",
+          "Voxel-level inference is most spatially specific; cluster-level is more sensitive but only says some signal exists somewhere in the blob.",
+          "Set-level inference only says there is signal somewhere in the brain."
+        ]
+      },
+      {
+        "heading": "Family-wise error: Bonferroni and random field theory",
+        "points": [
+          "FWER means the chance of any false positive in the map is below alpha, so every suprathreshold finding can be interpreted.",
+          "Bonferroni uses alpha over V voxels (p < .05/1000 = .00005); it assumes independence and is conservative under smoothness.",
+          "Controlling FWER means thresholding the maximum statistic; random field theory gives the distribution of maxima via the Euler characteristic.",
+          "Corrected p depends on search volume, roughness and statistic value; larger volume or rougher data make correction more severe.",
+          "RFT needs FWHM smoothness 3 to 4 times voxel size (about 10 times for low-df t images) and stationarity for cluster results."
+        ]
+      },
+      {
+        "heading": "Nonparametric permutation tests",
+        "points": [
+          "Permutation uses the data to build the null distribution of any statistic, including the maximum, by relabeling conditions or subjects.",
+          "Toy example: six ABABAB blocks give 20 relabelings; the 95th percentile of the permutation distribution is the threshold.",
+          "Requires only exchangeability; subjects are exchangeable, but autocorrelated fMRI time series are not.",
+          "Nichols and Hayasaka (2003): permutation adapts to smoothness and is closest to truth; RFT is overconservative at low smoothness and df.",
+          "Smoothed-variance t and TFCE (in FSL randomise) are permutation-based statistics that improve sensitivity."
+        ]
+      },
+      {
+        "heading": "False discovery rate",
+        "points": [
+          "FDR is the expected proportion of reported positives that are false; it needs only p-values (Benjamini and Hochberg 1995).",
+          "Procedure: order p-values and reject those with p(i) below (i/V) times q, for example q = .05 over 1000 voxels.",
+          "FDR is always more liberal than FWER and adapts its threshold to the amount of signal.",
+          "You can claim most findings are true, but not which ones are false.",
+          "Since SPM8, FDR is applied topologically to peaks and clusters; set defaults.stats.topoFDR = 0 for voxel-wise FDR."
+        ]
+      },
+      {
+        "heading": "Cluster extent, TFCE and masking",
+        "points": [
+          "Cluster mass integrates height above the cluster-forming threshold and combines peak and extent information.",
+          "TFCE sums cluster support over all thresholds with parameters H = 2 and E = 0.5, avoiding a cluster-forming threshold.",
+          "Woo et al. (2014): with low cluster-forming thresholds, clusters span multiple anatomical regions and cannot be localized.",
+          "Recommendations: use voxel-level when powered; cluster-level only with p < .001 forming threshold and small blobs.",
+          "Correcting within a gray-matter mask instead of the whole brain mask improves power."
+        ]
+      },
+      {
+        "heading": "Power problems and solutions",
+        "points": [
+          "Median voxel-wise effect sizes are about d = 0.5 even in robust tasks (Poldrack et al. 2016; HCP N = 186).",
+          "With whole-brain FWER correction and low power, four studies of the same true effect may share zero overlapping voxels.",
+          "Post hoc effect sizes from significant voxels are inflated, and stricter thresholds make the inflation worse (Reddan et al. 2017).",
+          "Solutions: a priori ROIs from meta-analysis, testing parcels or networks, predefined patterns, and cross-validation.",
+          "Pattern responses generalize the ROI idea, need no thresholding and can be more sensitive than single regions."
+        ]
+      }
+    ],
+    "key_terms": ["family-wise error rate (FWER)", "false discovery rate (FDR)", "Bonferroni correction", "random field theory", "Euler characteristic", "permutation test", "cluster-forming threshold", "TFCE", "small volume / mask correction", "effect size inflation"],
+    "takeaways": [
+      "Correct per map, not per voxel: FWER lets you interpret each finding, FDR lets you claim most findings are true.",
+      "Permutation tests adapt to smoothness and are usually the most accurate and sensitive FWER method.",
+      "Whole-brain correction costs power and inflates effect sizes; a priori regions, patterns and cross-validation reduce the burden."
+    ]
+  },
+  {
+    "id": "3.4",
+    "title": "SPM results: group subjects, plotting, display, small-volume correction",
+    "instructor": "Kiehl",
+    "duration": "1:00",
+    "type": "hands-on",
+    "overview": "In this hands-on session you run a second-level one-sample t-test in SPM12 on 50 subjects' auditory oddball contrast images, then use the Results interface to threshold, tabulate, plot and display group activations. It also covers masking, FWE versus uncorrected thresholds, extent thresholds, overlays on anatomy, and small volume correction for a priori regions.",
+    "sections": [
+      {
+        "heading": "Second-level data and model setup",
+        "points": [
+          "Data: 50 derivative-boosted contrast images per contrast (targets vs. standards, novels vs. standards) under 50subjects-stats.",
+          "The derivative boost adjusts HRF amplitude for latency; it is required to carry temporal or dispersion derivatives to the second level.",
+          "Specify 2nd-level creates a batch: choose an output directory, then select all 50 con images as scans.",
+          "MATLAB selects files in the order 1, 10, 11, ... 19, 2, 20; any covariate vector (e.g., age) must match this order.",
+          "Run the batch to write SPM.mat, then Estimate the model."
+        ]
+      },
+      {
+        "heading": "Contrast manager",
+        "points": [
+          "Results opens the contrast manager: design matrix on the right, defined contrasts on the left.",
+          "Choose t-contrast or F-contrast, Define new contrast, name it and enter weights (a single 1 for the group mean).",
+          "SPM accepts only estimable contrasts; valid contrasts are shown in green, invalid in red.",
+          "Select the contrast and press Done to proceed to masking and thresholding prompts."
+        ]
+      },
+      {
+        "heading": "Masking and thresholding options",
+        "points": [
+          "Apply masking: none, contrast or image; inclusive masks keep voxels significant in the mask contrast, exclusive removes them.",
+          "Masking at p = 0.05 uncorrected (default) does not change the target contrast's p-values, only which voxels are shown.",
+          "p-value adjustment: FWE at 0.05 means one map in twenty contains a false positive anywhere; none gives uncorrected voxel-level p, default 0.001.",
+          "Uncorrected p = 0.001 over 50,000 voxels gives about 50 expected false positives.",
+          "Extent threshold k shows only clusters with at least k voxels; the default 0 allows single-voxel activations."
+        ]
+      },
+      {
+        "heading": "Glass brain, tables and files",
+        "points": [
+          "The Graphics window shows a maximum intensity projection (MIP) on a glass brain in three orthogonal planes.",
+          "The MIP is surfable: drag the red cursor or right-click for a menu; the design matrix with the selected contrast is shown alongside.",
+          "Whole brain lists clusters and maxima more than 8 mm apart with peak-, cluster- and set-level p-values; current cluster lists maxima 4 mm apart.",
+          "Clicking a row in the table moves the cursor; coordinates can also be typed in the Interactive window.",
+          "con_000n.nii and spmT_000n.nii images are written to the analysis directory; Save writes the thresholded map as NIfTI."
+        ]
+      },
+      {
+        "heading": "Plotting and overlays",
+        "points": [
+          "Plot offers contrast estimates with 90 percent CI, fitted responses, event-related responses, parametric responses and Volterra kernels.",
+          "Event-related options include fitted response with PSTH, with 90 percent CI, or with adjusted data; use hold to compare conditions.",
+          "Typing Y in MATLAB returns fitted values and y the adjusted data (adjusted for confounds and filtering).",
+          "Overlays: slices (three adjacent transaxial slices), sections (three intersecting surfable planes) or render on a surface.",
+          "For render, choose a subject rendering or the canonical mesh cortex_20484.surf.gii in the SPM canonical folder."
+        ]
+      },
+      {
+        "heading": "Small volume correction and data extraction",
+        "points": [
+          "With an a priori anatomical hypothesis, press small volume in the Interactive window and define a sphere, box or mask image.",
+          "Example from the manual: a 30 mm sphere centered at 44 16 0 for Broca's area.",
+          "The search volume shrinks and corrected p-values become more significant than whole-brain correction.",
+          "The eigenvariate button extracts a region's first eigenvariate (VOI_name.mat), a weighted mean robust to heterogeneous voxels."
+        ]
+      }
+    ],
+    "key_terms": ["Specify 2nd-level", "one-sample t-test", "contrast manager", "FWE correction", "uncorrected threshold", "extent threshold", "maximum intensity projection (MIP)", "sections and render overlays", "small volume correction (SVC)", "eigenvariate"],
+    "takeaways": [
+      "A group one-sample t-test in SPM is a contrast of 1 on the intercept over subjects' contrast images.",
+      "Check the file order before adding covariates; SPM's file selector does not sort numerically.",
+      "Use FWE-corrected thresholds by default, and reserve small volume correction for regions specified before looking at the data."
+    ],
+    "hands_on": [
+      "Click Specify 2nd-level; set the output directory to ../mind/data/auditory_oddball/50subjects-stats/Group-stats-targets_vs_standards.",
+      "Under Scans, select all 50 files 1-db_targets_vs_standards.img ... 50-db_targets_vs_standards.img from 50_subs_contrast_images_target_stimuli and click Done.",
+      "Note the selection order (1, 10, 11, ..., 2, 20, ...); any covariate vector must match it. Click the green arrow to build SPM.mat.",
+      "Click Estimate, select the new SPM.mat, and run.",
+      "Click Results, select SPM.mat, Define new contrast named target vs standard with weight 1, submit, OK, Done.",
+      "Answer the prompts: masking none, p-value adjustment FWE, p = 0.05, extent threshold 0.",
+      "Inspect the glass-brain MIP; press whole brain and current cluster for results tables; click rows to move the cursor.",
+      "Press Plot: Contrast estimates and 90% CI, then Fitted responses; type Y or y in MATLAB to inspect the values.",
+      "Use Overlays: sections (select a normalized structural or SPM canonical image) and render (cortex_20484.surf.gii).",
+      "Re-threshold with none at p = 0.001 and an extent threshold (e.g., 10 voxels) and compare to the FWE map.",
+      "Press small volume, define a sphere around an a priori coordinate, and compare corrected p-values with the whole-brain table.",
+      "Repeat the steps for the novels vs. standards contrast images."
+    ]
+  },
+  {
+    "id": "3.5",
+    "title": "ICA II: fMRI",
+    "instructor": "Calhoun",
+    "duration": "1:00",
+    "type": "lecture",
+    "overview": "This lecture extends ICA to multi-subject fMRI: how components are combined across subjects, how single-subject maps and time courses are recovered by back-reconstruction, and how group inferences are made on ICA outputs. It also surveys processing issues (model order, motion, autocorrelation, filtering, denoising), task versus rest, and applications in diagnosis, prediction and dynamic connectivity.",
+    "sections": [
+      {
+        "heading": "Combining ICA across subjects",
+        "points": [
+          "Two questions: how to combine components across subjects and how to threshold and present the results.",
+          "Approach 1 runs a separate ICA per subject, then requires matching which components to compare across individuals.",
+          "Approach 2 (group ICA) stacks reduced data across subjects so components and time courses are directly comparable.",
+          "Pipeline: subject-level PCA, concatenation, group PCA, ICA, then back-reconstruction of subject maps and time courses.",
+          "In a 10-subject visual-perception task, ICA found the SPM network plus primary motor, anterior frontal and superior parietal regions."
+        ]
+      },
+      {
+        "heading": "Back-reconstruction and validation",
+        "points": [
+          "Back-reconstruction methods: GICA1, GICA2, GICA3 and spatial-temporal (dual) regression; GICA3 improves both maps and time courses.",
+          "Simulations show a subject's unique source is recovered with little influence from other subjects.",
+          "ICA assumes stationarity across subjects; task activation is stationary while physiological noise is not, yet activation is preserved.",
+          "SimTB simulations vary rotation, position, amplitude and inter-component correlation to test what group ICA recovers.",
+          "Peak locations and functional localization are preserved under moderate spatial variability between subjects."
+        ]
+      },
+      {
+        "heading": "A simple example and its output",
+        "points": [
+          "Nine-subject visuomotor study: TR = 1 s, 360 volumes, reduced 360 to 25 per subject, concatenated 225 to 20 components.",
+          "Group ICA maps thresholded at t > 4.5 matched GLM random-effects maps and appeared more sensitive to hemodynamic differences.",
+          "Right and left visual field stimulation were separable both in group ICA and per-subject ICA.",
+          "Second-level analysis takes ICA parameters (regression fit amplitudes, voxel weights) into a standard GLM hypothesis-testing framework.",
+          "Components are sorted by R-squared between ICA time courses and model regressors, then betas are tested across subjects."
+        ]
+      },
+      {
+        "heading": "Multivariate testing framework and connectivity",
+        "points": [
+          "Multivariate tests ask whether any of a set of voxels or components is affected by a covariate, rather than testing each voxel alone.",
+          "Outputs analyzed jointly: spatial maps, functional network connectivity (FNC, correlation among component time courses) and spectra.",
+          "Resting ICA of 603 subjects yielded 28 labeled networks among 75 components; FNC differs between patients and controls.",
+          "Automated classifiers and sorting distinguish noise components from intrinsic networks and reorder FNC matrices.",
+          "Multi-scale ICA (20 to 100 components) shows diagnosis and motion effects on FNC with distinct patterns; 1000-component ICA gives fine overlapping units."
+        ]
+      },
+      {
+        "heading": "Processing issues",
+        "points": [
+          "Pre-normalization choices: none, intensity normalization (divide by voxel mean) or variance normalization (voxel-wise z-scoring) affect reliability.",
+          "Motion: non-movers, continuous movers (FD > 0.2 mm) and spiky movers (FD > 0.5) compared with regression or scrubbing pre- and post-ICA.",
+          "Temporal autocorrelation inflates correlation p-values; corrected inference and autoconnectivity features are needed.",
+          "High-frequency filtering may remove signal along with noise (baby vs. bathwater).",
+          "Denoising via classifiers of noise components at the single-subject and group level; seed and ICA connectivity are closely related.",
+          "Spatially constrained ICA uses network priors from HCP and other datasets to get subject-specific maps with preserved labels."
+        ]
+      },
+      {
+        "heading": "Task versus rest, applications and tools",
+        "points": [
+          "Auditory oddball and rest yield highly similar networks (correlations 0.78 to 0.96), but task modulates their spatial and temporal properties.",
+          "Applications: schizophrenia classification from FNC and spatial maps, mood-disorder medication response, simulated driving with alcohol.",
+          "Dynamic FNC with sliding windows and time-frequency methods captures changing connectivity states.",
+          "GIFT provides group ICA, MANCOVA, ICASSO stability, dynamic FNC and source-based morphometry; SimTB simulates data.",
+          "NeuroMark templates from 100k+ subjects at model orders 25 to 200 enable fully automated, comparable single-subject ICA."
+        ]
+      }
+    ],
+    "key_terms": ["group ICA", "back-reconstruction", "GICA3", "dual regression", "model order", "functional network connectivity (FNC)", "MANCOVA", "spatially constrained ICA", "NeuroMark", "dynamic FNC"],
+    "takeaways": [
+      "Group ICA concatenates PCA-reduced data so that components are directly comparable, then recovers subject-specific maps and time courses.",
+      "ICA outputs (maps, time courses, FNC, spectra) feed standard GLM or multivariate tests for group inference.",
+      "Preprocessing choices, motion, autocorrelation and model order all shape ICA results and must be reported."
+    ]
+  },
+  {
+    "id": "3.6",
+    "title": "ICA of fMRI: implementation",
+    "instructor": "Calhoun, Kiehl",
+    "duration": "1:30",
+    "type": "hands-on",
+    "overview": "In this hands-on session you run a group ICA in the GIFT toolbox, following the GIFT walkthrough, on the course's auditory oddball data. You set up the analysis parameters, run the data reduction, ICA, back-reconstruction and group statistics steps, and then use the display and sorting tools to identify task-related components.",
+    "sections": [
+      {
+        "heading": "Setup ICA: main parameters",
+        "points": [
+          "Start GIFT (gift.m adds paths), click Setup ICA and choose an output directory; all outputs share a user-entered prefix.",
+          "Select the fMRI data files; a Subject.mat file records subjects, sessions and files.",
+          "Optionally estimate the number of components with the MDL criterion; otherwise enter Number of IC (default 20).",
+          "Auto-fill data reduction sets first-step PCs to 1.5 times the number of final components when two reduction steps are used.",
+          "Algorithms include Infomax (default), FastICA, ERICA, JADE, Constrained ICA and GIG-ICA; ICASSO or MST runs ICA repeatedly for stability.",
+          "Choose serial or parallel execution."
+        ]
+      },
+      {
+        "heading": "Setup ICA defaults: preprocessing, PCA and scaling",
+        "points": [
+          "Pre-processing options: remove mean per timepoint, remove mean per voxel, intensity normalization (mean 100) or variance normalization (z-scores).",
+          "Mask: default mask from the mean of each subject's first file, or a user-supplied Analyze/NIfTI mask.",
+          "PCA types: standard, expectation maximization, SVD, MPOWIT and STP; stack datasets in single precision when memory allows.",
+          "Group PCA can be subject-specific or grand mean; up to two reduction steps, with Number of PC (Step 1) per subject.",
+          "Back-reconstruction: regular (GICA2), spatial-temporal regression, GICA3 or GICA; GICA3 preserves both the aggregate map and the data.",
+          "Scaling: none, percent signal change, z-scores, scaling in time courses, or in maps and time courses; spatial ICA is the default."
+        ]
+      },
+      {
+        "heading": "Run analysis",
+        "points": [
+          "Run Analysis takes the *ica_parameter_info.mat file and offers All, Resume or individual steps.",
+          "Steps: parameter initialization, data reduction, calculate ICA, back reconstruction, calibrating components, group stats.",
+          "Group stats writes mean, standard deviation and t-statistic maps and time courses per session in Analyze/NIfTI.",
+          "Command line: load the parameter file and call icatb_runAnalysis(sesInfo, step) with steps 1 to 8.",
+          "Progress and settings are logged to the _results.log file; Analysis Info summarizes parameters and output files."
+        ]
+      },
+      {
+        "heading": "Display tools",
+        "points": [
+          "Display GUI combines Component Explorer, Subject Component Explorer, Orthogonal Viewer and Composite Viewer.",
+          "Display Defaults control image values (positive, negative, absolute), z-score conversion, threshold, anatomical plane, slice range and images per figure.",
+          "Component Explorer shows all components of a viewing set (e.g., mean of all subjects) with time courses; page through to find task-related components.",
+          "Subject Component Explorer shows one component across all subjects and sessions.",
+          "Orthogonal Viewer compares the BOLD time course at a clicked voxel with the ICA time course and lists the top five components.",
+          "Composite Viewer overlays up to five components on an anatomical image such as ch2bet.nii."
+        ]
+      },
+      {
+        "heading": "Sorting components",
+        "points": [
+          "Temporal sorting compares ICA time courses with SPM model regressors using correlation, kurtosis or multiple linear regression (R-squared).",
+          "Select the SPM design matrix under Display GUI Options; regressors like target*bf(1) define the model time courses.",
+          "Results are written to files with suffix regression.txt and partial_corr.txt.",
+          "The enlarged time-course plot offers power spectrum, split time courses, event average and Adjust ICA to remove other regressors' variance.",
+          "Spatial sorting uses templates in icatb_templates with multiple regression, correlation, kurtosis or maximum voxel criteria."
+        ]
+      }
+    ],
+    "key_terms": ["GIFT", "Setup ICA", "prefix", "MDL component estimation", "Infomax", "ICASSO", "data reduction (PCA)", "back-reconstruction", "Component Explorer", "temporal sorting"],
+    "takeaways": [
+      "A GIFT analysis is a sequence of setup, reduction, ICA, back-reconstruction, calibration and group statistics that can be resumed step by step.",
+      "The key choices are number of components, preprocessing and scaling, PCA type and back-reconstruction method.",
+      "Components are identified by viewing maps and time courses and by sorting against the task model or spatial templates."
+    ],
+    "hands_on": [
+      "Add GIFT to the MATLAB path (run gift.m) and open the GIFT toolbox window.",
+      "Click Setup ICA, choose an output directory (e.g., ../mind/data/auditory_oddball_ica) and enter a prefix such as Aod.",
+      "Click Select to choose the preprocessed auditory oddball fMRI files for each subject; confirm the Subject.mat summary.",
+      "Set Number of IC to 20 (or estimate with MDL), keep auto-fill data reduction, algorithm Infomax, analysis type Regular (or ICASSO).",
+      "In Setup ICA Defaults check preprocessing (e.g., remove mean per timepoint), default mask, standard PCA, two reduction steps, GICA3 back-reconstruction and z-score scaling; press Done and accept ICA options.",
+      "Click Run Analysis, select Aod_ica_parameter_info.mat, choose All and wait for data reduction, ICA, back-reconstruction, calibration and group stats.",
+      "Click Analysis Info to review parameters and output files; check the _results.log file.",
+      "In Display GUI choose Component Explorer with viewing set mean for all subjects and sessions; page through Aod_mean_component_ica_s_all_0xx images to find task-related components.",
+      "Use Subject Component Explorer for a chosen component to examine consistency across subjects.",
+      "Open Orthogonal Viewer, click a voxel in auditory cortex and compare the BOLD and ICA time courses.",
+      "Enable Sort Components with temporal sorting, Multiple Regression, select the SPM design matrix and target/novel regressors; view the R-squared ordering.",
+      "In the enlarged time-course window use Event Average for the target regressor, then overlay the top components in the Composite Viewer on ch2bet.nii."
+    ]
+  }
+]

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.3 MATLAB basics and orientation — fMRI Course</title>
+<meta name="description" content="A brief tour of MATLAB for people who will use SPM: the desktop, getting help, variable types, scripts versus functions, and file types. Then orients you t">
+<meta property="og:title" content="1.3 MATLAB basics and orientation — fMRI Course">
+<meta property="og:description" content="A brief tour of MATLAB for people who will use SPM: the desktop, getting help, variable types, scripts versus functions, and file types. Then orients you t">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/calhoun2017_t1_epi.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 1 · Acquisition, preprocessing, and the GLM</p>
+        <div class="lec-meta"><span><b>Day 1</b></span><span><b>Session 1.3</b></span><span>Wager</span><span>0:10 h</span><span>Hands-on session</span></div>
+        <h1>MATLAB basics and orientation</h1>
+        <p class="lede">A brief tour of MATLAB for people who will use SPM: the desktop, getting help, variable types, scripts versus functions, and file types. Then orients you to how SPM works as a collection of functions that read and write image files, what NIfTI and MNI space mean, and which SPM defaults are worth changing before you start.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>MATLAB scripts run in your workspace; functions are isolated black boxes; SPM is mostly functions that read and write image files.</li><li>Know where your images are in space: NIfTI headers, an origin near the anterior commissure, and MNI versus Talairach.</li><li>Set your own SPM defaults (high-pass filter, autocorrelation model, mask threshold, memory) in spm_my_defaults.m rather than accepting the stock values.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>Command Window</li><li>workspace</li><li>struct</li><li>cell array</li><li>script vs. function</li><li>.mat / .m / .mex</li><li>NIfTI</li><li>MNI space</li><li>spm_defaults.m</li><li>mask.nii</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec1-3_c.jpg" alt="3-D head rendering with orthogonal slice planes" loading="lazy" width="1469" height="1210"><figcaption><b>3-D head rendering with orthogonal slice planes.</b> Lecture 1.3 slides (Wager)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>The MATLAB desktop and getting help</span></h3><ul><li>MATLAB&#x27;s strengths for fMRI: visualization, matrix operations, and built-in help.</li><li>Desktop panels: Command Window, Command History, Workspace, and Current Directory.</li><li>Unix-style navigation: cd some_dir changes directory, ls lists files.</li><li>help spline prints a function&#x27;s help text; helpdesk opens the Help Browser.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>Variables, types, and the workspace</span></h3><ul><li>Assignments like a = 5; b = 7; c = a + b create variables in the base workspace.</li><li>Types: double (numbers), char (text), struct (named fields, e.g., subj.id and subj.name), [ ] matrices, { } cell arrays of mixed content.</li><li>A struct can hold a region name, a time series vector, and a 3D coordinate grid together.</li><li>save mywkspace writes variables to a .mat file; load brings them back.</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec1-3_a.jpg" alt="Axial brain slices in a false-color map" loading="lazy" width="1522" height="666"><figcaption><b>Axial brain slices in a false-color map.</b> Lecture 1.3 slides (Wager)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec1-3_b.jpg" alt="Coronal, sagittal, and axial anatomical slices" loading="lazy" width="518" height="518"><figcaption><b>Coronal, sagittal, and axial anatomical slices.</b> Lecture 1.3 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">03</span><span>File types, scripts, and functions</span></h3><ul><li>.mat holds data; .m is an editable script or function; .mex is a compiled function you cannot edit.</li><li>A script is a list of commands run in the base workspace, as if typed.</li><li>A function has its own isolated workspace and sees only what is passed in: a black box with inputs and outputs.</li></ul></article><article class="osec glow rv"><h3><span class="n">04</span><span>SPM as functions and files</span></h3><ul><li>SPM is a collection of functions: some open a GUI, a few return output to the workspace, most read and write files to disk.</li><li>Image formats: NIfTI (.nii); Analyze (.img, .hdr, plus a .mat in SPM); others outside SPM include CIFTI, GIFTI, and AFNI BRIK.</li><li>The origin [0 0 0] is typically the anterior commissure; MNI space is more precise than Talairach, though the SPM/FSL origin is slightly off the AC.</li><li>If which spm reports not found, use pathtool to add the SPM folder; which spm then shows the file being used.</li><li>Command-line entry points: spm_vol (header info), spm_read_vols (read data), spm_image(&#x27;init&#x27;, filename) (display in orthviews), spm_orthviews (control the display).</li></ul></article><article class="osec glow rv"><h3><span class="n">05</span><span>SPM defaults worth changing</span></h3><ul><li>Defaults live in spm_defaults.m; put your overrides in spm_my_defaults.m on the path.</li><li>Recommended: defaults.stats.fmri.hpf = 180 (128 can be too low; choose deliberately) and defaults.stats.fmri.cvi = &#x27;None&#x27; rather than AR(1) or FAST.</li><li>defaults.mask.thresh = -Inf instead of 0.8, so implicit masking does not block explicit masks.</li><li>defaults.stats.maxmem = 2^33 (about 8.6 GB) depending on your RAM; defaults.stats.topoFDR = 0.</li><li>Every SPM analysis writes mask.nii; a voxel missing in one subject is dropped for the whole group, whereas CANlab tools analyze available subjects voxel-wise.</li></ul></article></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/calhoun2017_t1_epi.jpg')"></div><div class="band-cap">Inter-subject variability after T1 versus EPI normalization — Calhoun et al. (2017), Human Brain Mapping</div></div><section class="section"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Hands-on</p><h2>Step by step</h2></div><p class="lede rv rv-d1">The walk-through below is distilled from the course cheat sheets. Data paths refer to the course Dropbox folder (e.g. <code>data/auditory_oddball</code>).</p></div><ol class="steps-list rv"><li><span>Open MATLAB and identify the Command Window, Command History, Workspace, and Current Directory panels.</span></li><li><span>Use cd and ls to move to the mind folder and list its contents.</span></li><li><span>Type help spline and helpdesk to see the two forms of help.</span></li><li><span>Create variables: a = 5; name = &#x27;Tor&#x27;; subj.id = 100; c = [1 2 3; 4 5 6; 7 8 9]; a cell array with { }.</span></li><li><span>Save the workspace with save mywkspace, clear, and reload with load.</span></li><li><span>Type which spm; if not found, use pathtool to add the SPM folder.</span></li><li><span>Try spm_vol and spm_read_vols on a course image, then spm_image(&#x27;init&#x27;, filename) to view it.</span></li><li><span>Review spm_defaults.m and create spm_my_defaults.m with the recommended hpf, cvi, mask.thresh, maxmem, and topoFDR settings.</span></li></ol></div></section><section class="section"><div class="wrap"><div class="section-head" style="margin-top:2rem"><div class="rv"><p class="eyebrow">From the instructors' research</p><h2>Related figures</h2></div><p class="lede rv rv-d1">Examples of these concepts in published work by the course instructors.</p></div><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/woo2017_biomarker_levels.jpg" alt="Levels of evidence for developing and validating brain biomarkers" loading="lazy" width="903" height="473"><figcaption><b>Levels of evidence for developing and validating brain biomarkers.</b> Woo et al. (2017), Nature Neuroscience</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/du2020_neuromark_templates.jpg" alt="NeuroMark network templates by functional domain" loading="lazy" width="976" height="775"><figcaption><b>NeuroMark network templates by functional domain.</b> Du et al. (2020), NeuroImage: Clinical</figcaption></figure></div></div></section><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-1-2b.html"><small>Previous · 1.2b</small><strong>Install: SPM and toolboxes</strong></a><a class="next" href="lectures/session-1-4.html"><small>Next · 1.4</small><strong>Reproducible analysis: coding and data-management practices; CANlab tools install check</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

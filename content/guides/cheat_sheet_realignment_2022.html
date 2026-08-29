@@ -1,0 +1,111 @@
+<p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Course Realignment</p>
+<p>-Realignment – using INRIAlign –</p>
+<p>Freire, L. &amp; Mangin, J.-F. (2001). Motion correction algorithms
+may</p>
+<p>create spurious brain activations in the absence of subject
+motion.</p>
+<p>NeuroImage, vol. 14, pp. 709–722.</p>
+<p>See also:</p>
+<p>Freire, L., Roche, A. &amp; Mangin, J.-F. (2002). What is the best
+similarity measure for motion correction in fMRI time series? IEEE
+Transactions on Medical Imaging, 21 (5), 470-484.</p>
+<blockquote>
+<p>– INRIAlign.</p>
+</blockquote>
+<p>- Set your working directory:</p>
+<p>- click on ‘utils’ on the spm gui</p>
+<p>- select ‘cd’ – dialog box opens, select your working directory
+(e.g., c:\mind)</p>
+<p>- Start realignment – INRIAlign version –</p>
+<p>‘select ‘toolboxes’ on the bottom left spm gui. Select
+‘INRIAlign’.</p>
+<ul>
+<li><p>a dialog box is generated that asks to ‘check local
+parameters’.</p></li>
+<li><p>You may ‘use defaults’.</p>
+<ul>
+<li><p>Number of subjects ‘select 4’ (2 subjects x 2 sessions)</p></li>
+<li><p>The file select dialog box will open</p></li>
+<li><p>Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run1’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s01_aod_run1.nii,1 to s01_aod_run1.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>CLICK on ‘DONE’ to complete files for first subject.</p>
+<ul>
+<li><p>Select data for subject 1 session 2- directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run2’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s01_aod_run2.nii,1 to s01_aod_run2.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>CLICK on ‘DONE’ to complete files for second subject (session 2
+of s01) .</p>
+<ul>
+<li><p>Select data for subject 2 session 1 - directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s02\run1’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s02_aod_run1.nii,1 to s02_aod_run1.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>- CLICK on ‘DONE’ to complete files for third subject (session 1 of
+subject s02).</p>
+</blockquote>
+<ul>
+<li><p>Select data for subject 2 session 2 - directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s02\run2’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s02_aod_run2.nii,1 to s02_aod_run2.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>- CLICK on ‘DONE’ to complete files for third subject (session 2 of
+subject s02).</p>
+</blockquote>
+<p>Under the dialog ‘Which Option?’</p>
+<ul>
+<li><p>select ‘coregister and reslice’</p></li>
+</ul>
+<blockquote>
+<p>Under dialog ‘Reslice interpolation method’</p>
+</blockquote>
+<ul>
+<li><p>select ‘sync’</p></li>
+</ul>
+<blockquote>
+<p>Under dialog ‘Create what?’</p>
+</blockquote>
+<ul>
+<li><p>select ‘mean image only’</p></li>
+</ul>
+<blockquote>
+<p>INRIAlign starts. Output maps are same as spm’s default realignment.
+The process will also output the realignment parameters (3 rotation x 3
+translation) (rp_s01_aod_run1.txt), a postscript file with the motion
+plots (spm_2022Mar08.ps), and a mean image for each run
+(means01_aod_run1.nii).</p>
+</blockquote>

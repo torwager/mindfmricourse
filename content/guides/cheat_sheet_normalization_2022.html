@@ -1,0 +1,124 @@
+<p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Normalization</p>
+<p>-Spatial normalization –</p>
+<p>This procedure takes the mean fMRI (EPI) image for each session for
+each subject and spatially normalizes (using linear and nonlinear
+(tailored basis set) to the EPI template provided with SPM. This latter
+procedure works well to account for EPI distortions and nonlinear
+warping that is not well managed if you use the alternative path of
+using the linear coregistration of the mean fMRI (EPI image) for each
+session for each subject to the subjects T1 (anatomical) images. Then
+the subject’s anatomical T1 image is used to determine spatial
+normalization parameters and these parameters are applied to the EPI
+images for that subject’s sessions since they are ‘coregistered’ to the
+subjects T1 data. This latter step does not consider the nonlinearities
+inherent in EPI data.</p>
+<p>Here is the citation relevant to this process:</p>
+<ol type="1">
+<li><p>Calhoun, V.D., Wager, T.D., Krishnan, A., Rosch, K.S., Seymour,
+K.E., Nebel, M.B., Mostofsky, S.H., Nyalakanai, P., &amp; Kiehl, K.A.
+(2017). The impact of T1 vs EPI spatial registration templates for fMRI.
+<em>Human Brain Mapping</em>, 38(11), 5331-5342<em>. PMID: 28745021
+PMCID: <a
+href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5565844/">PMC5565844</a>
+DOI: <a
+href="https://doi.org/10.1002/hbm.23737">10.1002/hbm.23737</a></em></p></li>
+</ol>
+<p>- Set your working directory:</p>
+<p>- click on ‘utils’ on the spm gui</p>
+<p>- select ‘cd’ – dialog box opens, select your working directory
+(e.g., c:\mind)</p>
+<p>- Start normalization –</p>
+<p>- click on ‘normalization’ button in spm gui; select ‘normalize
+&lt;-X’</p>
+<p>- in the spm graphics gui, select ‘New “Normalize: Estimate &amp;
+Write”</p>
+<p>We are going to use the ‘old normalize routine’.</p>
+<p>Using your mouse, right click in the ‘module list’ and delete the
+Normalize process.</p>
+<p>Then select the SPM button, tools, old normalize, estimate and
+write.</p>
+<p><img src="../assets/img/guides/cheat_sheet_normalization_2022/image1.png"
+style="width:4.06452in;height:3.84963in"
+alt="Graphical user interface, text, application Description automatically generated" /></p>
+<p>- click on ‘+Normalize: Estimate &amp; Write’ to expand to see:</p>
+<p>-Normalize: Estimate &amp; Write</p>
+<blockquote>
+<p>Data &lt;. X</p>
+</blockquote>
+<p>+Estimation Options</p>
+<p>+Writing Options</p>
+<p>-Click on ‘Data &lt;-X’</p>
+<p>-Click on ‘New “Subject”’ 4 times (once for each session x 2
+subjects)</p>
+<p>Your display should now look like:</p>
+<p>-Normalize: Estimate &amp; Write</p>
+<blockquote>
+<p>Data</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+<p>+Subject &lt;-X</p>
+</blockquote>
+<p>+Estimation Options</p>
+<p>+Write Options</p>
+<ul>
+<li><p>Now you can click on the first ‘Subject &lt;-X’ above</p></li>
+<li><p>Then click on ‘Source Image &lt;-X’</p>
+<ul>
+<li><p>Select ‘specify files’</p></li>
+<li><p>Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\01’</p>
+<ul>
+<li><p>Select the mean EPI image for this subject.</p>
+<ul>
+<li><p>means01_aod_run1.nii</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>Select ‘Images to write &lt;-X</p>
+<p>- Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run1’</p>
+</blockquote>
+<ul>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s01_aod_run1.nii,1 to s01_aod_run1.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<ul>
+<li></li>
+<li><p>Repeat ‘subject’ specification three more times to select the
+mean image for s01 run2, s02 run1, and s02 run2. carefully selecting the
+mean image and corresponding functional images to normalize for each
+session.</p></li>
+</ul>
+<p>Click on ‘estimation options’,</p>
+<ul>
+<li><p>select ‘template image &lt;-X’</p>
+<ul>
+<li><p>specify files – go to c:\mind\toolboxes\spm12\toolbox\OldNorm\’
+and select the ‘EPI.nii’ image.</p></li>
+</ul></li>
+<li></li>
+<li><p>All other options are set for you by default. Always review the
+spm normalization postscript output to ensure that you have used ‘4x5x4
+basis functions’. If you see ‘9x12x9’ then you may need to renormalize
+the data and set the ‘nonlinear frequency cutoff to 45’.</p></li>
+<li><p>Click on writing options if you want to change any other options.
+In our defaults, we are reslicing into 3x3x3 mm.</p></li>
+</ul>
+<blockquote>
+<p>Click Run and spatial normalization will go.</p>
+<p>The outputs include appending the spm_2022mar8.ps with the spatial
+normalization output files; you will see ‘means01_aod_run1_sn.mat’ – a
+file that contains the transformation data for native space to MNI
+space; and you will see ‘ws01_aod_run1.nii’ image file – this file
+contains the warped images that are now in MNI space.</p>
+</blockquote>

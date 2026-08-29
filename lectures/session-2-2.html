@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2.2 GLM filtering and nuisance regressors — fMRI Course</title>
+<meta name="description" content="This session surveys the main sources of noise in fMRI time series (scanner drift, spikes, physiological fluctuations, head motion) and the post-acquisitio">
+<meta property="og:title" content="2.2 GLM filtering and nuisance regressors — fMRI Course">
+<meta property="og:description" content="This session surveys the main sources of noise in fMRI time series (scanner drift, spikes, physiological fluctuations, head motion) and the post-acquisitio">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><img class="mark" src="../assets/img/mark.svg" alt=""><span><b>fMRI</b> Course</span></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Home</a>
+      <a href="../instructors.html">Instructors</a>
+      <a href="../content.html">Content</a>
+      <a href="../materials.html">Materials</a>
+      <a class="cta" href="../enroll.html">Enroll</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="curtain">
+  <div class="curtain-media photo" data-parallax style="background-image:url('../assets/img/figures/calhoun2017_t1_epi.jpg')">
+    <div class="hero-copy page-hero">
+      <div class="wrap">
+        <p class="eyebrow">Day 2 · Modeling, connectivity, and ICA</p>
+        <div class="lec-meta"><span><b>Day 2</b></span><span><b>Session 2.2</b></span><span>Wager</span><span>0:30 h</span><span>Lecture</span></div>
+        <h1>GLM filtering and nuisance regressors</h1>
+        <p class="lede">This session surveys the main sources of noise in fMRI time series (scanner drift, spikes, physiological fluctuations, head motion) and the post-acquisition tools for removing them: high-pass filtering, outlier indicator regressors, physiological models, and motion covariates. It uses a real conditioning dataset to show how task-correlated motion produces implausible results, discusses the trade-offs of scrubbing, and frames covariate selection as a causal-inference decision. Practical tools in SPM and CANlab are described.</p>
+        
+      </div>
+    </div>
+    <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
+  </div>
+  <div class="curtain-body" id="start">
+<section class="section"><div class="wrap glance"><div class="rv"><p class="eyebrow">Take-aways</p><ul class="takeaways"><li>Removing known noise (high-pass filtering, motion and spike regressors, physiological models) helps far more than modeling the residual noise structure.</li><li>Choose the high-pass cutoff relative to the design&#x27;s longest periodicity and check how much contrast variance an event-related design loses.</li><li>Task-correlated motion does not average out at the group level; include motion covariates and outlier indicators, scrub sparingly, and reason causally about which covariates to add.</li></ul></div><div class="rv rv-d1"><p class="eyebrow">Key terms</p><ul class="terms"><li>high-pass filter</li><li>discrete cosine basis</li><li>1/f noise</li><li>Nyquist limit</li><li>aliasing</li><li>RETROICOR</li><li>nuisance regressor</li><li>24-parameter motion model</li><li>scrubbing</li><li>collider bias</li></ul><div style="margin-top:1.4rem"><figure class="figure glow"><img src="../assets/img/figures/lec2-2_c.jpg" alt="Low-frequency drift fit and its separation from task signal" loading="lazy" width="1156" height="792"><figcaption><b>Low-frequency drift fit and its separation from task signal.</b> Lecture 2.2 slides (Wager)</figcaption></figure></div></div></div></section><section class="section" style="background:var(--bg-2)"><div class="wrap"><div class="section-head"><div class="rv"><p class="eyebrow">Outline</p><h2>What the session covers</h2></div></div><div class="outline"><article class="osec glow rv"><h3><span class="n">01</span><span>Sources and consequences of noise</span></h3><ul><li>Scanner instability: slow drift over time and transient spikes or gradient artifacts.</li><li>Physiological noise: heartbeat, respiration, and head movement, which interact with the magnetic field and cause artifacts.</li><li>Thermal noise is inherent signal instability but is much smaller than the first two sources.</li><li>Consequences: reduced power, artifacts and bias, and violation of the independence assumption, so single-subject p-values are invalid without a noise model.</li><li>Two strategies: model and remove noise (high-pass filtering, physiological regressors) or model the noise structure (autocorrelation, multilevel models); the first helps much more.</li><li>Ciric et al. 2018 review many approaches to motion mitigation in connectivity, including movement-related regressors.</li></ul></article><article class="osec glow rv"><h3><span class="n">02</span><span>Nuisance covariates and drift</span></h3><ul><li>The GLM Y = X beta + noise has an error covariance V whose form depends on the noise model.</li><li>Nuisance regressors capture known variance unrelated to the hypothesis: drift, physiological artifacts, and head motion.</li><li>Motion is typically six regressors (three translations, three rotations), sometimes with transformations added.</li><li>Drift is slow low-frequency change seen even in cadavers, so scanner instability rather than motion is the main cause.</li><li>Model drift with splines, polynomial bases, or a discrete cosine basis (the approach behind SPM high-pass filtering).</li></ul></article><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lec2-2_b.jpg" alt="Convolved regressors for two conditions with event onsets" loading="lazy" width="1340" height="674"><figcaption><b>Convolved regressors for two conditions with event onsets.</b> Lecture 2.2 slides (Wager)</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lec2-2_a.jpg" alt="Axial montage of task activation before nuisance filtering" loading="lazy" width="916" height="916"><figcaption><b>Axial montage of task activation before nuisance filtering.</b> Lecture 2.2 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">03</span><span>High-pass filtering and choosing a cutoff</span></h3><ul><li>Typical noise is 1/f: most variance sits at low frequencies (slow drift).</li><li>High-pass filtering removes variation below a cutoff; the SPM default is 128 s (0.0078 Hz).</li><li>A 16 s on/off block design oscillates at a 32 s period (0.031 Hz), above the cutoff, so filtering removes noise but keeps signal.</li><li>Random event-related designs spread variance across frequencies; in the example an 80 s (0.0125 Hz) filter removed about 12% of contrast variance.</li><li>Rule of thumb: twice the longest periodicity in the design plus 20-30 s for safety, since real physiological signals are irregular.</li><li>For event-related designs, inspect the effect of the filter on regressors and especially contrasts, and do not remove too much.</li></ul></article><article class="osec glow rv"><h3><span class="n">04</span><span>Spikes, physiological noise, and aliasing</span></h3><ul><li>Transient gradient artifacts appear as bright bands in individual slices; detect outliers via the global mean and successive differences (RMSSD).</li><li>Model flagged volumes with one indicator regressor per bad image.</li><li>Respiration and heartbeat are periodic and often alias into task frequencies; they are hard to remove and contribute to autocorrelation.</li><li>Nyquist limit: signals above half the sampling rate alias to lower frequencies; at TR = 2 s anything above 0.25 Hz aliases.</li><li>A realistic heartbeat at TR = 1 s aliases into low frequencies; avoiding most aliasing would require TR under 500 ms.</li><li>RETROICOR and RVHRCOR (Glover 2000; Chang and Glover 2009) model cardiac and respiratory phase, respiration volume, and heart rate.</li></ul></article><div class="fig-row "><figure class="figure glow"><img src="../assets/img/figures/lec2-2_d.jpg" alt="Discrete cosine high-pass filter basis alongside a box-car task" loading="lazy" width="586" height="586"><figcaption><b>Discrete cosine high-pass filter basis alongside a box-car task.</b> Lecture 2.2 slides (Wager)</figcaption></figure></div><article class="osec glow rv"><h3><span class="n">05</span><span>Head motion: covariates, scrubbing, and a case study</span></h3><ul><li>Realignment corrects position but not field changes and spin-history artifacts induced by motion.</li><li>Solutions: nuisance regressors (movement and global CSF covariates) or scrubbing (dropping high-motion images as missing data).</li><li>A 24-covariate motion model: centered parameters, their squares, successive differences, and squared differences (Lund et al. 2006).</li><li>CS+ vs. CS- shock conditioning (N = 25): task-correlated motion and spikes did not average out and produced implausible whole-brain activation or deactivation.</li><li>Diagnostic: histograms of contrast values across the brain per subject should be roughly mean zero and on the same scale (fmri_data.plot).</li><li>Adding motion covariates with squares and derivatives plus spike regressors removed implausible ventricle deactivation and revealed the expected cingulate pattern.</li></ul></article><article class="osec glow rv"><h3><span class="n">06</span><span>To scrub or not, when to control, and practical tools</span></h3><ul><li>Scrubbing concerns: data missing not at random, altered error distribution and autocorrelation, interpolation ignored in degrees of freedom, and no ground truth.</li><li>A matter of degree: removing about 1-3% of images via nuisance regressors is typical; lenient censoring produced better parcellations than strict censoring in recent work.</li><li>Covariate choice requires causal reasoning: adjust for confounders (back-door paths), generally not for mediators, descendants of mediators, or colliders.</li><li>Controlling for a collider opens a spurious path (collider bias); global signal regression is one example.</li><li>CANlab tools: movement_regressors() and fmri_data.outliers() flag outliers from global mean, missing values, RMSSD (dvars), Mahalanobis distance, and framewise displacement.</li><li>fmri_data.denoise_timeseries_pipeline removes motion, run intercepts, outliers, and filter effects at once, since sequential removal can reintroduce artifacts (Lindquist et al. 2019).</li></ul></article></div></div></section><div class="band"><div class="band-img" style="background-image:url('../assets/img/figures/calhoun2017_t1_epi.jpg')"></div><div class="band-cap">Inter-subject variability after T1 versus EPI normalization — Calhoun et al. (2017), Human Brain Mapping</div></div><section class="section"><div class="wrap"><div class="section-head" style="margin-top:2rem"><div class="rv"><p class="eyebrow">From the instructors' research</p><h2>Related figures</h2></div><p class="lede rv rv-d1">Examples of these concepts in published work by the course instructors.</p></div><div class="fig-row two"><figure class="figure glow"><img src="../assets/img/figures/lindquist2009_hrf.jpg" alt="Region of interest and estimated HRF amplitude map" loading="lazy" width="769" height="447"><figcaption><b>Region of interest and estimated HRF amplitude map.</b> Lindquist et al. (2009), NeuroImage</figcaption></figure><figure class="figure glow"><img src="../assets/img/figures/lindquist2014_bold.jpg" alt="Canonical hemodynamic response and block convolution" loading="lazy" width="885" height="809"><figcaption><b>Canonical hemodynamic response and block convolution.</b> Lindquist &amp; Wager (2014), Principles of fMRI (book chapter)</figcaption></figure></div></div></section><section class="section-tight"><div class="wrap"><div class="lec-nav"><a href="lectures/session-2-1.html"><small>Previous · 2.1</small><strong>GLM model building: predictors and contrasts</strong></a><a class="next" href="lectures/session-2-3.html"><small>Next · 2.3</small><strong>GLM multicollinearity and diagnostics</strong></a></div></div></section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <strong>fMRI Acquisition and Analysis Course</strong>
+      A three-day live-online course on the design, acquisition, and analysis of fMRI data with SPM, ICA, and CANlab tools.<br>
+      Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
+    </div>
+    <div>
+      <strong>Site</strong>
+      <ul>
+        <li><a href="../instructors.html">Instructors</a></li>
+        <li><a href="../content.html">Content and schedule</a></li>
+        <li><a href="../materials.html">Readings and software</a></li>
+        <li><a href="../enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>Questions</strong>
+      <ul>
+        <li><a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a></li>
+        <li><a href="https://sites.dartmouth.edu/canlab/training-courses/">CANlab training courses</a></li>
+        <li><a href="https://github.com/torwager/mindfmricourse">Site source on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="credits"><span>Design notes: the interactive neuron network on the home page was inspired by the node-network and particle sites showcased on <a href="https://www.awwwards.com/sites/brainit">Awwwards</a>; the pinned-image “curtain” parallax follows the pattern collected in Awwwards’ <a href="https://www.awwwards.com/websites/parallax/">parallax showcase</a>. Type: Fraunces and Inter. Built with Claude Code.</span></div>
+</footer>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

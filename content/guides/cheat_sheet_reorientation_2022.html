@@ -1,0 +1,78 @@
+<p>Mind fMRI Image Acquisition and Analyses Course - Cheat Sheet for
+Course Re-orientation</p>
+<p>-Re-orientation – using the ‘Display Routine’ in SPM12.</p>
+<p>Purpose:</p>
+<ol type="1">
+<li><p>Have a look at your data, check to make sure image is in the
+right orientation; voxel sizes etc are all correct. Look for artifacts.
+This is likely the only time you will look at your images.</p></li>
+<li><p>Adjust your data so that it looks like the SPM EPI template. This
+will provide SPM with the best starting estimates for your data. The
+more similar your data are to SPM templates, the more likely the
+processes will run smoothly.</p></li>
+</ol>
+<p>Initiate:</p>
+<blockquote>
+<p>– Display function.</p>
+</blockquote>
+<ul>
+<li><p>Start spm12.</p></li>
+<li><p>Click on the ‘Display’ button.</p></li>
+</ul>
+<p>‘select the first image in the time series for subject 1, run 1.</p>
+<ul>
+<li><p>Select directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run1’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Click and select ‘s01_aod_run1.nii,1’</p></li>
+</ul></li>
+</ul>
+<ul>
+<li><p>CLICK on ‘DONE’ to pull up the first image.</p></li>
+<li><p>It is often useful to review the EPI template image on Display as
+well. This picture is available from the lecture slides on spatial
+normalization.</p></li>
+<li></li>
+<li><p>You may manually alter the way that spm views the image. For
+s01/run1 (and s01/run2 below), please enter the following:</p></li>
+</ul>
+<p><img src="../assets/img/guides/cheat_sheet_reorientation_2022/image1.png"
+style="width:6.30069in;height:9in"
+alt="Graphical user interface Description automatically generated" /></p>
+<p>In the boxes to the left, you can ‘reorient’ the images so they look
+like the template. The below values in x, y, z, will move the images
+into closer register. Then after the images look better, you can click
+‘Reorient’ button botton left.</p>
+<p>Then select all images for this subject (you may choose to do this
+for all runs for this subject) and click done. Then display the images
+again and click ‘origin’ and you will see that SPM now ‘knows’ details
+about your data and SPM will use this information to help spatial
+registration steps (like normalization).</p>
+<p><img src="../assets/img/guides/cheat_sheet_reorientation_2022/image2.png"
+style="width:6.07986in;height:9in"
+alt="A picture containing text Description automatically generated" /></p>
+<ul>
+<li><p>Select data for subject 1 session 1 - directory
+‘c:\mind\data\auditory_oddball\AOD_raw\s01\run1’</p></li>
+<li><p>use the filter settings [1:200] in the window to help you select
+the right scans</p>
+<ul>
+<li><p>Right click on mouse and ‘select all’ images</p>
+<ul>
+<li><p>s01_aod_run1.nii,1 to s01_aod_run1.nii,189’</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>- CLICK on ‘DONE’</p>
+<p>Repeat for different runs/subjects.</p>
+<p>You may be prompted to save the matrix file for the changes you made,
+please feel free to save this file as a record of your edits. Or writing
+them down in your codebook.</p>
+<p>This process will create ‘s01_aod_run1.mat’ (a matlab file that
+contains the transformation/re-orientation info), it will also modify
+the ‘s01_aod_run1.nii’ file/header fields. And if you saved the reorient
+values, then there will also be a ‘s01_aod_run1_reorient.mat’.</p>
+</blockquote>
