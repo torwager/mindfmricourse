@@ -741,7 +741,7 @@ def materials_page():
         <ul class="links rv rv-d1" style="margin-top:0">{websites}</ul>
       </div>
     </section>
-    {band_named('lindquist2009_hrf_bias.jpg')}
+    {band_named('panel_day3_a.jpg')}
     <section class="section" id="software">
       <div class="wrap">
         <div class="section-head">

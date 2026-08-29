@@ -195,20 +195,6 @@
   "origin": "papers"
  },
  {
-  "file": "lindquist2009_hrf_bias.jpg",
-  "role": "panel",
-  "concepts": [
-   "HRF & GLM"
-  ],
-  "caption": "Bias and significance across HRF models and inference methods",
-  "citation": "Lindquist et al. (2009), NeuroImage",
-  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.10.065",
-  "open_access": "likely",
-  "width": 1600,
-  "height": 738,
-  "origin": "papers"
- },
- {
   "file": "woo2014_cluster_threshold.jpg",
   "role": "figure",
   "concepts": [
