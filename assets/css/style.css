@@ -464,3 +464,5 @@ h1 em, h2 em { font-style: normal; }
 /* Cap figure height so tall crops don't dominate */
 .figure img { max-height: 480px; object-fit: contain; background: #fff; }
 .qv-body .figure img { max-height: 360px; }
+.fig-row { align-items: start; }
+.curtain-media.photo::after { background: linear-gradient(90deg, rgba(250,248,244,.97) 0%, rgba(250,248,244,.94) 50%, rgba(250,248,244,.6) 75%, rgba(250,248,244,.3) 100%); }
