@@ -150,16 +150,6 @@
   "origin": "slides"
  },
  {
-  "file": "lec1-4_b.jpg",
-  "lecture": "1.4",
-  "role": "figure",
-  "caption": "Dog balancing on an agility seesaw",
-  "source": "Lecture 1.4 slides (Wager)",
-  "width": 600,
-  "height": 301,
-  "origin": "slides"
- },
- {
   "file": "lec1-5_a.jpg",
   "lecture": "1.5",
   "role": "figure",
@@ -337,16 +327,6 @@
   "source": "Lecture 2.1 slides (Wager)",
   "width": 660,
   "height": 275,
-  "origin": "slides"
- },
- {
-  "file": "lec2-1_c.jpg",
-  "lecture": "2.1",
-  "role": "figure",
-  "caption": "Design covariance matrix shown as a heat map",
-  "source": "Lecture 2.1 slides (Wager)",
-  "width": 471,
-  "height": 401,
   "origin": "slides"
  },
  {
@@ -767,16 +747,6 @@
   "source": "Lecture 3.1 slides (Wager)",
   "width": 381,
   "height": 393,
-  "origin": "slides"
- },
- {
-  "file": "lec3-1_d.jpg",
-  "lecture": "3.1",
-  "role": "figure",
-  "caption": "Design covariance structure of a task regressor matrix",
-  "source": "Lecture 3.1 slides (Wager)",
-  "width": 471,
-  "height": 401,
   "origin": "slides"
  },
  {

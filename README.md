@@ -3,29 +3,36 @@
 Static site for the 3-day live-online fMRI course taught by Vince Calhoun, Kent Kiehl, and Tor Wager.
 Published with GitHub Pages from the `main` branch: **https://torwager.github.io/mindfmricourse/**
 
-## Structure
+## How the site is built
 
-| File | Purpose |
+The HTML pages are **generated** by `tools/build_site.py` from the content folder. Edit the sources, run the
+build, commit, push:
+
+```bash
+python3 tools/build_site.py      # regenerates index/instructors/content/enroll/materials + lectures/*.html
+git add -A && git commit -m "..." && git push
+```
+
+| Path | What it is |
 | --- | --- |
-| `index.html` | Home — interactive neuron-network hero, three feature tiles, attendee links |
-| `instructors.html` | Instructor profiles |
-| `content.html` | Audience, format, topics, sample three-day agenda |
-| `enroll.html` | Registration tiers with PayPal pay-links, post-registration questionnaire |
-| `materials.html` | Background readings (books, review articles, chapters), online courses, software |
-| `assets/css/style.css` | All styles (design tokens at the top) |
-| `assets/js/neurons.js` | Canvas animation for the home hero |
-| `assets/js/main.js` | Header, mobile nav, scroll-reveal, parallax drift |
-| `assets/img/` | Photos, book covers, generated SVG artwork |
+| `tools/build_site.py` | The generator. Page copy (home, instructors bios, enroll, materials lists), the 2026 agenda table, and the cheat-sheet ↔ session mapping live at the top of this file. |
+| `content/lectures/day1.json` … `day3.json` | One entry per session: title, instructor, duration, overview, outline sections, key terms, take-aways, hands-on steps. Distilled from the lecture slides. Edit these to change a lecture page. |
+| `content/images/slides.json`, `papers.json` | Figure index: file, caption, source/citation, which session (slides) or concept tags (papers). Images live in `assets/img/figures/`. |
+| `content/guides/*.html` | Cheat sheets converted from the course .docx files (pandoc); embedded in the hands-on sessions. |
+| `assets/pdf/` | Chapters, review papers, the agenda, and the GIFT walk-through, linked from Materials and lecture pages. |
+| `assets/css/style.css` | All styles; design tokens at the top. `.glow` gives any card the running-light border. |
+| `assets/js/neurons.js` | The interactive neuron network on the home page. |
+| `assets/js/main.js` | Header, mobile nav, scroll reveal, parallax bands, scroll cue, and the session quick-view popup. |
 
-No build step. Edit the HTML and push to `main`; GitHub Pages redeploys within a minute or two.
+No build tools other than Python 3 are required. Do not hand-edit the generated `*.html` files — changes will be overwritten on the next build.
 
 ## Common edits
 
-* **Dates / price / links** — search for `September 9` and `paypal.com/ncp/payment` across the HTML files.
-  The PayPal pay-links live in `enroll.html` (one per tier) and in the header/hero buttons.
-* **Attendee-only links** (calendar, Dropbox, Zoom) — `index.html`, section `#attendees`.
-* **Agenda** — `content.html`, the `<details>` blocks inside `.agenda`.
-* **Readings / software** — `materials.html`.
+* **Dates / prices / PayPal links** — constants at the top of `tools/build_site.py` (`DATES`, `PAYPAL`, `QUESTIONNAIRE`).
+* **Agenda** — the `AGENDA` table in `tools/build_site.py`.
+* **A lecture's outline** — the matching entry in `content/lectures/dayN.json`.
+* **Add or swap a figure** — drop the JPEG in `assets/img/figures/` and add an entry to `content/images/slides.json` (with `"lecture": "2.3"`) or `papers.json` (with concept tags).
+* **Readings / software** — `materials_page()` in `tools/build_site.py`.
 
 ## PayPal registration
 

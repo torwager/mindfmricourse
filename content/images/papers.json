@@ -32,21 +32,6 @@
   "origin": "papers"
  },
  {
-  "file": "woo2017_biomarker_levels.jpg",
-  "role": "figure",
-  "concepts": [
-   "brain signatures",
-   "reproducibility"
-  ],
-  "caption": "Levels of evidence for developing and validating brain biomarkers",
-  "citation": "Woo et al. (2017), Nature Neuroscience",
-  "doi_or_url": "https://doi.org/10.1038/nn.4478",
-  "open_access": "likely",
-  "width": 903,
-  "height": 473,
-  "origin": "papers"
- },
- {
   "file": "wager2013_nps.jpg",
   "role": "figure",
   "concepts": [
@@ -74,22 +59,6 @@
   "open_access": "yes",
   "width": 1407,
   "height": 858,
-  "origin": "papers"
- },
- {
-  "file": "chang2015_design_glm.jpg",
-  "role": "figure",
-  "concepts": [
-   "HRF & GLM",
-   "experimental design",
-   "multivariate pattern"
-  ],
-  "caption": "Trial design, first-level GLM and cross-validated signature training",
-  "citation": "Chang et al. (2015), PLoS Biology",
-  "doi_or_url": "https://doi.org/10.1371/journal.pbio.1002180",
-  "open_access": "yes",
-  "width": 1182,
-  "height": 1158,
   "origin": "papers"
  },
  {
@@ -254,21 +223,6 @@
   "origin": "papers"
  },
  {
-  "file": "kober2008_mkda.jpg",
-  "role": "figure",
-  "concepts": [
-   "meta-analysis",
-   "multiple comparisons/thresholding"
-  ],
-  "caption": "Multilevel kernel density analysis workflow with Monte Carlo threshold",
-  "citation": "Kober et al. (2008), NeuroImage",
-  "doi_or_url": "https://doi.org/10.1016/j.neuroimage.2008.03.059",
-  "open_access": "likely",
-  "width": 1195,
-  "height": 857,
-  "origin": "papers"
- },
- {
   "file": "kober2008_meta_peaks.jpg",
   "role": "figure",
   "concepts": [
@@ -280,21 +234,6 @@
   "open_access": "likely",
   "width": 1195,
   "height": 897,
-  "origin": "papers"
- },
- {
-  "file": "yarkoni2011_overview.jpg",
-  "role": "figure",
-  "concepts": [
-   "meta-analysis",
-   "multivariate pattern"
-  ],
-  "caption": "Neurosynth automated meta-analysis, forward and reverse inference",
-  "citation": "Yarkoni et al. (2011), Nature Methods",
-  "doi_or_url": "https://doi.org/10.1038/nmeth.1635",
-  "open_access": "likely",
-  "width": 588,
-  "height": 411,
   "origin": "papers"
  },
  {
@@ -462,22 +401,6 @@
   "open_access": "yes",
   "width": 1113,
   "height": 793,
-  "origin": "papers"
- },
- {
-  "file": "hosking2017_psychopathy.jpg",
-  "role": "figure",
-  "concepts": [
-   "psychopathy/forensic neuroimaging",
-   "mediation/path models",
-   "connectivity"
-  ],
-  "caption": "Psychopathy moderates prefrontal-striatal coupling and value signals",
-  "citation": "Hosking et al. (2017), Neuron",
-  "doi_or_url": "https://doi.org/10.1016/j.neuron.2017.06.030",
-  "open_access": "likely",
-  "width": 1285,
-  "height": 678,
   "origin": "papers"
  },
  {
