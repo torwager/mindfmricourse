@@ -282,7 +282,8 @@ hr.rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
 /* Footer ------------------------------------------------------------------ */
 .site-footer { border-top: 1px solid var(--line); padding: 3rem 0 2.5rem; color: var(--muted); font-size: .9rem; }
 .site-footer .wrap { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
-@media (min-width: 760px) { .site-footer .wrap { grid-template-columns: 1.4fr 1fr 1fr; } }
+@media (min-width: 760px) { .site-footer .wrap { grid-template-columns: 1.5fr 1fr 1fr; } }
+@media (min-width: 1000px) { .site-footer .wrap { grid-template-columns: 1.5fr .9fr 1.2fr .9fr; } }
 .site-footer strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: .4rem; }
 .site-footer a { color: var(--ink-2); }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
@@ -466,3 +467,49 @@ h1 em, h2 em { font-style: normal; }
 .qv-body .figure img { max-height: 360px; }
 .fig-row { align-items: start; }
 .curtain-media.photo::after { background: linear-gradient(90deg, rgba(250,248,244,.97) 0%, rgba(250,248,244,.94) 50%, rgba(250,248,244,.6) 75%, rgba(250,248,244,.3) 100%); }
+
+
+/* Breadcrumbs, session chips, and cross-page links ------------------------ */
+.crumbs { border-bottom: 1px solid var(--line); background: var(--bg); font-size: .85rem; color: var(--muted); }
+.crumbs .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .55rem; padding-top: .85rem; padding-bottom: .85rem; }
+.crumbs a { color: var(--muted); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; transition: color .2s, text-decoration-color .2s; }
+.crumbs a:hover { color: var(--ink); text-decoration-color: var(--amber-deep); }
+.crumbs i { font-style: normal; color: var(--line-2); }
+.crumbs [aria-current] { color: var(--ink); font-weight: 500; }
+
+.chip-row { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chip {
+  display: inline-block; max-width: 22rem; padding: .38em .9em; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--white); color: var(--ink-2);
+  font-size: .84rem; font-weight: 500; line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: border-color .2s, color .2s, background .2s;
+}
+a.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip.here { background: var(--amber-soft); border-color: var(--amber); color: var(--ink); cursor: default; }
+
+.sibling { margin-top: 2.2rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.sibling .eyebrow { margin-bottom: .9rem; }
+.teaches, .used-in { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.teaches .eyebrow, .used-in .eyebrow { margin-bottom: .8rem; }
+
+.related { border-top: 1px solid var(--line); background: var(--bg-2); }
+.related-h { font-size: clamp(1.5rem, 2.4vw, 2rem); margin-bottom: 1.4rem; }
+.more-grid { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .more-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .more-grid { grid-template-columns: repeat(3, 1fr); } }
+.more-link {
+  display: grid; grid-template-columns: 1fr 22px; align-items: center; gap: .3rem 1rem;
+  padding: 1.1rem 1.3rem; background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+  transition: border-color .2s, transform .3s var(--ease);
+}
+.more-link:hover { border-color: var(--ink); transform: translateY(-2px); }
+.more-link strong { font-family: var(--serif); font-weight: 500; font-size: 1.05rem; }
+.more-link span { grid-column: 1; color: var(--muted); font-size: .88rem; line-height: 1.45; }
+.more-link svg { grid-column: 2; grid-row: 1 / span 2; width: 22px; height: 22px; color: var(--amber-deep); }
+.qv-body .crumbs, .qv-body .related, .qv-body .sibling { display: none; }
+
+/* Inline arrow / external-link icons inside body text links */
+p a svg, li a svg, dd a svg, td a svg, .links a svg { width: 1em; height: 1em; flex: none; vertical-align: -.12em; }
+/* Keep anchor targets clear of the sticky header */
+:target, [id] { scroll-margin-top: 88px; }

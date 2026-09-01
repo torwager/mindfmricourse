@@ -15,6 +15,7 @@ git add -A && git commit -m "..." && git push
 
 | Path | What it is |
 | --- | --- |
+| `tools/make_social_card.py` | Builds `assets/img/social-card.jpg` (1200×630), the Open Graph / Twitter preview image used by every page. Re-run it (`python3 tools/make_social_card.py`) if the dates, names, or group photo change. |
 | `tools/build_site.py` | The generator. Page copy (home, instructors bios, enroll, materials lists), the 2026 agenda table, and the cheat-sheet ↔ session mapping live at the top of this file. |
 | `content/lectures/day1.json` … `day3.json` | One entry per session: title, instructor, duration, overview, outline sections, key terms, take-aways, hands-on steps. Distilled from the lecture slides. Edit these to change a lecture page. |
 | `content/images/slides.json`, `papers.json` | Figure index: file, caption, source/citation, which session (slides) or concept tags (papers). Images live in `assets/img/figures/`. |
@@ -28,6 +29,7 @@ No build tools other than Python 3 are required. Do not hand-edit the generated 
 
 ## Common edits
 
+* **Social preview image** — `tools/make_social_card.py`; the site URL and card path are `SITE_URL` / `SOCIAL_CARD` at the top of `tools/build_site.py`.
 * **Dates / prices / PayPal links** — constants at the top of `tools/build_site.py` (`DATES`, `PAYPAL`, `QUESTIONNAIRE`).
 * **Agenda** — the `AGENDA` table in `tools/build_site.py`.
 * **A lecture's outline** — the matching entry in `content/lectures/dayN.json`.

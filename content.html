@@ -8,6 +8,17 @@
 <meta property="og:title" content="Content and Schedule — fMRI Acquisition and Analysis Course">
 <meta property="og:description" content="Topics, sessions, and the three-day schedule for the fMRI Acquisition and Analysis Course. Click any session for a detailed outline.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://torwager.github.io/mindfmricourse/content.html">
+<meta property="og:site_name" content="fMRI Acquisition and Analysis Course">
+<meta property="og:image" content="https://torwager.github.io/mindfmricourse/assets/img/social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="fMRI Acquisition and Analysis — September 9–11, 2026, live online. Vince Calhoun, Kent Kiehl, and Tor Wager.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Content and Schedule — fMRI Acquisition and Analysis Course">
+<meta name="twitter:description" content="Topics, sessions, and the three-day schedule for the fMRI Acquisition and Analysis Course. Click any session for a detailed outline.">
+<meta name="twitter:image" content="https://torwager.github.io/mindfmricourse/assets/img/social-card.jpg">
+<link rel="canonical" href="https://torwager.github.io/mindfmricourse/content.html">
 <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,12 +48,13 @@
         
         <h1>Topics and schedule</h1>
         <p class="lede">Interactive lectures with hands-on demonstrations and work-through sessions, from MRI physics to machine learning, over three full days. Click any session for a detailed outline.</p>
-        
+        <ul class="subnav"><li><a href="#day1">Day 1 — Acquisition, preprocessing, and the GLM</a></li><li><a href="#day2">Day 2 — Modeling, connectivity, and ICA</a></li><li><a href="#day3">Day 3 — Design, group inference, and ICA in practice</a></li><li><a href="#schedule">Full agenda</a></li></ul>
       </div>
     </div>
     <div class="scroll-cue"><a href="#start">Scroll down <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></div>
   </div>
   <div class="curtain-body" id="start">
+<nav class="crumbs" aria-label="Breadcrumb"><div class="wrap"><a href="index.html">Home</a><i>/</i><span aria-current="page">Content and schedule</span></div></nav>
 
     <section class="section">
       <div class="wrap grid-2">
@@ -66,7 +78,7 @@
         <div class="section-head">
           <div class="rv"><p class="eyebrow">Sessions</p><h2>What we cover, session by session</h2></div>
           <p class="lede rv rv-d1">Each card opens a detailed outline of the session: main concepts, key terms, take-aways, figures from the lectures, and — for hands-on sessions — step-by-step cheat sheets.</p>
-        </div><div class="day-block"><div class="day-head"><h3>Day 1 — Acquisition, preprocessing, and the GLM</h3><span>Wednesday, September 9</span></div><div class="sessions"><a class="session glow rv" href="lectures/session-0-0.html" data-quickview>
+        </div><div class="day-block" id="day1"><div class="day-head"><h3>Day 1 — Acquisition, preprocessing, and the GLM</h3><span>Wednesday, September 9 · <a href="#schedule">hour-by-hour agenda</a></span></div><div class="sessions"><a class="session glow rv" href="lectures/session-0-0.html" data-quickview>
   <div class="meta"><b>Session 0.0</b><span>Kiehl, Calhoun, Wager · 0:30 h</span></div>
   <h4>Course introduction</h4>
   <p>Introduces the instructors and the scope of the three-day course: paradigm design, image acquisition, and analysis of fMRI data.</p>
@@ -121,7 +133,7 @@
   <h4>CANlab interactive tools: basic analysis and visualization</h4>
   <p>A short walkthrough of the CANlab object-oriented tools using a MATLAB live script: load a set of first-level contrast images, check them for outliers, run a one-sample t-test with FDR thresholding, and visualize the results as slice montages, labeled region tables, and surface renderings.</p>
   <div class="foot"><span class="tag hands-on">hands-on</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-</a></div></div></div></section><div class="band"><div class="band-img" style="background-image:url('assets/img/figures/panel_day1_a.jpg')"></div><div class="band-cap">MRI scanner suite with patient table — Lecture 1.1 slides (Kiehl)</div></div><section class="section"><div class="wrap"><div class="day-block"><div class="day-head"><h3>Day 2 — Modeling, connectivity, and ICA</h3><span>Thursday, September 10</span></div><div class="sessions"><a class="session glow rv" href="lectures/session-2-1.html" data-quickview>
+</a></div></div></div></section><div class="band"><div class="band-img" style="background-image:url('assets/img/figures/panel_day1_a.jpg')"></div><div class="band-cap">MRI scanner suite with patient table — Lecture 1.1 slides (Kiehl)</div></div><section class="section"><div class="wrap"><div class="day-block" id="day2"><div class="day-head"><h3>Day 2 — Modeling, connectivity, and ICA</h3><span>Thursday, September 10 · <a href="#schedule">hour-by-hour agenda</a></span></div><div class="sessions"><a class="session glow rv" href="lectures/session-2-1.html" data-quickview>
   <div class="meta"><b>Session 2.1</b><span>Wager · 0:30 h</span></div>
   <h4>GLM model building: predictors and contrasts</h4>
   <p>This session moves from a single-regressor GLM to designs with multiple event types, and introduces contrasts as the tool for testing differences, averages, and custom hypotheses on the fitted betas.</p>
@@ -171,7 +183,7 @@
   <h4>Introduction to ICA: Independent Component Analysis</h4>
   <p>This session introduces independent component analysis as a data-driven alternative to seed-based and GLM approaches for fMRI.</p>
   <div class="foot"><span class="tag lecture">lecture</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
-</a></div></div></div></section><div class="band"><div class="band-img" style="background-image:url('assets/img/figures/chang2015_pines_maps.jpg')"></div><div class="band-cap">PINES negative-affect signature rendered on cortical surfaces — Chang et al. (2015), PLoS Biology</div></div><section class="section"><div class="wrap"><div class="day-block"><div class="day-head"><h3>Day 3 — Design, group inference, and ICA in practice</h3><span>Friday, September 11</span></div><div class="sessions"><a class="session glow rv" href="lectures/session-3-1.html" data-quickview>
+</a></div></div></div></section><div class="band"><div class="band-img" style="background-image:url('assets/img/figures/chang2015_pines_maps.jpg')"></div><div class="band-cap">PINES negative-affect signature rendered on cortical surfaces — Chang et al. (2015), PLoS Biology</div></div><section class="section"><div class="wrap"><div class="day-block" id="day3"><div class="day-head"><h3>Day 3 — Design, group inference, and ICA in practice</h3><span>Friday, September 11 · <a href="#schedule">hour-by-hour agenda</a></span></div><div class="sessions"><a class="session glow rv" href="lectures/session-3-1.html" data-quickview>
   <div class="meta"><b>Session 3.1</b><span>Wager · 1:30 h</span></div>
   <h4>Experimental design: psychological and statistical principles</h4>
   <p>This lecture covers how to design an fMRI task so that participants actually engage the psychological process of interest and so that the resulting brain signals can be detected efficiently.</p>
@@ -232,17 +244,25 @@
     <tbody><tr><td class="time">8:00 am</td><td>—</td><td>Review of Days 1–2</td><td class="who">Kiehl, Calhoun, Wager</td></tr><tr><td class="time">8:15 am</td><td>3.1</td><td><a href="lectures/session-3-1.html" data-quickview>Experimental design: psychological and statistical principles</a></td><td class="who">Wager</td></tr><tr class="break"><td class="time">9:45 am</td><td colspan="3">Coffee break</td></tr><tr><td class="time">10:00 am</td><td>3.2</td><td><a href="lectures/session-3-2.html" data-quickview>Group analysis: fixed, random, and mixed effects</a></td><td class="who">Wager</td></tr><tr><td class="time">10:45 am</td><td>3.3</td><td><a href="lectures/session-3-3.html" data-quickview>Group analysis: thresholding and inference</a></td><td class="who">Wager</td></tr><tr><td class="time">11:30 am</td><td>3.4</td><td><a href="lectures/session-3-4.html" data-quickview>SPM results: group subjects, plotting, display, small-volume correction</a></td><td class="who">Kiehl</td></tr><tr class="break"><td class="time">12:30 pm</td><td colspan="3">Lunch</td></tr><tr><td class="time">1:00 pm</td><td>3.5</td><td><a href="lectures/session-3-5.html" data-quickview>ICA II: fMRI</a></td><td class="who">Calhoun</td></tr><tr class="break"><td class="time">2:00 pm</td><td colspan="3">Break</td></tr><tr><td class="time">2:15 pm</td><td>3.6</td><td><a href="lectures/session-3-6.html" data-quickview>ICA of fMRI: implementation</a></td><td class="who">Calhoun, Kiehl</td></tr><tr><td class="time">3:45 pm</td><td>—</td><td>Final Q&amp;A and farewell</td><td class="who">Kiehl, Calhoun, Wager</td></tr><tr class="break"><td class="time">4:00 pm</td><td colspan="3">Adjourn</td></tr></tbody>
   </table></div>
 </details></div>
+        <p class="rv rv-d1" style="margin-top:1.4rem"><a href="#sessions">Back to the session cards <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
       </div>
     </section>
     <section class="section">
       <div class="wrap grid-2">
         <div class="rv"><p class="eyebrow">Next step</p><h2>Ready to join us?</h2></div>
         <div class="rv rv-d1">
-          <p>Spaces are limited. Reserve yours now, then browse the <a href="materials.html">background readings and software</a> to prepare.</p>
+          <p>Spaces are limited. Reserve yours now, then browse the <a href="materials.html">background readings and software</a> to prepare. The sessions are taught by <a href="instructors.html">Vince Calhoun, Kent Kiehl, and Tor Wager</a>.</p>
           <p><a class="btn btn-amber" href="enroll.html">Reserve a space <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
         </div>
       </div>
     </section>
+<section class="section-tight related">
+  <div class="wrap">
+    <p class="eyebrow">Keep exploring</p>
+    <h2 class="related-h">Where to next</h2>
+    <div class="more-grid"><a class="more-link glow" href="instructors.html"><strong>Instructors</strong><span>Who teaches which sessions.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="more-link glow" href="materials.html"><strong>Readings and software</strong><span>Books, chapters, review papers, and the toolboxes to install.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="more-link glow" href="enroll.html"><strong>Enroll</strong><span>September 9–11, 2026 · live online. Trainee, faculty, and industry rates.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="more-link glow" href="index.html"><strong>Home</strong><span>Back to the course overview.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
   </div>
 </section>
 </main>
@@ -256,10 +276,20 @@
     <div>
       <strong>Site</strong>
       <ul>
+        <li><a href="index.html">Home</a></li>
         <li><a href="instructors.html">Instructors</a></li>
         <li><a href="content.html">Content and schedule</a></li>
         <li><a href="materials.html">Readings and software</a></li>
         <li><a href="enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>The three days</strong>
+      <ul>
+        <li><a href="content.html#day1">Day 1 — Acquisition, preprocessing, and the GLM</a></li>
+        <li><a href="content.html#day2">Day 2 — Modeling, connectivity, and ICA</a></li>
+        <li><a href="content.html#day3">Day 3 — Design, group inference, and ICA in practice</a></li>
+        <li><a href="content.html#schedule">Full three-day agenda</a></li>
       </ul>
     </div>
     <div>

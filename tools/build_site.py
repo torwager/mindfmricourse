@@ -19,6 +19,9 @@ PAYPAL = {
 QUESTIONNAIRE = 'https://docs.google.com/a/mrn.org/forms/d/12QP5TnkLdwx9zxKfD1hYAXfNOcP3GqJGMv4vOxn8ff0/viewform'
 AGENDA_PDF = 'assets/pdf/fMRI_Course_Agenda_Sep_9-11_2026.pdf'
 DATES = 'September 9–11, 2026'
+SITE_URL = 'https://torwager.github.io/mindfmricourse/'
+SOCIAL_CARD = 'assets/img/social-card.jpg'   # 1200x630, built by tools/make_social_card.py
+SOCIAL_ALT = 'fMRI Acquisition and Analysis — September 9–11, 2026, live online. Vince Calhoun, Kent Kiehl, and Tor Wager.'
 
 ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>'
@@ -133,7 +136,9 @@ def slug(sid):
 def lecture_url(sid, root=''):
     return f'{root}lectures/{slug(sid)}.html'
 
-def head(title, desc, root=''):
+def head(title, desc, root='', page='index.html'):
+    url = SITE_URL + page
+    card = SITE_URL + SOCIAL_CARD
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,6 +149,17 @@ def head(title, desc, root=''):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
+<meta property="og:url" content="{url}">
+<meta property="og:site_name" content="fMRI Acquisition and Analysis Course">
+<meta property="og:image" content="{card}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{esc(SOCIAL_ALT)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:image" content="{card}">
+<link rel="canonical" href="{url}">
 <link rel="icon" type="image/svg+xml" href="{root}assets/img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -166,6 +182,52 @@ def head(title, desc, root=''):
 </header>
 '''
 
+def crumbs(trail, root=''):
+    """Breadcrumb bar. trail: list of (label, href or None); the last item is the current page."""
+    items = []
+    for i, (label, href) in enumerate(trail):
+        if href is None or i == len(trail) - 1:
+            items.append(f'<span aria-current="page">{label}</span>')
+        else:
+            h = href if href.startswith(('http', '#')) else root + href
+            items.append(f'<a href="{h}">{label}</a>')
+    return '<nav class="crumbs" aria-label="Breadcrumb"><div class="wrap">' + '<i>/</i>'.join(items) + '</div></nav>'
+
+
+def sessions_of(day):
+    return [s for s in LECTURES if s['day'] == day]
+
+
+def sessions_by_instructor(surname):
+    return [s for s in LECTURES if surname in s['instructor']]
+
+
+def session_chips(day, current=None, root=''):
+    """Chip row linking every session of a day — the same-day sibling links."""
+    out = []
+    for s in sessions_of(day):
+        cls = ' here' if s['id'] == current else ''
+        title = esc(s['title'])
+        if s['id'] == current:
+            out.append(f'<span class="chip here" title="{title}">{esc(s["id"])} {title}</span>')
+        else:
+            out.append(f'<a class="chip{cls}" href="{lecture_url(s["id"], root)}" title="{title}">{esc(s["id"])} {title}</a>')
+    return '<div class="chip-row">' + ''.join(out) + '</div>'
+
+
+def more_links(links, root='', eyebrow='Keep exploring', heading='Where to next'):
+    """A block of internal links closing a page."""
+    lis = ''.join(f'<a class="more-link glow" href="{root + h if not h.startswith("http") else h}"><strong>{t}</strong><span>{d}</span>{ARROW}</a>' for t, d, h in links)
+    return f'''
+<section class="section-tight related">
+  <div class="wrap">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 class="related-h">{heading}</h2>
+    <div class="more-grid">{lis}</div>
+  </div>
+</section>'''
+
+
 def foot(root=''):
     return f'''
 <footer class="site-footer">
@@ -178,10 +240,20 @@ def foot(root=''):
     <div>
       <strong>Site</strong>
       <ul>
+        <li><a href="{root}index.html">Home</a></li>
         <li><a href="{root}instructors.html">Instructors</a></li>
         <li><a href="{root}content.html">Content and schedule</a></li>
         <li><a href="{root}materials.html">Readings and software</a></li>
         <li><a href="{root}enroll.html">Enroll</a></li>
+      </ul>
+    </div>
+    <div>
+      <strong>The three days</strong>
+      <ul>
+        <li><a href="{root}content.html#day1">Day 1 — {DAY_TITLES[1]}</a></li>
+        <li><a href="{root}content.html#day2">Day 2 — {DAY_TITLES[2]}</a></li>
+        <li><a href="{root}content.html#day3">Day 3 — {DAY_TITLES[3]}</a></li>
+        <li><a href="{root}content.html#schedule">Full three-day agenda</a></li>
       </ul>
     </div>
     <div>
@@ -201,7 +273,7 @@ def foot(root=''):
 def scroll_cue(target='#start'):
     return f'<div class="scroll-cue"><a href="{target}">Scroll down {DOWN}</a></div>'
 
-def curtain_hero(img, eyebrow, title, lede, extra='', root='', photo=False, meta=''):
+def curtain_hero(img, eyebrow, title, lede, extra='', root='', photo=False, meta='', crumb=''):
     cls = ' photo' if photo else ''
     return f'''
 <section class="curtain">
@@ -218,6 +290,7 @@ def curtain_hero(img, eyebrow, title, lede, extra='', root='', photo=False, meta
     {scroll_cue()}
   </div>
   <div class="curtain-body" id="start">
+{crumb}
 '''
 
 CURTAIN_END = '\n  </div>\n</section>\n'
@@ -285,9 +358,12 @@ def lecture_page(s, prev_s, next_s):
     panel = pick_panel(day, sid)
     figs = pick_figures(sid)
     hero_img = f'assets/img/figures/{panel["file"]}' if panel else {1: 'assets/img/bold-waves.svg', 2: 'assets/img/brain-dots.svg', 3: 'assets/img/lattice.svg'}[day]
-    meta = f'<div class="lec-meta"><span><b>Day {day}</b></span><span><b>Session {esc(sid)}</b></span><span>{esc(s["instructor"])}</span><span>{esc(s["duration"])} h</span><span>{"Hands-on session" if s["type"]=="hands-on" else "Lecture"}</span></div>'
-    body = head(f'{sid} {s["title"]} — fMRI Course', s['overview'][:155], root)
-    body += '<main>' + curtain_hero(hero_img, f'Day {day} · {DAY_TITLES[day]}', esc(s['title']), esc(s['overview']), root=root, photo=bool(panel), meta=meta)
+    meta = f'<div class="lec-meta"><span><b><a href="{root}content.html#day{day}">Day {day}</a></b></span><span><b>Session {esc(sid)}</b></span><span><a href="{root}instructors.html">{esc(s["instructor"])}</a></span><span>{esc(s["duration"])} h</span><span>{"Hands-on session" if s["type"]=="hands-on" else "Lecture"}</span></div>'
+    body = head(f'{sid} {s["title"]} — fMRI Course', s['overview'][:155], root, f'lectures/{slug(sid)}.html')
+    crumb = crumbs([('Home', 'index.html'), ('Content and schedule', 'content.html'),
+                    (f'Day {day}', f'content.html#day{day}'), (f'Session {esc(sid)}', None)], root)
+    body += '<main>' + curtain_hero(hero_img, f'Day {day} · {DAY_TITLES[day]}', esc(s['title']), esc(s['overview']),
+                                    root=root, photo=bool(panel), meta=meta, crumb=crumb)
 
     # At a glance
     body += '<section class="section"><div class="wrap glance">'
@@ -341,8 +417,19 @@ def lecture_page(s, prev_s, next_s):
     # Prev / next
     body += '<section class="section-tight"><div class="wrap"><div class="lec-nav">'
     body += (f'<a href="{lecture_url(prev_s["id"])}"><small>Previous · {esc(prev_s["id"])}</small><strong>{esc(prev_s["title"])}</strong></a>' if prev_s else '<span></span>')
-    body += (f'<a class="next" href="{lecture_url(next_s["id"])}"><small>Next · {esc(next_s["id"])}</small><strong>{esc(next_s["title"])}</strong></a>' if next_s else f'<a class="next" href="{root}content.html"><small>Back</small><strong>Content and schedule</strong></a>')
-    body += '</div></div></section>'
+    body += (f'<a class="next" href="{lecture_url(next_s["id"])}"><small>Next · {esc(next_s["id"])}</small><strong>{esc(next_s["title"])}</strong></a>' if next_s else f'<a class="next" href="{root}content.html#sessions"><small>Back</small><strong>All sessions</strong></a>')
+    body += '</div>'
+    body += f'<div class="sibling"><p class="eyebrow">Day {day} · {DAY_TITLES[day]}</p>{session_chips(day, sid, root)}</div>'
+    body += '</div></section>'
+    other_days = [d for d in (1, 2, 3) if d != day]
+    body += more_links([
+        ('All sessions and the three-day agenda', 'Every session card, plus the hour-by-hour schedule.', 'content.html#sessions'),
+        (f'Day {other_days[0]} — {DAY_TITLES[other_days[0]]}', 'The other sessions in the course.', f'content.html#day{other_days[0]}'),
+        (f'Day {other_days[1]} — {DAY_TITLES[other_days[1]]}', 'The other sessions in the course.', f'content.html#day{other_days[1]}'),
+        ('Readings and software', 'Background chapters, review papers, and the toolboxes used here.', 'materials.html'),
+        ('Instructors', 'Vince Calhoun, Kent Kiehl, and Tor Wager.', 'instructors.html'),
+        ('Enroll', f'{DATES} · live online. Reserve a space.', 'enroll.html'),
+    ], root)
     body += CURTAIN_END + '</main>' + foot(root) + '</body>\n</html>\n'
     return body
 
@@ -377,8 +464,12 @@ def agenda_day(day):
 </details>'''
 
 def content_page():
-    body = head('Content and Schedule — fMRI Acquisition and Analysis Course', 'Topics, sessions, and the three-day schedule for the fMRI Acquisition and Analysis Course. Click any session for a detailed outline.') + '<main>'
-    body += curtain_hero('assets/img/bold-waves.svg', 'Content', 'Topics and schedule', 'Interactive lectures with hands-on demonstrations and work-through sessions, from MRI physics to machine learning, over three full days. Click any session for a detailed outline.')
+    body = head('Content and Schedule — fMRI Acquisition and Analysis Course', 'Topics, sessions, and the three-day schedule for the fMRI Acquisition and Analysis Course. Click any session for a detailed outline.', '', 'content.html') + '<main>'
+    daynav = ('<ul class="subnav">'
+              + ''.join(f'<li><a href="#day{d}">Day {d} — {DAY_TITLES[d]}</a></li>' for d in (1, 2, 3))
+              + '<li><a href="#schedule">Full agenda</a></li></ul>')
+    body += curtain_hero('assets/img/bold-waves.svg', 'Content', 'Topics and schedule', 'Interactive lectures with hands-on demonstrations and work-through sessions, from MRI physics to machine learning, over three full days. Click any session for a detailed outline.',
+                         daynav, crumb=crumbs([('Home', 'index.html'), ('Content and schedule', None)]))
     body += f'''
     <section class="section">
       <div class="wrap grid-2">
@@ -406,7 +497,8 @@ def content_page():
     day_bands = {1: 'panel_day1_a.jpg', 2: 'chang2015_pines_maps.jpg', 3: 'rashid2014_states.jpg'}
     for day in (1, 2, 3):
         cards = ''.join(session_card(s) for s in LECTURES if s['day'] == day)
-        body += f'<div class="day-block"><div class="day-head"><h3>Day {day} — {DAY_TITLES[day]}</h3><span>{AGENDA[day][0]}</span></div><div class="sessions">{cards}</div></div>'
+        body += (f'<div class="day-block" id="day{day}"><div class="day-head"><h3>Day {day} — {DAY_TITLES[day]}</h3>'
+                 f'<span>{AGENDA[day][0]} · <a href="#schedule">hour-by-hour agenda</a></span></div><div class="sessions">{cards}</div></div>')
         if day < 3:
             body += '</div></section>' + band_named(day_bands[day]) + '<section class="section"><div class="wrap">'
     body += f'''
@@ -419,17 +511,23 @@ def content_page():
           <p class="lede rv rv-d1">Each day runs 8:00 am – 6:00 pm Eastern Time with breaks (Day 3 ends at 4:00 pm). <a href="{AGENDA_PDF}">Download the agenda (PDF)</a>.</p>
         </div>
         <div class="agenda rv rv-d1">{agenda_day(1)}{agenda_day(2)}{agenda_day(3)}</div>
+        <p class="rv rv-d1" style="margin-top:1.4rem"><a href="#sessions">Back to the session cards {ARROW}</a></p>
       </div>
     </section>
     <section class="section">
       <div class="wrap grid-2">
         <div class="rv"><p class="eyebrow">Next step</p><h2>Ready to join us?</h2></div>
         <div class="rv rv-d1">
-          <p>Spaces are limited. Reserve yours now, then browse the <a href="materials.html">background readings and software</a> to prepare.</p>
+          <p>Spaces are limited. Reserve yours now, then browse the <a href="materials.html">background readings and software</a> to prepare. The sessions are taught by <a href="instructors.html">Vince Calhoun, Kent Kiehl, and Tor Wager</a>.</p>
           <p><a class="btn btn-amber" href="enroll.html">Reserve a space {ARROW}</a></p>
         </div>
       </div>
-    </section>'''
+    </section>''' + more_links([
+        ('Instructors', 'Who teaches which sessions.', 'instructors.html'),
+        ('Readings and software', 'Books, chapters, review papers, and the toolboxes to install.', 'materials.html'),
+        ('Enroll', f'{DATES} · live online. Trainee, faculty, and industry rates.', 'enroll.html'),
+        ('Home', 'Back to the course overview.', 'index.html'),
+    ])
     body += CURTAIN_END + '</main>' + foot() + '</body>\n</html>\n'
     return body
 
@@ -441,7 +539,7 @@ def index_page():
             if os.path.exists('assets/img/figures/' + c): tile_img[key] = c; break
     def tile_media(key):
         return f'<div class="tile-media" style="background-image:url(\'assets/img/figures/{tile_img[key]}\')"></div>' if key in tile_img else ''
-    body = head(f'fMRI Acquisition and Analysis Course — {DATES}, Live Online', 'A three-day live-online course on fMRI acquisition and analysis with Statistical Parametric Mapping, Independent Component Analysis, and more. Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.')
+    body = head(f'fMRI Acquisition and Analysis Course — {DATES}, Live Online', 'A three-day live-online course on fMRI acquisition and analysis with Statistical Parametric Mapping, Independent Component Analysis, and more. Taught by Vince Calhoun, Kent Kiehl, and Tor Wager.', '', 'index.html')
     body += f'''
 <main>
 <section class="curtain">
@@ -476,8 +574,14 @@ def index_page():
           <div><dt>Dates</dt><dd>Sept 9–11, 2026</dd></div>
           <div><dt>Hours</dt><dd>8:00 am – 6:00 pm ET</dd></div>
           <div><dt>Format</dt><dd>Live online, Zoom</dd></div>
-          <div><dt>Instructors</dt><dd>Calhoun · Kiehl · Wager</dd></div>
+          <div><dt>Instructors</dt><dd><a href="instructors.html">Calhoun · Kiehl · Wager</a></dd></div>
         </dl>
+        <ul class="subnav rv rv-d1" style="margin-top:1.8rem">
+          <li><a href="content.html#day1">Day 1 — {DAY_TITLES[1]}</a></li>
+          <li><a href="content.html#day2">Day 2 — {DAY_TITLES[2]}</a></li>
+          <li><a href="content.html#day3">Day 3 — {DAY_TITLES[3]}</a></li>
+          <li><a href="content.html#schedule">Full agenda</a></li>
+        </ul>
       </div>
     </section>
 
@@ -519,7 +623,7 @@ def index_page():
       <div class="wrap">
         <p class="eyebrow">For registered attendees</p>
         <h2>Course-day materials</h2>
-        <p class="muted">Registered attendees receive everything needed for the course days by email before the course.</p>
+        <p class="muted">Registered attendees receive everything needed for the course days by email before the course. Not registered yet? <a href="enroll.html">Reserve a space</a>, or browse the <a href="content.html#sessions">session outlines</a> and <a href="materials.html">readings and software</a>.</p>
         <div class="attendee-note rv">Before the course you will receive: a calendar invitation for the three course days, the Zoom meeting link and passcode, the link to the shared Dropbox folder with data and tools, and a MATLAB trial license. If you have registered and have not received these a week before the course, contact <a href="mailto:kkiehl@mrn.org">kkiehl@mrn.org</a>.</div>
       </div>
     </section>
@@ -531,9 +635,15 @@ def index_page():
     return body
 
 # ----------------------------------------------------------------------------- instructors
-def person(img, name, role, paras, links):
+def person(img, name, role, paras, links, surname=None):
     lis = ''.join(f'<li><a href="{u}">{t} {EXT}</a></li>' for t, u in links)
     ps = ''.join(f'<p>{p}</p>' for p in paras)
+    teaches = ''
+    if surname:
+        mine = sessions_by_instructor(surname)
+        chips = ''.join(f'<a class="chip" href="{lecture_url(s["id"])}" title="{esc(s["title"])}">{esc(s["id"])} {esc(s["title"])}</a>' for s in mine)
+        teaches = (f'<div class="teaches"><p class="eyebrow">Teaches {len(mine)} sessions</p><div class="chip-row">{chips}</div>'
+                   f'<p class="muted" style="margin:.9rem 0 0;font-size:.9rem"><a href="content.html#sessions">See all sessions and the three-day agenda {ARROW}</a></p></div>')
     return f'''
 <article class="person rv">
   <div class="portrait"><img src="assets/img/{img}" alt="{esc(name)}"></div>
@@ -542,12 +652,14 @@ def person(img, name, role, paras, links):
     <p class="role">{role}</p>
     {ps}
     <ul class="links">{lis}</ul>
+    {teaches}
   </div>
 </article>'''
 
 def instructors_page():
-    body = head('Instructors — fMRI Acquisition and Analysis Course', 'Meet the instructors: Vince Calhoun, Kent Kiehl, and Tor Wager.') + '<main>'
-    body += curtain_hero('assets/img/topo.svg', 'Instructors', 'Instructors', 'Vince Calhoun, Kent Kiehl, and Tor Wager.')
+    body = head('Instructors — fMRI Acquisition and Analysis Course', 'Meet the instructors: Vince Calhoun, Kent Kiehl, and Tor Wager.', '', 'instructors.html') + '<main>'
+    body += curtain_hero('assets/img/topo.svg', 'Instructors', 'Instructors', 'Vince Calhoun, Kent Kiehl, and Tor Wager.',
+                         crumb=crumbs([('Home', 'index.html'), ('Instructors', None)]))
     body += f'''
     <section class="section">
       <div class="wrap group">
@@ -564,17 +676,22 @@ def instructors_page():
         {person('calhoun.jpg', 'Vince Calhoun, Ph.D.', 'Georgia State University · Georgia Institute of Technology · Emory University',
           ['Dr. Calhoun develops techniques for making sense of complex brain imaging data. His work includes algorithms that map dynamic brain networks and how they are altered by tasks and by mental illness, and he is the lead developer of the GIFT toolbox for group Independent Component Analysis.',
            'He is the founding director of the Center for Translational Research in Neuroimaging and Data Science (TReNDS), a tri-institutional center of Georgia State, Georgia Tech, and Emory.'],
-          [('TReNDS Center', 'http://trendscenter.org/'), ('Publications', 'https://scholar.google.com/citations?user=WNOoGKIAAAAJ&hl=en'), ('GIFT toolbox', 'https://github.com/trendscenter/gift'), ('vcalhoun@gsu.edu', 'mailto:vcalhoun@gsu.edu')])}
+          [('TReNDS Center', 'http://trendscenter.org/'), ('Publications', 'https://scholar.google.com/citations?user=WNOoGKIAAAAJ&hl=en'), ('GIFT toolbox', 'https://github.com/trendscenter/gift'), ('vcalhoun@gsu.edu', 'mailto:vcalhoun@gsu.edu')], 'Calhoun')}
         {person('kiehl.jpg', 'Kent Kiehl, Ph.D.', 'The Mind Research Network · The University of New Mexico',
           ['Dr. Kiehl is an author and neuroscientist who specializes in the use of clinical brain imaging techniques to understand major mental illnesses, with special focus on criminal psychopathy, psychotic disorders (schizophrenia, bipolar disorder, affective disorders), traumatic brain injury, substance abuse, and paraphilias.',
            'He designed the Mind Mobile MRI System for forensic research, which has collected data from over 3,000 offenders across eight facilities. He lectures widely on neuroscience and law, co-edited the <em>Handbook on Psychopathy and Law</em> (Oxford University Press, 2013), and founded the MINDSET consulting group.'],
-          [('Lectures', 'https://kentkiehl.com/lectures/'), ('MINDSET consulting group', 'http://www.mindsetconsultinggroup.com/'), ('Handbook on Psychopathy and Law', 'http://www.amazon.com/Handbook-Psychopathy-Oxford-Neuroscience-Philosophy/dp/0199841381'), ('kkiehl@mrn.org', 'mailto:kkiehl@mrn.org')])}
+          [('Lectures', 'https://kentkiehl.com/lectures/'), ('MINDSET consulting group', 'http://www.mindsetconsultinggroup.com/'), ('Handbook on Psychopathy and Law', 'http://www.amazon.com/Handbook-Psychopathy-Oxford-Neuroscience-Philosophy/dp/0199841381'), ('kkiehl@mrn.org', 'mailto:kkiehl@mrn.org')], 'Kiehl')}
         {person('wager.jpg', 'Tor Wager, Ph.D.', 'Diana L. Taylor Distinguished Professor in Neuroscience · Department of Psychological and Brain Sciences, Dartmouth College',
           ['Dr. Wager received his Ph.D. from the University of Michigan in 2003 and has since taught at Columbia University and the University of Colorado, Boulder. He directs the Cognitive and Affective Neuroscience laboratory, a research lab devoted to work on the neurophysiology of affective processes — pain, emotion, stress, and empathy.',
            'With Martin Lindquist he is the author of <em>Elements of Functional Magnetic Resonance Imaging</em> (MIT Press) and <em>Principles of fMRI</em>, and the lead developer of the open-source CANlab neuroimaging tools.'],
-          [('CANlab', 'https://sites.dartmouth.edu/canlab/'), ('Code and tools', 'http://canlab.github.io'), ('Elements of fMRI (MIT Press)', 'https://mitpress.mit.edu/9780262045049/elements-of-functional-magnetic-resonance-imaging/'), ('torwager@gmail.com', 'mailto:torwager@gmail.com')])}
+          [('CANlab', 'https://sites.dartmouth.edu/canlab/'), ('Code and tools', 'http://canlab.github.io'), ('Elements of fMRI (MIT Press)', 'https://mitpress.mit.edu/9780262045049/elements-of-functional-magnetic-resonance-imaging/'), ('torwager@gmail.com', 'mailto:torwager@gmail.com')], 'Wager')}
       </div>
-    </section>'''
+    </section>''' + more_links([
+        ('Content and schedule', 'The 27 sessions and the hour-by-hour agenda.', 'content.html#sessions'),
+        ('Readings and software', 'Books and chapters by the instructors, plus GIFT, SPM, and CANlab tools.', 'materials.html'),
+        ('Enroll', f'{DATES} · live online. Reserve a space.', 'enroll.html'),
+        ('Home', 'Back to the course overview.', 'index.html'),
+    ])
     body += CURTAIN_END + '</main>' + foot() + '</body>\n</html>\n'
     return body
 
@@ -589,8 +706,9 @@ def tier(name, price, who, url, featured=False):
 </div>'''
 
 def enroll_page():
-    body = head('Enroll — fMRI Acquisition and Analysis Course', f'Reserve a space in the {DATES} live-online fMRI course. Trainee, faculty, and industry rates.') + '<main>'
-    body += curtain_hero('assets/img/lattice.svg', 'Enroll', 'Reserve a space', f'{DATES} · Live online. Three days of lectures and hands-on demonstrations hosted by Dartmouth College.')
+    body = head('Enroll — fMRI Acquisition and Analysis Course', f'Reserve a space in the {DATES} live-online fMRI course. Trainee, faculty, and industry rates.', '', 'enroll.html') + '<main>'
+    body += curtain_hero('assets/img/lattice.svg', 'Enroll', 'Reserve a space', f'{DATES} · Live online. Three days of lectures and hands-on demonstrations hosted by Dartmouth College.',
+                         crumb=crumbs([('Home', 'index.html'), ('Enroll', None)]))
     body += f'''
     <section class="section">
       <div class="wrap">
@@ -623,7 +741,12 @@ def enroll_page():
           <p class="muted" style="font-size:.92rem">If a payment button does not open, please make sure pop-ups are allowed for this site, or copy the link address and open it in a new tab.</p>
         </div>
       </div>
-    </section>'''
+    </section>''' + more_links([
+        ('Content and schedule', 'What you get: 27 sessions over three days, with detailed outlines.', 'content.html#sessions'),
+        ('Instructors', 'Vince Calhoun, Kent Kiehl, and Tor Wager.', 'instructors.html'),
+        ('Readings and software', 'Prepare with the background chapters and install the toolboxes.', 'materials.html'),
+        ('Home', 'Back to the course overview.', 'index.html'),
+    ], eyebrow='Before you register', heading='Have a look around first')
     body += CURTAIN_END + '</main>' + foot() + '</body>\n</html>\n'
     return body
 
@@ -633,9 +756,13 @@ def reading(title, cite, links):
     a = ''.join(f'<a class="pdf" href="{u}" rel="noopener">{PDF_ICON} {l}</a>' for l, u in links)
     return f'<li><div><div class="title">{title}</div><div class="cite">{cite}</div></div><span class="pdf-links">{a}</span></li>'
 
-def sw(name, tag, desc, links):
+def sw(name, tag, desc, links, sessions=()):
     lis = ''.join(f'<li><a href="{u}" rel="noopener">{t} {EXT}</a></li>' for t, u in links)
-    return f'<div class="sw glow rv"><h3>{name} <small>{tag}</small></h3><p>{desc}</p><ul>{lis}</ul></div>'
+    used = ''
+    if sessions:
+        chips = ''.join(f'<a class="chip" href="{lecture_url(sid)}" title="{esc(BY_ID[sid]["title"])}">{esc(sid)} {esc(BY_ID[sid]["title"])}</a>' for sid in sessions if sid in BY_ID)
+        used = f'<div class="used-in"><p class="eyebrow">Used in</p><div class="chip-row">{chips}</div></div>'
+    return f'<div class="sw glow rv"><h3>{name} <small>{tag}</small></h3><p>{desc}</p><ul>{lis}</ul>{used}</div>'
 
 def materials_page():
     chapters = ''.join([
@@ -658,17 +785,17 @@ def materials_page():
     ])
     software = ''.join([
         sw('SPM25', 'Statistical Parametric Mapping', 'The core package used throughout the course for preprocessing, GLM estimation, and inference. SPM 25 runs in MATLAB; a standalone build that does not need a MATLAB license is also available.',
-           [('SPM website', 'https://www.fil.ion.ucl.ac.uk/spm/'), ('Download (GitHub releases)', 'https://github.com/spm/spm/releases/latest'), ('Installation guide', 'https://www.fil.ion.ucl.ac.uk/spm/docs/installation/'), ('Documentation', 'https://www.fil.ion.ucl.ac.uk/spm/docs/'), ('SPM courses', 'https://www.fil.ion.ucl.ac.uk/spm/docs/courses/'), ('SPM 25 paper', 'https://arxiv.org/abs/2501.12081')]),
+           [('SPM website', 'https://www.fil.ion.ucl.ac.uk/spm/'), ('Download (GitHub releases)', 'https://github.com/spm/spm/releases/latest'), ('Installation guide', 'https://www.fil.ion.ucl.ac.uk/spm/docs/installation/'), ('Documentation', 'https://www.fil.ion.ucl.ac.uk/spm/docs/'), ('SPM courses', 'https://www.fil.ion.ucl.ac.uk/spm/docs/courses/'), ('SPM 25 paper', 'https://arxiv.org/abs/2501.12081')], ['1.2b', '1.5', '1.6', '1.7', '2.4', '3.4']),
         sw('GIFT', 'Group ICA of fMRI Toolbox', "Vince Calhoun's MATLAB toolbox for group ICA and IVA, including dynamic functional network connectivity, constrained ICA with the NeuroMark template, and source-based morphometry. Requires only base MATLAB.",
-           [('GitHub (trendscenter/gift)', 'https://github.com/trendscenter/gift'), ('Releases', 'https://github.com/trendscenter/gift/releases'), ('GIFT at TReNDS', 'https://trendscenter.org/software/gift/'), ('Docker / Nipype build', 'https://github.com/trendscenter/aa-gift')]),
+           [('GitHub (trendscenter/gift)', 'https://github.com/trendscenter/gift'), ('Releases', 'https://github.com/trendscenter/gift/releases'), ('GIFT at TReNDS', 'https://trendscenter.org/software/gift/'), ('Docker / Nipype build', 'https://github.com/trendscenter/aa-gift')], ['2.10', '3.5', '3.6']),
         sw('CANlab tools', 'Cognitive and Affective Neuroscience Lab', "Tor Wager's object-oriented MATLAB tools for interactive analysis and visualization of neuroimaging data, plus repositories of brain signature patterns and atlases, robust regression, and multilevel mediation. Core Tools and Neuroimaging Pattern Masks are meant to be installed together.",
-           [('canlab.github.io', 'https://canlab.github.io/'), ('CanlabCore', 'https://github.com/canlab/CanlabCore'), ('Neuroimaging_Pattern_Masks', 'https://github.com/canlab/Neuroimaging_Pattern_Masks'), ('RobustToolbox (robust regression)', 'https://github.com/canlab/RobustToolbox'), ('MediationToolbox (multilevel mediation)', 'https://github.com/canlab/MediationToolbox'), ('Installing the tools', 'https://canlab.github.io/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html'), ('Help and examples', 'https://github.com/canlab/CANlab_help_examples')]),
+           [('canlab.github.io', 'https://canlab.github.io/'), ('CanlabCore', 'https://github.com/canlab/CanlabCore'), ('Neuroimaging_Pattern_Masks', 'https://github.com/canlab/Neuroimaging_Pattern_Masks'), ('RobustToolbox (robust regression)', 'https://github.com/canlab/RobustToolbox'), ('MediationToolbox (multilevel mediation)', 'https://github.com/canlab/MediationToolbox'), ('Installing the tools', 'https://canlab.github.io/_pages/canlab_help_1_installing_tools/canlab_help_1_installing_tools.html'), ('Help and examples', 'https://github.com/canlab/CANlab_help_examples')], ['1.4', '1.9', '2.9']),
         sw('SnPM', 'Statistical nonParametric Mapping', 'Permutation-based inference for SPM by Tom Nichols and Andrew Holmes. SnPM13 runs inside the SPM batch system and provides voxel- and cluster-level nonparametric multiple-comparison correction.',
-           [('SnPM13 (NISOx)', 'https://www.nisox.org/Software/SnPM13/'), ('Manual', 'https://www.nisox.org/Software/SnPM13/man'), ('GitHub (SnPM-toolbox)', 'https://github.com/SnPM-toolbox/SnPM-devel'), ('NITRC page', 'https://www.nitrc.org/projects/snpm/')]),
+           [('SnPM13 (NISOx)', 'https://www.nisox.org/Software/SnPM13/'), ('Manual', 'https://www.nisox.org/Software/SnPM13/man'), ('GitHub (SnPM-toolbox)', 'https://github.com/SnPM-toolbox/SnPM-devel'), ('NITRC page', 'https://www.nitrc.org/projects/snpm/')], ['3.3']),
         sw('FSL randomise', 'Permutation inference in FSL', "FSL's command-line tool for nonparametric permutation inference, including threshold-free cluster enhancement (TFCE). A useful complement to SnPM if you work in the FSL ecosystem.",
-           [('randomise documentation', 'https://fsl.fmrib.ox.ac.uk/fsl/docs/statistics/randomise.html'), ('FSL', 'https://fsl.fmrib.ox.ac.uk/fsl/docs/')]),
+           [('randomise documentation', 'https://fsl.fmrib.ox.ac.uk/fsl/docs/statistics/randomise.html'), ('FSL', 'https://fsl.fmrib.ox.ac.uk/fsl/docs/')], ['3.3']),
         sw('MATLAB', 'Required for SPM, GIFT, CANlab, SnPM', 'The course toolboxes run in MATLAB. Registered attendees receive a trial license before the course; many universities also provide MATLAB through campus-wide licenses.',
-           [('MATLAB trial', 'https://www.mathworks.com/campaigns/products/trials.html'), ('Get MATLAB', 'https://www.mathworks.com/products/get-matlab.html')]),
+           [('MATLAB trial', 'https://www.mathworks.com/campaigns/products/trials.html'), ('Get MATLAB', 'https://www.mathworks.com/products/get-matlab.html')], ['1.3', '1.2b']),
     ])
     websites = ''.join(f'<li><a href="{u}" rel="noopener">{t} {EXT}</a></li>' for t, u in [
         ('Functional MRI 1 (Coursera) — Lindquist and Wager', 'https://www.coursera.org/learn/functional-mri'),
@@ -682,10 +809,11 @@ def materials_page():
         ('GIFT publications', 'http://mialab.mrn.org/software/gift/publications.html'),
         ('CANlab training courses and suggested readings', 'https://sites.dartmouth.edu/canlab/training-courses/'),
     ])
-    body = head('Materials — Readings and Software — fMRI Acquisition and Analysis Course', 'Background readings (books, chapters, review articles), online courses, and software for the fMRI course: SPM25, GIFT, CANlab tools, SnPM, FSL randomise.') + '<main>'
+    body = head('Materials — Readings and Software — fMRI Acquisition and Analysis Course', 'Background readings (books, chapters, review articles), online courses, and software for the fMRI course: SPM25, GIFT, CANlab tools, SnPM, FSL randomise.', '', 'materials.html') + '<main>'
     body += curtain_hero('assets/img/brain-dots.svg', 'Materials', 'Readings and software',
         'No specific preparation is required — the course is designed as an introduction to fMRI. If you would like a head start, begin with the books and chapters below and install the software before day one.',
-        '<ul class="subnav"><li><a href="#books">Books</a></li><li><a href="#chapters">Chapters</a></li><li><a href="#reviews">Review articles</a></li><li><a href="#courses">Online courses and sites</a></li><li><a href="#software">Software</a></li></ul>')
+        '<ul class="subnav"><li><a href="#books">Books</a></li><li><a href="#chapters">Chapters</a></li><li><a href="#reviews">Review articles</a></li><li><a href="#courses">Online courses and sites</a></li><li><a href="#software">Software</a></li></ul>',
+        crumb=crumbs([('Home', 'index.html'), ('Readings and software', None)]))
     body += f'''
     <section class="section" id="books">
       <div class="wrap">
@@ -750,7 +878,12 @@ def materials_page():
         </div>
         <div class="sw-grid">{software}</div>
       </div>
-    </section>'''
+    </section>''' + more_links([
+        ('Content and schedule', 'Where each toolbox and topic appears in the three days.', 'content.html#sessions'),
+        ('Instructors', 'The authors of several of the readings above.', 'instructors.html'),
+        ('Enroll', f'{DATES} · live online. Reserve a space.', 'enroll.html'),
+        ('Home', 'Back to the course overview.', 'index.html'),
+    ])
     body += CURTAIN_END + '</main>' + foot() + '</body>\n</html>\n'
     return body
 
