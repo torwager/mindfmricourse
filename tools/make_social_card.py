@@ -81,7 +81,7 @@ def main():
     # --- left column type
     x = 74
     d.line([(x, 118), (x + 34, 118)], fill=AMBER_DEEP, width=3)
-    tracked(d, (x + 48, 105), "SEPT 9–11, 2026  ·  LIVE ONLINE", sans(20, MEDIUM), AMBER_DEEP, track=1.8)
+    tracked(d, (x + 48, 105), "MARCH 3–5, 2027  ·  LIVE ONLINE", sans(20, MEDIUM), AMBER_DEEP, track=1.8)
 
     title = ImageFont.truetype(SERIF, 74)
     d.text((x, 158), "fMRI Acquisition", font=title, fill=INK)

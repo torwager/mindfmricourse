@@ -17,11 +17,11 @@ PAYPAL = {
     'industry': 'https://www.paypal.com/ncp/payment/2YWQU3FT5QFKQ',
 }
 QUESTIONNAIRE = 'https://docs.google.com/a/mrn.org/forms/d/12QP5TnkLdwx9zxKfD1hYAXfNOcP3GqJGMv4vOxn8ff0/viewform'
-AGENDA_PDF = 'assets/pdf/fMRI_Course_Agenda_Sep_9-11_2026.pdf'
-DATES = 'September 9–11, 2026'
+AGENDA_PDF = 'assets/pdf/fMRI_Course_Agenda_Mar_3-5_2027.pdf'
+DATES = 'March 3–5, 2027'
 SITE_URL = 'https://torwager.github.io/mindfmricourse/'
 SOCIAL_CARD = 'assets/img/social-card.jpg'   # 1200x630, built by tools/make_social_card.py
-SOCIAL_ALT = 'fMRI Acquisition and Analysis — September 9–11, 2026, live online. Vince Calhoun, Kent Kiehl, and Tor Wager.'
+SOCIAL_ALT = 'fMRI Acquisition and Analysis — March 3–5, 2027, live online. Vince Calhoun, Kent Kiehl, and Tor Wager.'
 
 ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 EXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>'
@@ -44,9 +44,9 @@ for im in IMAGES:
     im.setdefault('origin', 'papers')
     im.setdefault('concepts', [])
 
-# Agenda (2026) — rows: (start, id or None, description, instructors) ; 2-tuples are breaks
+# Agenda (2027) — rows: (start, id or None, description, instructors) ; 2-tuples are breaks
 AGENDA = {
-    1: ('Wednesday, September 9', [
+    1: ('Wednesday, March 3', [
         ('8:00 am', '0.0', 'Course introduction', 'Kiehl, Calhoun, Wager'),
         ('8:30 am', '1.1', 'Virtual tours of MRI and acquisition of data, stimulus presentation, behavioral monitoring', 'Kiehl'),
         ('9:30 am', 'Break'),
@@ -65,7 +65,7 @@ AGENDA = {
         ('5:30 pm', None, 'Question and answer session', 'Kiehl, Wager, Calhoun'),
         ('6:00 pm', 'Adjourn'),
     ]),
-    2: ('Thursday, September 10', [
+    2: ('Thursday, March 4', [
         ('8:00 am', None, 'Review from Day 1: question and answer', 'Kiehl, Calhoun, Wager'),
         ('8:30 am', '2.1', 'GLM model building: predictors and contrasts', 'Wager'),
         ('9:00 am', '2.2', 'GLM filtering and nuisance regressors', 'Wager'),
@@ -83,7 +83,7 @@ AGENDA = {
         ('5:30 pm', None, 'Question and answer session', 'Kiehl, Calhoun, Wager'),
         ('6:00 pm', 'Adjourn'),
     ]),
-    3: ('Friday, September 11', [
+    3: ('Friday, March 5', [
         ('8:00 am', None, 'Review of Days 1–2', 'Kiehl, Calhoun, Wager'),
         ('8:15 am', '3.1', 'Experimental design: psychological and statistical principles', 'Wager'),
         ('9:45 am', 'Coffee break'),
@@ -138,7 +138,7 @@ def lecture_url(sid, root=''):
 
 def head(title, desc, root='', page='index.html'):
     url = SITE_URL + page
-    card = SITE_URL + SOCIAL_CARD
+    card = SITE_URL + SOCIAL_CARD + '?v=2027-03'   # bump when the card changes: social sites cache it
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -571,7 +571,7 @@ def index_page():
           <p class="lede rv rv-d1">Interactive lectures paired with hands-on demonstrations and work-through sessions on your own laptop. Built for researchers with beginning to intermediate fMRI skills, and detailed enough to challenge experienced analysts with ICA and study-validity optimization.</p>
         </div>
         <dl class="facts rv rv-d1">
-          <div><dt>Dates</dt><dd>Sept 9–11, 2026</dd></div>
+          <div><dt>Dates</dt><dd>March 3–5, 2027</dd></div>
           <div><dt>Hours</dt><dd>8:00 am – 6:00 pm ET</dd></div>
           <div><dt>Format</dt><dd>Live online, Zoom</dd></div>
           <div><dt>Instructors</dt><dd><a href="instructors.html">Calhoun · Kiehl · Wager</a></dd></div>
